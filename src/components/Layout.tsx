@@ -7,10 +7,12 @@ type Props = {
   title?: string
 }
 
-const Layout = ({ children, title = 'This is the default title' }: Props) => (
+const Layout = ({ children, title = 'Isystk&rsquo;s Frontend SampleThis is the default title' }: Props) => (
   <div>
     <Head>
       <title>{title}</title>
+      <meta name="description" content="このアプリケーションは、ReactJS・Gulp・Webpack・Typescriptを利用しています。" />
+      <meta name="keywords" content="ReactJS,Gulp,Webpack,Typescript" />
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
