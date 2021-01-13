@@ -9,22 +9,24 @@ import { readPosts, showMv, hideMv } from "../actions";
 const renderPosts = (props) => {
   return _.map(props.posts, (post) => (
     <section key={post.postId}>
-      <a href={`${URL.POSTS}/${post.postId}`} >
-        <div className="entry-header">
-          <div className="category_link">{post.tagName}</div>
-          <h2 className="entry-title">{post.title}</h2>
-          <div className="entry-meta">
-            <span>
-              {post.registTimeMMDD}
-            </span>
+      <Link href={`${URL.POSTS}/${post.postId}`} >
+        <a>
+          <div className="entry-header">
+            <div className="category_link">{post.tagName}</div>
+            <h2 className="entry-title">{post.title}</h2>
+            <div className="entry-meta">
+              <span>
+                {post.registTimeMMDD}
+              </span>
+            </div>
           </div>
-        </div>
-        <div className="entry-content">
-          <img alt="sample1" width="300" height="174" src={post.imageUrl} className="attachment-medium size-medium wp-post-image" />
-          <p>{post.text}</p>
-          <div className="clearfix"></div>
-        </div>
-      </a>
+          <div className="entry-content">
+            <img alt="sample1" width="300" height="174" src={post.imageUrl} className="attachment-medium size-medium wp-post-image" />
+            <p>{post.text}</p>
+            <div className="clearfix"></div>
+          </div>
+        </a>
+      </Link>
     </section>
   ));
 }
@@ -44,7 +46,7 @@ const IndexPage = (props) => {
   }, []);
   
   return (
-    <Layout title="Home | Next.js + TypeScript Example">
+    <Layout title="Isystk&rsquo;s Frontend Sample" url={URL.HOME}>
       <div className="contents ">
         <div className="wrapper">
           <main>
