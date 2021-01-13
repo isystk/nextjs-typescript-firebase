@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
 import * as _ from "lodash";
-import { API_ENDPOINT } from "../../common/constants/api";
-import { API } from "../../utilities";
-import { showLoading, hideLoading } from "../../actions";
+import { API_ENDPOINT } from "@/common/constants/api";
+import { API } from "@/utilities";
+import { showLoading, hideLoading } from "@/actions";
 
 interface IProps {
   imageList;
@@ -32,7 +32,7 @@ class FileUpload extends React.Component<IProps, IState> {
     // ファイル選択時に、サーバーにアップロードする。
     this.fileUpload(e.target.files, (response)=>{
       // アップロードが完了したら画像IDを親コンポーネントにセットする。
-      this.props.setImageList(response.data.data);
+      this.props.setImageList(response);
     })
   }
 

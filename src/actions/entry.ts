@@ -1,10 +1,9 @@
 import { Action } from "redux";
-import axios from "axios";
 import { Dispatch } from "redux";
 import * as _ from "lodash";
-import { API_ENDPOINT } from "../common/constants/api";
-import { API } from "../utilities";
-import { User } from "../store/StoreTypes";
+import { API_ENDPOINT } from "@/common/constants/api";
+import { API } from "@/utilities";
+import { User } from "@/store/StoreTypes";
 
 //  アクションは『何か』が起こった時、Storeに『どんなデータ』を利用するかということを定義します。
 //  ActionCreatorであるstore.dispatch()を使ってStoreに送信しますが、storeについてはこの記事の最後にまとめています。(※ こちら)

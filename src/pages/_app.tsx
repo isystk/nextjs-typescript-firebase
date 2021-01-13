@@ -7,8 +7,9 @@ import { Provider } from 'react-redux'
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import reducers from "../reducers";
+import reducers from "@/reducers";
 
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
@@ -27,11 +28,13 @@ class MyApp extends App {
     const { Component, pageProps }: AppProps = this.props
 
     return (
-      <Container>
-        <Provider store={store}>
-          <Component {...pageProps} />
-        </Provider>
-      </Container>
+      <MuiThemeProvider>
+        <Container>
+          <Provider store={store}>
+            <Component {...pageProps} />
+          </Provider>
+        </Container>
+      </MuiThemeProvider>
     )
   }
 }

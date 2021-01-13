@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
 import * as _ from "lodash";
 
-import { showOverlay, hideOverlay } from "../../actions";
+import { showOverlay, hideOverlay } from "@/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Overlay = (props) => {

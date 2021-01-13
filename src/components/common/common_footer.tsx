@@ -3,9 +3,9 @@ import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
 import Link from 'next/link'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import $ from 'jquery';
-import { URL } from "../../common/constants/url";
+import { URL } from "@/common/constants/url";
 
-import { toggleMenu, closeMenu, showOverlay } from "../../actions";
+import { toggleMenu, closeMenu, showOverlay } from "@/actions";
 
 interface IProps {
     toggleMenu;

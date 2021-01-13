@@ -3,12 +3,12 @@
 
 import * as _ from "lodash";
 
-import { Post } from "../store/StoreTypes";
+import { Post } from "@/store/StoreTypes";
 import {
   PostsAppAction,
   READ_POSTS,
   READ_POST,
-} from "../actions/index";
+} from "@/actions/index";
 
 const initialState: Post[] = [];
 
