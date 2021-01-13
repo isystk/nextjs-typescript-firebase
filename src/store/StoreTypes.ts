@@ -10,10 +10,6 @@ export interface Const {
   text: string;
 }
 
-export interface Posts {
-  posts?: Post[];
-}
-
 export interface Post {
   postId: number;
   userId: number;

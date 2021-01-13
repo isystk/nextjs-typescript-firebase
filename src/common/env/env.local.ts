@@ -1,6 +1,6 @@
 const Env = {
   envName: "local",
-  internalEndpointUrl: "https://localhost/api/v1",
+  internalEndpointUrl: "https://localhost",
   externalEndpointUrl: "https://localhost/api/v1"
 };
 

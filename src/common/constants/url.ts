@@ -1,26 +1,38 @@
+import Env from "../env/";
+
+/**
+ * フロントエンド用の URL を作成する
+ * @param path
+ */
+const getFrontUrl = (path: string): string => {
+  let url: string;
+  url = [Env.internalEndpointUrl, path].join("");
+  return url;
+};
+
 /** API のエンドポイント */
 export const URL = {
   /** HOME */
-  HOME: "/",
+  HOME: getFrontUrl("/"),
   /** ログイン */
-  LOGIN: "/login",
+  LOGIN: getFrontUrl("/login"),
   /** 投稿詳細 */
-  POSTS: "/posts",
+  POSTS: getFrontUrl("/posts"),
   /** マイページ TOP */
-  MEMBER: "/member",
+  MEMBER: getFrontUrl("/member"),
   /** マイページ 投稿詳細 */
-  MEMBER_POSTS: "/member/posts",
+  MEMBER_POSTS: getFrontUrl("/member/posts"),
   /** マイページ 投稿 新規登録 */
-  MEMBER_POSTS_NEW: "/member/posts/new",
+  MEMBER_POSTS_NEW: getFrontUrl("/member/posts/new"),
   /** 会員登録 */
-  ENTRY_REGIST: "/entry/regist",
-  ENTRY_REGIST_CONFIRM: "/entry/regist/confirm",
-  ENTRY_REGIST_MAIL: "/entry/regist/mail",
-  ENTRY_REGIST_COMPLETE: "/entry/regist/complete",
+  ENTRY_REGIST: getFrontUrl("/entry/regist"),
+  ENTRY_REGIST_CONFIRM: getFrontUrl("/entry/regist/confirm"),
+  ENTRY_REGIST_MAIL: getFrontUrl("/entry/regist/mail"),
+  ENTRY_REGIST_COMPLETE: getFrontUrl("/entry/regist/complete"),
   /** パスワード忘れ */
-  ENTRY_REMIND: "/entry/remind",
-  ENTRY_REMIND_MAIL: "/entry/remind/mail",
+  ENTRY_REMIND: getFrontUrl("/entry/remind"),
+  ENTRY_REMIND_MAIL: getFrontUrl("/entry/remind/mail"),
   /** パスワード再設定 */
-  ENTRY_REMIND_CONFIG: "/entry/remind/config",
-  ENTRY_REMIND_CONFIG_COMPLETE: "/entry/remind/config/complete",
+  ENTRY_REMIND_CONFIG: getFrontUrl("/entry/remind/config"),
+  ENTRY_REMIND_CONFIG_COMPLETE: getFrontUrl("/entry/remind/config/complete"),
 };

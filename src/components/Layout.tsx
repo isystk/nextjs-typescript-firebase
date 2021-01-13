@@ -4,7 +4,8 @@ import * as _ from "lodash";
 import { URL } from "../common/constants/url";
 import CommonHeader from "./common/common_header";
 import CommonFooter from "./common/common_footer";
-
+import Overlay from "~/components/common/overlay";
+import SnsShare from "~/components/common/sns_share";
 import Link from 'next/link'
 import Head from 'next/head'
 
@@ -12,14 +13,31 @@ import { authCheck, authLogout } from "../actions";
 
 type Props = {
   children?: ReactNode
+  url?: string
   title?: string
   parts?: any
+  auth?: any
   authCheck?: any
   authLogout?: any
 }
 
-const Layout = ({ children, title = 'Isystk&rsquo;s Frontend SampleThis is the default title',
-parts, authCheck, authLogout }: Props) => {
+const logoutLink = (props): JSX.Element => {
+
+  const {auth} = props;
+
+  if (auth && auth.isLogin) {
+    return (<a onClick={async () => {
+      await props.authLogout();
+      location.reload();
+    }}>ログアウト</a>);
+  }
+  return (<Link href={URL.LOGIN} ><a onClick={props.closeMenu}>ログイン</a></Link>);
+}
+
+const Layout = ({ children, 
+  title = 'Isystk&rsquo;s Frontend Sample',
+  url = URL.HOME,
+  parts, auth, authCheck, authLogout }: Props) => {
   
   useEffect(() => {
     // ログインチェック
@@ -45,10 +63,7 @@ parts, authCheck, authLogout }: Props) => {
             <ul>
               <li><Link href={URL.HOME}>HOME</Link></li>
               <li><Link href={URL.MEMBER}>マイページ</Link></li>
-              <li>{ async () => {
-                await authLogout();
-                location.reload();
-              }}</li>
+              <li>{logoutLink({auth, authCheck, authLogout})}</li>
             </ul>
           </nav>
         </div>
@@ -61,6 +76,12 @@ parts, authCheck, authLogout }: Props) => {
       </div>
 
       <CommonFooter />
+      {(parts.isShowLoading) &&
+        <div id="site_loader_overlay"><div className="site_loader_spinner" ></div></div>
+      }
+      <Overlay>
+        <SnsShare title={title} url={url} />
+      </Overlay>
     </React.Fragment>
 )
 }
