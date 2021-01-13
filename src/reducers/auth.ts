@@ -3,13 +3,13 @@
 
 import * as _ from "lodash";
 
-import { Auth } from "../store/StoreTypes";
+import { Auth } from "@/store/StoreTypes";
 import {
   AuthAppAction,
   AUTH_CHECK,
   AUTH_LOGIN,
   AUTH_LOGOUT,
-} from "../actions/index";
+} from "@/actions/index";
 
 const initialState: Auth = {
   isLogin: false

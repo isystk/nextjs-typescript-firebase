@@ -1,4 +1,3 @@
-// ↓ 取得用のデータ型
 
 export interface Consts {
   name?: string;
@@ -34,6 +33,7 @@ export interface PostTags {
 
 export interface Parts {
   isShowMv: boolean;
+  isShowOverlay: boolean,
   isShowLoading: boolean;
   isSideMenuOpen: boolean;
 }

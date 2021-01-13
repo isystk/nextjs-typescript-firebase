@@ -1,10 +1,10 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
 import Link from 'next/link'
-import Layout from '../components/Layout'
+import Layout from '@/components/Layout'
 import * as _ from "lodash";
-import { URL } from "../common/constants/url";
-import { readPosts, showMv, hideMv } from "../actions";
+import { URL } from "@/common/constants/url";
+import { readPosts, showMv, hideMv } from "@/actions";
 
 const renderPosts = (props) => {
   return _.map(props.posts, (post) => (

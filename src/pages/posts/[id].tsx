@@ -2,13 +2,12 @@ import React, { ReactNode, useState, useEffect } from "react";
 import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
 import * as _ from "lodash";
 import Link from 'next/link'
-import Layout from "~/components/Layout"
+import Layout from "@/components/Layout"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getPost } from "~/actions";
-import { Post } from "~/store/StoreTypes";
-import { URL } from "~/common/constants/url";
-import { SimpleSlider } from "~/components/common/slider";
-import SnsShare from "~/components/common/sns_share";
+import { getPost } from "@/actions";
+import { Post } from "@/store/StoreTypes";
+import { URL } from "@/common/constants/url";
+import { SimpleSlider } from "@/components/common/slider";
 import { useRouter } from 'next/router'
 
 // ↓ 表示用のデータ型

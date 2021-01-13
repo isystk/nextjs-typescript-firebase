@@ -3,9 +3,9 @@ import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
 import * as _ from "lodash";
 import Link from 'next/link'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { URL } from "../../common/constants/url";
+import { URL } from "@/common/constants/url";
 
-import { toggleMenu, closeMenu, authLogout } from "../../actions";
+import { toggleMenu, closeMenu, authLogout } from "@/actions";
 
 interface IProps {
     auth;

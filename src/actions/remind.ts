@@ -1,8 +1,7 @@
 import { Action } from "redux";
 import { Dispatch } from "redux";
-import { API_ENDPOINT } from "../common/constants/api";
-import { API } from "../utilities";
-import { Remind } from "../store/StoreTypes";
+import { API_ENDPOINT } from "@/common/constants/api";
+import { API } from "@/utilities";
 
 export interface RemindAppAction extends Action {
 }

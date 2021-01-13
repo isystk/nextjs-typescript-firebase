@@ -1,15 +1,15 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
 import * as _ from "lodash";
-import { URL } from "../common/constants/url";
-import CommonHeader from "./common/common_header";
-import CommonFooter from "./common/common_footer";
-import Overlay from "~/components/common/overlay";
-import SnsShare from "~/components/common/sns_share";
+import { URL } from "@/common/constants/url";
+import CommonHeader from "@/components/common/common_header";
+import CommonFooter from "@/components/common/common_footer";
+import Overlay from "@/components/common/overlay";
+import SnsShare from "@/components/common/sns_share";
 import Link from 'next/link'
 import Head from 'next/head'
 
-import { authCheck, authLogout } from "../actions";
+import { authCheck, authLogout } from "@/actions";
 
 type Props = {
   children?: ReactNode

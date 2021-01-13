@@ -1,5 +1,4 @@
 import { Action } from "redux";
-import axios from "axios";
 import { Dispatch } from "redux";
 
 //  アクションは『何か』が起こった時、Storeに『どんなデータ』を利用するかということを定義します。

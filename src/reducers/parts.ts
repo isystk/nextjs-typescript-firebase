@@ -3,7 +3,7 @@
 
 import * as _ from "lodash";
 
-import { Parts } from "../store/StoreTypes";
+import { Parts } from "@/store/StoreTypes";
 import {
   PartsAppAction,
   SHOW_MV,
@@ -14,7 +14,7 @@ import {
   HIDE_LOADING,
   TOGGLE_MENU,
   CLOSE_MENU,
-} from "../actions/index";
+} from "@/actions/index";
 
 const initialState: Parts = {
   isShowMv: false,
