@@ -48,7 +48,6 @@ export class MemberShow extends React.Component<IProps, IState> {
     this.props.readConst();
 
     // パスの投稿IDから自分の投稿データを取得する
-    console.log(this.props)
     if (router.query.id) await this.props.getMemberPost(router.query.id);
   }
 

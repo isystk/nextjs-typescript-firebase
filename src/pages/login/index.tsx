@@ -5,11 +5,10 @@ import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import Link from 'next/link'
 import { URL } from "@/common/constants/url";
-
-import Layout from "@/components/Layout"
+import Layout from "@/components/Layout";
 import { Auth } from "@/store/StoreTypes";
 import { authCheck, authLogin } from "@/actions";
-import Router, { withRouter } from 'next/router'
+import Router, { withRouter } from "next/router";
 
 interface IProps {
   auth: Auth;
@@ -45,9 +44,12 @@ export class AuthLogin extends React.Component<IProps, IState> {
   }
 
   getParams(): any {
+    let params = {}
+    if (typeof window === 'undefined') {
+      return params;
+    }
     //?を除去
     const urlParamStr = window.location.search.substring(1)
-    let params = {}
     //urlパラメータをオブジェクトにまとめる
     urlParamStr.split('&').forEach( param => {
       const temp = param.split('=')
