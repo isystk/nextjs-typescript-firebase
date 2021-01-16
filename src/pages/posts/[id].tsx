@@ -8,7 +8,7 @@ import { getPost } from "@/actions";
 import { Post } from "@/store/StoreTypes";
 import { URL } from "@/common/constants/url";
 import { SimpleSlider } from "@/components/common/slider";
-import Overlay from "@/components/common/overlay";
+import Modal from "@/components/common/modal";
 import SnsShare from "@/components/common/sns_share";
 import { useRouter } from 'next/router'
 
@@ -113,9 +113,9 @@ const PostsShow = (props) => {
 
         </section>
       </main>
-      <Overlay>
+      <Modal>
         <SnsShare title={post.title} url={`${URL.POSTS}/${id}`} />
-      </Overlay>
+      </Modal>
     </Layout>
   );
 }

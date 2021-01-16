@@ -1,10 +1,13 @@
-import * as React from "react";
+import React, { FC, useRef, useState, useEffect } from "react";
 import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
-import { Field, reduxForm } from "redux-form";
 import { Auth } from "../../store/StoreTypes";
-import { Link, withRouter } from "react-router-dom";
+import Router, { withRouter } from 'next/router'
+import { URL } from "@/common/constants/url";
 
-import { authCheck } from "../../actions";
+import { authCheck } from "@/actions";
+
+interface OriginalProps {
+}
 
 interface IProps {
   auth: Auth;
@@ -16,50 +19,59 @@ interface IState {
   loaded: boolean
 }
 
-export class AuthCheck extends React.Component<IProps, IState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loaded: false
+const AuthCheck = (WrappedComponent: React.ComponentType<OriginalProps>) => {
+
+  class AuthCheckHOC extends React.Component<IProps, IState> {
+
+    constructor(props) {
+      super(props);
+      this.state = {
+        loaded: false
+      }
+    }
+  
+    componentWillMount() {
+      this.checkAuth();
+    }
+  
+    async checkAuth() {
+      await this.props.authCheck();
+  
+      // ログインしてなければログイン画面へとばす
+      if (!this.props.auth.isLogin) {
+        Router.push(URL.LOGIN + "?redirectUrl="+ window.location);
+      }
+      else {
+        this.setState({ loaded: true });
+      }
+  
+    }
+  
+    render() {
+  
+      if (!this.state.loaded) {
+        return (<React.Fragment>Loading...</React.Fragment>)
+      } else {
+        return (
+          <WrappedComponent {...this.props} {...this.state} />
+        );
+      }
     }
   }
 
-  componentWillMount() {
-    this.checkAuth();
-  }
-
-  async checkAuth() {
-    await this.props.authCheck();
-
-    this.setState({ loaded: true });
-
-    // ログインしてなければログイン画面へとばす
-    if (!this.props.auth.isLogin) {
-      this.props.history.push("/login?redirectUrl="+ window.location);
-    }
-  }
-
-  render() {
-
-    if (!this.state.loaded) {
-      return (<React.Fragment>Loading...</React.Fragment>)
-    } else {
-      return (
-        <React.Fragment>{this.props.children}</React.Fragment>
-      );
-    }
-  }
-}
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    auth: state.auth
+  const mapStateToProps = (state, ownProps) => {
+    return {
+      auth: state.auth
+    };
   };
+
+  const mapDispatchToProps = { authCheck };
+
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(AuthCheckHOC);
+
 };
 
-const mapDispatchToProps = { authCheck };
-
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AuthCheck));
+export default AuthCheck

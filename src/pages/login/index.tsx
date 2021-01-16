@@ -46,8 +46,7 @@ export class AuthLogin extends React.Component<IProps, IState> {
 
   getParams(): any {
     //?を除去
-    // const urlParamStr = window.location.search.substring(1)
-    const urlParamStr = ""
+    const urlParamStr = window.location.search.substring(1)
     let params = {}
     //urlパラメータをオブジェクトにまとめる
     urlParamStr.split('&').forEach( param => {
@@ -103,7 +102,7 @@ export class AuthLogin extends React.Component<IProps, IState> {
       if (this.state.redirectUrl) {
         location.href = this.state.redirectUrl;
       } else {
-        this.props.history.push(URL.MEMBER);
+        Router.push(URL.MEMBER);
       }
     }
 
