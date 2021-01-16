@@ -23,6 +23,11 @@ const AuthCheck = (WrappedComponent: React.ComponentType<OriginalProps>) => {
 
   class AuthCheckHOC extends React.Component<IProps, IState> {
 
+    // パスからパラメータを取得する
+    static async getInitialProps({ pathname, query, asPath }) {
+      return { pathname, query, asPath };
+    }
+
     constructor(props) {
       super(props);
       this.state = {
