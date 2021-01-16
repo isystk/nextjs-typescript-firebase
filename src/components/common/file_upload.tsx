@@ -44,12 +44,12 @@ class FileUpload extends React.Component<IProps, IState> {
       }
     }
     this.props.showLoading();
-    for(let file of files) {
-      let response = await API.post(API_ENDPOINT.MEMBER_FILE_UPLOAD, {
+    for(const file of files) {
+      const response = await API.post(API_ENDPOINT.MEMBER_FILE_UPLOAD, {
         'imageFile': file
       }, config);
       callback(response);
-    };
+    }
     this.props.hideLoading();
   }
 
