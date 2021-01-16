@@ -10,6 +10,7 @@ import FileUpload from "@/components/common/file_upload";
 import { readConst, postMemberPost } from "@/actions";
 import { URL } from "@/common/constants/url";
 import Layout from "@/components/Layout"
+import AuthCheck from "@/components/auth/auth_check"
 import Router, { withRouter } from 'next/router'
 
 interface IProps {
@@ -224,7 +225,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = { readConst, postMemberPost };
 
-export default connect(
+export default AuthCheck(connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ validate, form: "memberNewForm" })(MemberNew));
+)(reduxForm({ validate, form: "memberNewForm" })(MemberNew)));

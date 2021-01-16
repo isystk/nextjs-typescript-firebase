@@ -5,7 +5,7 @@ import Layout from '@/components/Layout'
 import * as _ from "lodash";
 import { URL } from "@/common/constants/url";
 import { readPosts, showMv, hideMv } from "@/actions";
-import Overlay from "@/components/common/overlay";
+import Modal from "@/components/common/modal";
 import SnsShare from "@/components/common/sns_share";
 
 const renderPosts = (props) => {
@@ -59,9 +59,9 @@ const IndexPage = (props) => {
           {renderPosts(props)}
         </div>
       </main>
-      <Overlay>
+      <Modal>
         <SnsShare title="Isystk&rsquo;s Frontend Sample" url={URL.HOME} />
-      </Overlay>
+      </Modal>
     </Layout>
   )
 }

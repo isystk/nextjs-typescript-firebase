@@ -13,6 +13,7 @@ import {
 import { URL } from "@/common/constants/url";
 
 import Layout from "@/components/Layout"
+import AuthCheck from "@/components/auth/auth_check"
 import { readMemberPosts } from "@/actions";
 import { Post } from "@/store/StoreTypes";
 import Router, { withRouter } from 'next/router'
@@ -114,4 +115,4 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = { readMemberPosts };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MemberIndex);
+export default AuthCheck(connect(mapStateToProps, mapDispatchToProps)(MemberIndex));

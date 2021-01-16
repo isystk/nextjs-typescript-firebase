@@ -6,7 +6,7 @@ import { showOverlay, hideOverlay } from "@/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Portal from "./portal";
 
-const Overlay = (props) => {
+const Modal = (props) => {
 
   const { parts } = props;
 
@@ -38,6 +38,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = { showOverlay, hideOverlay };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Overlay);
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);
 
 

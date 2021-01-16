@@ -10,6 +10,7 @@ import FileUpload from "@/components/common/file_upload";
 import { readConst, getMemberPost, deleteMemberPost, putMemberPost } from "@/actions";
 import { URL } from "@/common/constants/url";
 import Layout from "@/components/Layout"
+import AuthCheck from "@/components/auth/auth_check"
 import Router, { withRouter } from 'next/router'
 import { useRouter } from 'next/router'
 
@@ -247,7 +248,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = { readConst, getMemberPost, deleteMemberPost, putMemberPost };
 
-export default connect(
+export default AuthCheck(connect(
   mapStateToProps,
   mapDispatchToProps
 )(
@@ -255,4 +256,4 @@ export default connect(
   reduxForm({ validate, form: "memberShowForm", enableReinitialize: true })(
     MemberShow
   )
-);
+));
