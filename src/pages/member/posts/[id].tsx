@@ -21,7 +21,7 @@ interface IProps {
   putMemberPost;
   match;
   history;
-
+  query;
   error;
   handleSubmit;
   pristine;
@@ -36,6 +36,11 @@ interface IState {
 
 export class MemberShow extends React.Component<IProps, IState> {
 
+  // パスからパラメータを取得する
+  static async getInitialProps({ pathname, query, asPath }) {
+    return { pathname, query, asPath };
+  }
+
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -48,7 +53,9 @@ export class MemberShow extends React.Component<IProps, IState> {
     this.props.readConst();
 
     // パスの投稿IDから自分の投稿データを取得する
-    if (router.query.id) await this.props.getMemberPost(router.query.id);
+    if (this.props.query.id) {
+      await this.props.getMemberPost(this.props.query.id.split( /^p/)[1]);
+    }
   }
 
   async onDeleteClick() {
@@ -56,14 +63,14 @@ export class MemberShow extends React.Component<IProps, IState> {
     const router = useRouter()
     await this.props.deleteMemberPost(router.query.id);
     // マイページTOPに画面遷移する
-    this.props.history.push(URL.MEMBER);
+    Router.push(URL.MEMBER);
   }
 
   async onSubmit(values): Promise<void> {
     // 入力フォームをサーバーに送信する
     await this.props.putMemberPost(this.props.memberPost);
     // マイページTOPに画面遷移する
-    this.props.history.push(URL.MEMBER);
+    Router.push(URL.MEMBER);
   }
 
   // 画像アップロード後のデータ更新処理
@@ -236,7 +243,7 @@ const validate = (values) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const initial = state.memberPosts;
+  const initial = state.memberPosts[0];
   const { memberShowForm } = state.form;
   return {
     initialValues: initial,

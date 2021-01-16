@@ -46,7 +46,7 @@ export class MemberNew extends React.Component<IProps, IState> {
     // 入力フォームをサーバーに送信する
     await this.props.postMemberPost(this.props.memberPost);
     // マイページTOPに画面遷移する
-    this.props.history.push(URL.MEMBER);
+    Router.push(URL.MEMBER);
   }
 
   // 画像アップロード後のデータ更新処理
