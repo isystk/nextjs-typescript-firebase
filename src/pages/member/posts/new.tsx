@@ -113,7 +113,7 @@ export class MemberNew extends React.Component<IProps, IState> {
       margin: 12,
     };
     return (
-      <Layout title="投稿登録" url={URL.MEMBER_POSTS_NEW}>
+      <Layout title="投稿登録" >
         <section>
           <div className="entry-header">
             <h1 className="entry-title">投稿登録</h1>

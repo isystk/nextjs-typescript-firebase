@@ -4,6 +4,7 @@ import * as _ from "lodash";
 
 import { showOverlay, hideOverlay } from "@/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Portal from "./portal";
 
 const Overlay = (props) => {
 
@@ -15,7 +16,7 @@ const Overlay = (props) => {
   }
 
   return (
-    <React.Fragment>
+    <Portal>
         {
           (parts.isShowOverlay) &&  (
             <div id="overlay-background"></div>
@@ -25,7 +26,7 @@ const Overlay = (props) => {
           <a href="#" onClick={onClose}><span className="close"><FontAwesomeIcon icon={['far', 'times-circle']}/></span></a>
           { props.children }
         </div>
-    </React.Fragment>
+    </Portal>
   )
 }
 

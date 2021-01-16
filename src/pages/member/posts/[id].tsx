@@ -134,7 +134,7 @@ export class MemberShow extends React.Component<IProps, IState> {
     };
 
     return (
-      <Layout title="投稿編集" url={`${URL.MEMBER_POSTS}/xx`}>
+      <Layout title="投稿編集" >
         <section>
           <div className="entry-header">
             <h1 className="entry-title">投稿編集</h1>

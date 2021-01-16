@@ -66,7 +66,7 @@ export class MemberIndex extends React.Component<IProps, IState> {
 
   render(): JSX.Element {
     return (
-      <Layout title="投稿一覧" url={URL.MEMBER}>
+      <Layout title="投稿一覧" >
         <section>
           <div className="entry-header">
             <h1 className="entry-title">投稿一覧</h1>

@@ -5,6 +5,8 @@ import Layout from '@/components/Layout'
 import * as _ from "lodash";
 import { URL } from "@/common/constants/url";
 import { readPosts, showMv, hideMv } from "@/actions";
+import Overlay from "@/components/common/overlay";
+import SnsShare from "@/components/common/sns_share";
 
 const renderPosts = (props) => {
   return _.map(props.posts, (post) => (
@@ -46,21 +48,20 @@ const IndexPage = (props) => {
   }, []);
   
   return (
-    <Layout title="Isystk&rsquo;s Frontend Sample" url={URL.HOME}>
-      <div className="contents ">
-        <div className="wrapper">
-          <main>
-            <div className="archive-top">
-              <h1>投稿一覧</h1>
-              <p></p>
-              <p>すべてのユーザーの投稿を一覧で表示しています。</p>
-            </div>
-            <div className="box-list">
-              {renderPosts(props)}
-            </div>
-          </main>
+    <Layout title="Isystk&rsquo;s Frontend Sample" >
+      <main>
+        <div className="archive-top">
+          <h1>投稿一覧</h1>
+          <p></p>
+          <p>すべてのユーザーの投稿を一覧で表示しています。</p>
         </div>
-      </div>
+        <div className="box-list">
+          {renderPosts(props)}
+        </div>
+      </main>
+      <Overlay>
+        <SnsShare title="Isystk&rsquo;s Frontend Sample" url={URL.HOME} />
+      </Overlay>
     </Layout>
   )
 }

@@ -8,6 +8,8 @@ import { getPost } from "@/actions";
 import { Post } from "@/store/StoreTypes";
 import { URL } from "@/common/constants/url";
 import { SimpleSlider } from "@/components/common/slider";
+import Overlay from "@/components/common/overlay";
+import SnsShare from "@/components/common/sns_share";
 import { useRouter } from 'next/router'
 
 // ↓ 表示用のデータ型
@@ -54,64 +56,66 @@ const PostsShow = (props) => {
   const { post = initialState } = props;
 
   return (
-    <Layout title={post.title} url={`${URL.POSTS}/${id}`}>
-      <div className="contents">
-        <div className="wrapper">
-          <main>
-            <section>
+    <Layout title={post.title}>
+      <main>
+        <section>
 
-              {//<!-- パンくず -->
-              }
-              <nav className="breadcrumb">
-                <ul>
-                  <li>
-                    <Link href={URL.HOME}>
-                      <a><FontAwesomeIcon icon="home" /><span>HOME</span></a>
-                    </Link>
-                  </li>
-                  <li>
-                    {post && post.title}
-                  </li>
-                </ul>
-              </nav>
+          {//<!-- パンくず -->
+          }
+          <nav className="breadcrumb">
+            <ul>
+              <li>
+                <Link href={URL.HOME}>
+                  <a><FontAwesomeIcon icon="home" /><span>HOME</span></a>
+                </Link>
+              </li>
+              <li>
+                {post && post.title}
+              </li>
+            </ul>
+          </nav>
 
-              <div className="entry-header">
-                <h1 className="entry-title">{post && post.title}</h1>
-                <div className="article-img">
-                  <SimpleSlider>
-                    {post && (
-                      _.map(post.imageList, (image, index) => (
-                        <img alt="sample1" width="644" src={image.imageUrl} key={index} />
-                      ))
-                    )}
-                  </SimpleSlider>
-                </div>
-                <div className=" clearfix"></div>
-              </div>
-              <div className="entry-content">
-                <p>{post && post.text}</p>
-              </div>
-              <div className="clearfix"></div>
-              <div className="entry-meta">
-                <FontAwesomeIcon icon="clock" />
-                {post && post.registTimeMMDD}
-              </div>
-              <div className="entry-tags">
-                <div className="section-tag">
-                  <ul>
-                  <li>タグ： </li>
-                  {post && (
-                    _.map(post.tagList, (tag, index) => (
-                      <li key={index}><a href="#" rel="tag">{tag.tagName}</a></li>
-                    ))
-                  )}
-                  </ul>
-                </div>
-              </div>
-            </section>
-          </main>
-        </div>
-      </div>
+          <div className="entry-header">
+            <h1 className="entry-title">{post && post.title}</h1>
+            <div className="article-img">
+              <SimpleSlider>
+                {post && (
+                  _.map(post.imageList, (image, index) => (
+                    <img alt="sample1" width="644" src={image.imageUrl} key={index} />
+                  ))
+                )}
+              </SimpleSlider>
+            </div>
+            <div className=" clearfix"></div>
+          </div>
+          <div className="entry-content">
+            <p>{post && post.text}</p>
+          </div>
+          <div className="clearfix"></div>
+          <div className="entry-meta">
+            <FontAwesomeIcon icon="clock" />
+            {post && post.registTimeMMDD}
+          </div>
+          <div className="entry-tags">
+            <div className="section-tag">
+              <ul>
+              <li>タグ： </li>
+              {post && (
+                _.map(post.tagList, (tag, index) => (
+                  <li key={index}><a href="#" rel="tag">{tag.tagName}</a></li>
+                ))
+              )}
+              </ul>
+            </div>
+          </div>
+
+          <SnsShare />
+
+        </section>
+      </main>
+      <Overlay>
+        <SnsShare title={post.title} url={`${URL.POSTS}/${id}`} />
+      </Overlay>
     </Layout>
   );
 }
