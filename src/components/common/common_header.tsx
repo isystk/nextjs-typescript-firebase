@@ -44,10 +44,10 @@ class CommonHeader extends React.Component<IProps, IState> {
 
     const { parts } = this.props;
 
-    let isSideMenuOpen = parts && parts.isSideMenuOpen;
-    let sideMenuClass = isSideMenuOpen ? "open" : "";
-    let menuBtnClass = isSideMenuOpen ? "menu-btn on" : "menu-btn";
-    let layerPanelClass = isSideMenuOpen ? "on" : "";
+    const isSideMenuOpen = parts && parts.isSideMenuOpen;
+    const sideMenuClass = isSideMenuOpen ? "open" : "";
+    const menuBtnClass = isSideMenuOpen ? "menu-btn on" : "menu-btn";
+    const layerPanelClass = isSideMenuOpen ? "on" : "";
 
     return (
       <React.Fragment>

@@ -27,7 +27,7 @@ export function MemberPostsReducer(
     case READ_MEMBER_POSTS:
       return action.response;
     case DELETE_MEMBER_POST:
-      let list =  _.mapKeys(state, "postId");
+      const list =  _.mapKeys(state, "postId");
       delete list[action.id];
       return _.map(list, (e) => e.value);
     default:
