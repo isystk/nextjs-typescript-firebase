@@ -4,8 +4,6 @@ import * as _ from "lodash";
 import { URL } from "@/common/constants/url";
 import CommonHeader from "@/components/common/common_header";
 import CommonFooter from "@/components/common/common_footer";
-import Overlay from "@/components/common/overlay";
-import SnsShare from "@/components/common/sns_share";
 import Link from 'next/link'
 import Head from 'next/head'
 
@@ -13,7 +11,6 @@ import { authCheck, authLogout } from "@/actions";
 
 type Props = {
   children?: ReactNode
-  url?: string
   title?: string
   parts?: any
   auth?: any
@@ -36,7 +33,6 @@ const logoutLink = (props): JSX.Element => {
 
 const Layout = ({ children, 
   title = 'Isystk&rsquo;s Frontend Sample',
-  url = URL.HOME,
   parts, auth, authCheck, authLogout }: Props) => {
   
   useEffect(() => {
@@ -79,9 +75,6 @@ const Layout = ({ children,
       {(parts.isShowLoading) &&
         <div id="site_loader_overlay"><div className="site_loader_spinner" ></div></div>
       }
-      <Overlay>
-        <SnsShare title={title} url={url} />
-      </Overlay>
     </React.Fragment>
 )
 }

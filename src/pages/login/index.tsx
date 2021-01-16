@@ -117,7 +117,7 @@ export class AuthLogin extends React.Component<IProps, IState> {
       margin: 20,
     };
     return (
-      <Layout title="ログイン" url={URL.LOGIN}>
+      <Layout title="ログイン" >
         <section>
           <div className="entry-header">
             <h1 className="entry-title">ログイン</h1>
