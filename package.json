@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "NODE_ENV=development next",
-    "build": "NODE_ENV=production next build",
+    "build": "NODE_ENV=production next build && next export",
     "start": "NODE_ENV=production next start",
     "type-check": "tsc",
     "lint": "eslint --ext .js,.ts,.tsx .",
     "lintfix": "eslint --fix --ext .js,.ts,.tsx .",
     "test": "jest",
     "test:coverage": "jest --collect-coverage",
-    "precommit": "npm run lint && jest"
+    "precommit": "npm run lint && npm run test"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",

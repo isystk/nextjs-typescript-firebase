@@ -40,8 +40,7 @@ class MemberIndex extends React.Component<IProps, IState> {
 
     return (
       <React.Fragment>
-        {
-        _.map(this.props.posts, (post) => {
+        {_.map(this.props.posts, (post) => {
           return (
             <TableRow key={post.postId}>
               <TableRowColumn width="30px">{post.postId}</TableRowColumn>
@@ -68,8 +67,7 @@ class MemberIndex extends React.Component<IProps, IState> {
               </TableRowColumn>
             </TableRow>
           )
-        })
-        }
+        })}
       </React.Fragment>
     )
   }
