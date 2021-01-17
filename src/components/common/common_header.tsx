@@ -4,6 +4,7 @@ import * as _ from 'lodash'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { URL } from '@/common/constants/url'
+import Logo from '@/components/common/logo'
 
 import { toggleMenu, closeMenu, authLogout } from '@/actions'
 
@@ -53,11 +54,7 @@ class CommonHeader extends React.Component<IProps, IState> {
       <React.Fragment>
         <header className="header">
           <div className="wrapper">
-            <div className="header-logo">
-              <Link href={URL.HOME}>
-                <a>Isystk&apos;s Frontend Sample</a>
-              </Link>
-            </div>
+            <Logo />
             <div className="nav">
               <div className="search">
                 <form role="search" method="get" action="#">

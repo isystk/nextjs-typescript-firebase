@@ -25,10 +25,10 @@
     "noUnusedParameters": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "@": [
-        "src"
+      "@/*": [
+        "src/*"
       ]
     }
   },

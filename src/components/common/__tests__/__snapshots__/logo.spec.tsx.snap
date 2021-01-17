@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Logo 1`] = `
+<div
+  className="header-logo"
+>
+  <Link
+    href="https://localhost/"
+  >
+    <styled.h1>
+      Isystk's Frontend Sample
+    </styled.h1>
+  </Link>
+</div>
+`;
