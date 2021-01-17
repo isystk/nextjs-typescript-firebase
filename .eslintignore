@@ -12,6 +12,9 @@ internals
 stories
 tools
 
+# build file 
+out/**
+
 # static file 
 public/**
 

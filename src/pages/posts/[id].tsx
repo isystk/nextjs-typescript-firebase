@@ -11,6 +11,14 @@ import { SimpleSlider } from '@/components/common/slider'
 import Modal from '@/components/common/modal'
 import SnsShare from '@/components/common/sns_share'
 import { useRouter } from 'next/router'
+import { API_ENDPOINT } from '@/common/constants/api'
+
+// for ssg
+import fetch from 'node-fetch'
+import https from 'https'
+const agent = new https.Agent({
+  rejectUnauthorized: false,
+})
 
 // ↓ 表示用のデータ型
 interface IProps {
@@ -128,10 +136,32 @@ const PostsShow = (props: IProps) => {
 const mapStateToProps = (state, ownProps) => {
   const posts = state.posts
   return {
-    post: posts ? posts[0] : initialState,
+    post: posts ? posts : initialState,
   }
 }
 
 const mapDispatchToProps = { getPost }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsShow)
+
+/** ここからSSGでビルドする場合の設定 */
+
+// // 投稿IDの一覧を取得
+// export async function getStaticPaths() {
+//   const res = await fetch(`${API_ENDPOINT.POSTS}`, {agent})
+//   const posts = await res.json()
+//   const paths = posts.data.map(post => `/posts/${post.postId}`)
+//   return { paths, fallback: false }
+// }
+
+// // 各投稿データを取得
+// export async function getStaticProps({ params }) {
+//   const res = await fetch(`${API_ENDPOINT.POSTS}/${params.id}`, {agent})
+//   const post = await res.json()
+//   console.log(post.data[0])
+//   return { props: { post: post.data[0] } }
+// }
+
+// export default PostsShow
+
+/** ここまでSSGでビルドする場合の設定 */
