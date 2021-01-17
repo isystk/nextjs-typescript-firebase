@@ -15,7 +15,7 @@ interface IProps {
 
 interface IState {}
 
-export class EntryRegistComplete extends React.Component<IProps, IState> {
+class EntryRegistComplete extends React.Component<IProps, IState> {
   // パスからパラメータを取得する
   static async getInitialProps({ pathname, query, asPath }) {
     return { pathname, query, asPath }

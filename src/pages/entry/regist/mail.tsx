@@ -8,7 +8,7 @@ interface IProps {}
 
 interface IState {}
 
-export class EntryRegistMail extends React.Component<IProps, IState> {
+class EntryRegistMail extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
   }

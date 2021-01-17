@@ -22,7 +22,7 @@ interface IProps {
 
 interface IState {}
 
-export class EntryRemind extends React.Component<IProps, IState> {
+class EntryRemind extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)

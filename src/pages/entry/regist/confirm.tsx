@@ -28,7 +28,7 @@ interface IProps {
 
 interface IState {}
 
-export class EntryRegistConfirm extends React.Component<IProps, IState> {
+class EntryRegistConfirm extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)

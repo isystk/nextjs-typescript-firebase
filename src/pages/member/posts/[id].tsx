@@ -38,7 +38,7 @@ interface IProps {
 
 interface IState {}
 
-export class MemberShow extends React.Component<IProps, IState> {
+class MemberShow extends React.Component<IProps, IState> {
   // パスからパラメータを取得する
   static async getInitialProps({ pathname, query, asPath }) {
     return { pathname, query, asPath }

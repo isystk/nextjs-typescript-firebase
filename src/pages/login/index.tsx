@@ -26,7 +26,7 @@ interface IState {
   redirectUrl: string
 }
 
-export class AuthLogin extends React.Component<IProps, IState> {
+class AuthLogin extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)

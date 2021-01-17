@@ -11,7 +11,7 @@ interface IProps {
 
 interface IState {}
 
-export class EntryRemindConfigComplete extends React.Component<IProps, IState> {
+class EntryRemindConfigComplete extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
   }
