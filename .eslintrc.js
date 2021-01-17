@@ -1,21 +1,27 @@
 module.exports = {
-  "parser": "@typescript-eslint/parser", 
-  "extends": [
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:prettier/recommended',
+    'prettier/@typescript-eslint',
   ],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true // Allows for the parsing of JSX
-    }
+  plugins: ['@typescript-eslint', 'react'],
+  parser: '@typescript-eslint/parser',
+  env: {
+    browser: true,
+    node: true,
+    es6: true,
   },
-  "rules": {
-    "react/prop-types": "off",
-    "@typescript-eslint/no-empty-interface": 0
+  parserOptions: {
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  }
+  rules: {
+    // 必要に応じてルールを追加
+    '@typescript-eslint/no-empty-interface': 'off', // 空のインターフェースは許可
+  },
 }

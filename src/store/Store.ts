@@ -4,20 +4,19 @@
 // subscribe（listener）を介してlistenerを登録します。
 // subscribe（listener）によって返された関数を介して、listenerの登録解除を処理します。
 
-import { combineReducers, createStore, ReducersMapObject } from "redux";
+import { combineReducers, createStore, ReducersMapObject } from 'redux'
 
-import { AuthReducer } from "@/reducers/auth";
-import { ConstsReducer } from "@/reducers/consts";
-import { EntryReducer } from "@/reducers/entry";
-import { MemberPostsReducer } from "@/reducers/member_posts";
-import { PartsReducer } from "@/reducers/parts";
-import { PostsReducer } from "@/reducers/posts";
-import { RemindReducer } from "@/reducers/remind";
+import { AuthReducer } from '@/reducers/auth'
+import { ConstsReducer } from '@/reducers/consts'
+import { EntryReducer } from '@/reducers/entry'
+import { MemberPostsReducer } from '@/reducers/member_posts'
+import { PartsReducer } from '@/reducers/parts'
+import { PostsReducer } from '@/reducers/posts'
+import { RemindReducer } from '@/reducers/remind'
 
-const reducers: ReducersMapObject = {
-};
+const reducers: ReducersMapObject = {}
 
-declare let window: any;
+declare let window: any
 
 const rootReducer = combineReducers({
   AuthReducer,
@@ -27,9 +26,9 @@ const rootReducer = combineReducers({
   PartsReducer,
   PostsReducer,
   RemindReducer,
-});
+})
 
 export default createStore(
   rootReducer,
   window.devToolsExtension ? window.devToolsExtension() : undefined
-);
+)

@@ -1,22 +1,21 @@
-import * as React from "react";
-import Slider from "react-slick";
+import * as React from 'react'
+import Slider from 'react-slick'
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
-export const SimpleSlider = (props) => {
+interface IProps {
+  children
+}
+
+export const SimpleSlider = (props: IProps) => {
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
-  };
+    slidesToScroll: 1,
+  }
 
-  return (
-    <Slider {...settings}>
-      { props.children }
-    </Slider>
-  )
+  return <Slider {...settings}>{props.children}</Slider>
 }
-

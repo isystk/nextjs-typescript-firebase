@@ -1,8 +1,8 @@
-import EnvLocal from "./env.local";
-import { IEnv } from "@/interfaces/app/IEnv";
+import EnvLocal from './env.local'
+import { IEnv } from '@/interfaces/app/IEnv'
 
-console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
-console.log("process.env.BUILD_ENV: ", process.env.BUILD_ENV);
+console.log('process.env.NODE_ENV: ', process.env.NODE_ENV)
+console.log('process.env.BUILD_ENV: ', process.env.BUILD_ENV)
 
 // let Env: IEnv;
 // if (process.env.BUILD_ENV === 'docker') {
@@ -16,8 +16,8 @@ console.log("process.env.BUILD_ENV: ", process.env.BUILD_ENV);
 /** docker でビルドされていない場合は、 .env.local から値を取ってくる */
 // Env = EnvLocal;
 // }
-const Env: IEnv = EnvLocal;
+const Env: IEnv = EnvLocal
 
-console.log("Env:", Env);
+console.log('Env:', Env)
 
-export default Env;
+export default Env
