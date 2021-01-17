@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux'
+import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -121,7 +121,7 @@ class CommonHeader extends React.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     parts: state.parts,
     auth: state.auth,

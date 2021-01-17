@@ -7,9 +7,11 @@ exports[`Logo 1`] = `
   <Link
     href="https://localhost/"
   >
-    <styled.h1>
-      Isystk's Frontend Sample
-    </styled.h1>
+    <a>
+      <styled.h1>
+        Isystk's Frontend Sample
+      </styled.h1>
+    </a>
   </Link>
 </div>
 `;

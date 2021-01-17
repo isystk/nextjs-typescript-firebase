@@ -10,7 +10,7 @@
     
     /* 厳密なチェック */
     "strict": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "strictNullChecks": true,
     "noImplicitThis": true,
 
@@ -21,8 +21,8 @@
     "isolatedModules": true,
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": true, // 利用されていない宣言はエラーとする
+    "noUnusedParameters": true, // 利用されていない引数はエラーとする
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "baseUrl": ".",
@@ -35,8 +35,12 @@
   "exclude": ["node_modules"],
   "include": [
     "next-env.d.ts",
+    "jest.config.js",
+    "next.config.js",
+    "next-env.d.ts",
     "src/**/*.ts", 
-    "*src/*/*.tsx"
+    "src/**/*.tsx", 
+    "test/**/*.ts"
   ]
 }
 

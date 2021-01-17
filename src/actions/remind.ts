@@ -7,9 +7,7 @@ export type RemindAppAction = Action
 
 export const REMIND_CHECK_OK = 'REMIND_CHECK_OK'
 
-export const remindMail = (values: any) => async (
-  dispatch: Dispatch
-): Promise<void> => {
+export const remindMail = (values: any) => async (): Promise<void> => {
   await API.post(`${API_ENDPOINT.ENTRY_REMIND}`, values)
 }
 
@@ -20,8 +18,6 @@ export const remindCheck = (onetimeKey: string) => async (
   dispatch({ type: REMIND_CHECK_OK })
 }
 
-export const remindRegist = (values: any) => async (
-  dispatch: Dispatch
-): Promise<void> => {
+export const remindRegist = (values: any) => async (): Promise<void> => {
   await API.post(`${API_ENDPOINT.ENTRY_REMIND_CONFIG}`, values)
 }

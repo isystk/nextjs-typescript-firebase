@@ -16,6 +16,7 @@ module.exports = {
   },
   parserOptions: {
     sourceType: 'module',
+    project: "./tsconfig.json", // ルールはTypescript側の設定を利用する
     ecmaFeatures: {
       jsx: true,
     },
