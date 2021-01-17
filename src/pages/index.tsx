@@ -12,9 +12,10 @@ interface IProps {
   readPosts
   showMv
   hideMv
+  posts
 }
 
-const renderPosts: React.FC<IProps> = (props) => {
+const renderPosts = (props: IProps) => {
   return _.map(props.posts, (post) => (
     <section key={post.postId}>
       <Link href={`${URL.POSTS}/${post.postId}`}>

@@ -10,8 +10,8 @@
     
     /* 厳密なチェック */
     "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
+    "noImplicitAny": false, // Any型を許可しない
+    "strictNullChecks": false, // Nullが入る可能性を許容しない
     "noImplicitThis": true,
 
     "allowJs": true,
@@ -21,10 +21,10 @@
     "isolatedModules": true,
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true, // 利用されていない宣言はエラーとする
-    "noUnusedParameters": true, // 利用されていない引数はエラーとする
+    "noUnusedLocals": false, // 利用されていない宣言はエラーとする
+    "noUnusedParameters": false, // 利用されていない引数はエラーとする
     "resolveJsonModule": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true, // 外部モジュールはチェックしない
     "baseUrl": ".",
     "paths": {
       "@/*": [

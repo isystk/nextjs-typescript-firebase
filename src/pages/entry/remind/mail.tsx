@@ -5,7 +5,7 @@ interface IProps {}
 
 interface IState {}
 
-export class EntryRemindMail extends React.Component<IProps, IState> {
+class EntryRemindMail extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
   }

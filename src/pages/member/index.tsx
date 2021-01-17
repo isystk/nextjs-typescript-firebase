@@ -26,7 +26,7 @@ interface IProps {
 
 interface IState {}
 
-export class MemberIndex extends React.Component<IProps, IState> {
+class MemberIndex extends React.Component<IProps, IState> {
   componentDidMount(): void {
     // 自分の投稿データを取得する
     this.props.readMemberPosts()
@@ -38,34 +38,40 @@ export class MemberIndex extends React.Component<IProps, IState> {
       flexDirection: 'row',
     }
 
-    return _.map(this.props.posts, (post) => {
-      return (
-        <TableRow key={post.postId}>
-          <TableRowColumn width="30px">{post.postId}</TableRowColumn>
-          <TableRowColumn width="100px">{post.title}</TableRowColumn>
-          <TableRowColumn>
-            <div style={photoStyle as React.CSSProperties}>
-              {_.map(post.imageList, (image, index) => (
-                <span style={{ marginLeft: '10px' }} key={`image${index}`}>
-                  <img src={image.imageUrl} width="100px" />
-                </span>
-              ))}
-            </div>
-          </TableRowColumn>
-          <TableRowColumn width="100px">{post.registTime}</TableRowColumn>
-          <TableRowColumn width="100px">
-            <input
-              type="button"
-              onClick={(e) => {
-                e.preventDefault()
-                Router.push(`${URL.MEMBER_POSTS}/p${post.postId}`)
-              }}
-              value="詳細"
-            />
-          </TableRowColumn>
-        </TableRow>
-      )
-    })
+    return (
+      <React.Fragment>
+        {
+        _.map(this.props.posts, (post) => {
+          return (
+            <TableRow key={post.postId}>
+              <TableRowColumn width="30px">{post.postId}</TableRowColumn>
+              <TableRowColumn width="100px">{post.title}</TableRowColumn>
+              <TableRowColumn>
+                <div style={photoStyle as React.CSSProperties}>
+                  {_.map(post.imageList, (image, index) => (
+                    <span style={{ marginLeft: '10px' }} key={`image${index}`}>
+                      <img src={image.imageUrl} width="100px" />
+                    </span>
+                  ))}
+                </div>
+              </TableRowColumn>
+              <TableRowColumn width="100px">{post.registTime}</TableRowColumn>
+              <TableRowColumn width="100px">
+                <input
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    Router.push(`${URL.MEMBER_POSTS}/p${post.postId}`)
+                  }}
+                  value="詳細"
+                />
+              </TableRowColumn>
+            </TableRow>
+          )
+        })
+        }
+      </React.Fragment>
+    )
   }
 
   render(): JSX.Element {

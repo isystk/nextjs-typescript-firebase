@@ -30,7 +30,7 @@ interface IProps {
 
 interface IState {}
 
-export class EntryRegist extends React.Component<IProps, IState> {
+class EntryRegist extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)

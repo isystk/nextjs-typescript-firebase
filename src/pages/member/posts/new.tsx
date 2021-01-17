@@ -29,7 +29,7 @@ interface IProps {
 
 interface IState {}
 
-export class MemberNew extends React.Component<IProps, IState> {
+class MemberNew extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
