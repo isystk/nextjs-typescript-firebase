@@ -1,25 +1,25 @@
-import * as React from "react";
-import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
-import { Field, reduxForm } from "redux-form";
-import RaisedButton from "material-ui/RaisedButton";
-import TextField from "material-ui/TextField";
+import * as React from 'react'
+import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
+import RaisedButton from 'material-ui/RaisedButton'
+import TextField from 'material-ui/TextField'
 import Link from 'next/link'
-import { URL } from "@/common/constants/url";
-import Layout from "@/components/Layout";
-import { Auth } from "@/store/StoreTypes";
-import { authCheck, authLogin } from "@/actions";
-import Router, { withRouter } from "next/router";
+import { URL } from '@/common/constants/url'
+import Layout from '@/components/Layout'
+import { Auth } from '@/store/StoreTypes'
+import { authCheck, authLogin } from '@/actions'
+import Router, { withRouter } from 'next/router'
 
 interface IProps {
-  auth: Auth;
-  authCheck;
-  authLogin;
-  history;
-  error;
-  handleSubmit;
-  pristine;
-  submitting;
-  invalid;
+  auth: Auth
+  authCheck
+  authLogin
+  history
+  error
+  handleSubmit
+  pristine
+  submitting
+  invalid
 }
 
 interface IState {
@@ -28,50 +28,49 @@ interface IState {
 
 export class AuthLogin extends React.Component<IProps, IState> {
   constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
+    super(props)
+    this.onSubmit = this.onSubmit.bind(this)
     this.state = {
-      redirectUrl: '/'
+      redirectUrl: '/',
     }
   }
 
-  componentWillMount() {
-    this.checkAuth();
-    const params = this.getParams();
+  componentDidMount() {
+    this.checkAuth()
+    const params = this.getParams()
     this.setState({
-      redirectUrl: params.redirectUrl as string
-    });
+      redirectUrl: params.redirectUrl as string,
+    })
   }
 
   getParams(): any {
     let params = {}
     if (typeof window === 'undefined') {
-      return params;
+      return params
     }
     //?を除去
     const urlParamStr = window.location.search.substring(1)
     //urlパラメータをオブジェクトにまとめる
-    urlParamStr.split('&').forEach( param => {
+    urlParamStr.split('&').forEach((param) => {
       const temp = param.split('=')
       //pramsオブジェクトにパラメータを追加
       params = {
         ...params,
-        [temp[0]]: temp[1]
+        [temp[0]]: temp[1],
       }
-    });
-    return params;
+    })
+    return params
   }
 
   async checkAuth() {
-
-    await this.props.authCheck();
+    await this.props.authCheck()
 
     // 既にログイン済みの場合は元のページへとばす
     if (this.props.auth.isLogin) {
       if (this.state.redirectUrl) {
-        location.href = this.state.redirectUrl;
+        location.href = this.state.redirectUrl
       } else {
-        Router.push(URL.MEMBER);
+        Router.push(URL.MEMBER)
       }
     }
   }
@@ -82,7 +81,7 @@ export class AuthLogin extends React.Component<IProps, IState> {
       label,
       type,
       meta: { touched, error },
-    } = field;
+    } = field
     return (
       <TextField
         hintText={label}
@@ -92,33 +91,32 @@ export class AuthLogin extends React.Component<IProps, IState> {
         {...input}
         fullWidth={true}
       />
-    );
+    )
   }
 
   async onSubmit(values): Promise<void> {
-    await this.props.authLogin(values);
+    await this.props.authLogin(values)
 
-    const { auth } = this.props;
+    const { auth } = this.props
 
     if (auth.isLogin) {
       if (this.state.redirectUrl) {
-        location.href = this.state.redirectUrl;
+        location.href = this.state.redirectUrl
       } else {
-        Router.push(URL.MEMBER);
+        Router.push(URL.MEMBER)
       }
     }
-
   }
 
   render(): JSX.Element {
     // pristineは、フォームが未入力状態の場合にtrueを返す
     // submittingは、既にSubmit済みの場合にtrueを返す
-    const { error, handleSubmit, pristine, submitting, invalid } = this.props;
+    const { error, handleSubmit, pristine, submitting, invalid } = this.props
     const style = {
       margin: 20,
-    };
+    }
     return (
-      <Layout title="ログイン" >
+      <Layout title="ログイン">
         <section>
           <div className="entry-header">
             <h1 className="entry-title">ログイン</h1>
@@ -150,35 +148,43 @@ export class AuthLogin extends React.Component<IProps, IState> {
               />
             </form>
             <div style={{ margin: '10px 0' }}>
-              <p><Link href={URL.ENTRY_REGIST} ><a>会員登録</a></Link></p>
-              <p><Link href={URL.ENTRY_REMIND} ><a>パスワードを忘れた方はこちら</a></Link></p>
+              <p>
+                <Link href={URL.ENTRY_REGIST}>
+                  <a>会員登録</a>
+                </Link>
+              </p>
+              <p>
+                <Link href={URL.ENTRY_REMIND}>
+                  <a>パスワードを忘れた方はこちら</a>
+                </Link>
+              </p>
             </div>
           </div>
         </section>
       </Layout>
-    );
+    )
   }
 }
 
 const validate = (values) => {
   const errors = {
-    loginId: "",
-    password: "",
-  };
-  if (!values.loginId) errors.loginId = "ログインIDを入力して下さい";
-  if (!values.password) errors.password = "パスワードを入力して下さい";
-  return errors;
-};
+    loginId: '',
+    password: '',
+  }
+  if (!values.loginId) errors.loginId = 'ログインIDを入力して下さい'
+  if (!values.password) errors.password = 'パスワードを入力して下さい'
+  return errors
+}
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    auth: state.auth
-  };
-};
+    auth: state.auth,
+  }
+}
 
-const mapDispatchToProps = { authCheck, authLogin };
+const mapDispatchToProps = { authCheck, authLogin }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ validate, form: "authLoginForm" })(AuthLogin));
+)(reduxForm({ validate, form: 'authLoginForm' })(AuthLogin))

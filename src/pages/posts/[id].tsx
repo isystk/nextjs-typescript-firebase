@@ -1,27 +1,26 @@
-import React, { ReactNode, useState, useEffect } from "react";
-import { connect, MapStateToProps, MapDispatchToProps } from "react-redux";
-import * as _ from "lodash";
+import React, { useState, useEffect } from 'react'
+import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux'
+import * as _ from 'lodash'
 import Link from 'next/link'
-import Layout from "@/components/Layout"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getPost } from "@/actions";
-import { Post } from "@/store/StoreTypes";
-import { URL } from "@/common/constants/url";
-import { SimpleSlider } from "@/components/common/slider";
-import Modal from "@/components/common/modal";
-import SnsShare from "@/components/common/sns_share";
+import Layout from '@/components/Layout'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getPost } from '@/actions'
+import { Post } from '@/store/StoreTypes'
+import { URL } from '@/common/constants/url'
+import { SimpleSlider } from '@/components/common/slider'
+import Modal from '@/components/common/modal'
+import SnsShare from '@/components/common/sns_share'
 import { useRouter } from 'next/router'
 
 // ↓ 表示用のデータ型
 interface IProps {
-  post: Post;
-  getPost;
-  match;
-  history;
+  post: Post
+  getPost
+  match
+  history
 }
 
-interface IState {
-}
+interface IState {}
 
 const initialState: Post = {
   postId: null,
@@ -29,49 +28,49 @@ const initialState: Post = {
   text: '',
   registTimeMMDD: '',
   imageList: [],
-  tagList: []
-};
+  tagList: [],
+}
 
-const PostsShow = (props) => {
-
+const PostsShow = (props: IProps) => {
   const router = useRouter()
-  const [id, setId] = useState<number>()
-  
+  const [id, setId] = useState()
+
   // この部分を追加
   useEffect(() => {
     // idがqueryで利用可能になったら処理される
     if (router.asPath !== router.route) {
-      setId(Number(router.query.id));
+      setId(Number(router.query.id))
     }
-  }, [router]);
+  }, [router])
 
   useEffect(() => {
     // パスの投稿IDから投稿データを取得する
     const f = async () => {
-      if (id) await props.getPost(id);
-    };
-    f();
-  }, [id]);
-  
-  const { post = initialState } = props;
+      if (id) await props.getPost(id)
+    }
+    f()
+  }, [id])
+
+  const { post = initialState } = props
 
   return (
     <Layout title={post.title}>
       <main>
         <section>
-
-          {//<!-- パンくず -->
+          {
+            //<!-- パンくず -->
           }
           <nav className="breadcrumb">
             <ul>
               <li>
                 <Link href={URL.HOME}>
-                  <a><FontAwesomeIcon icon="home" /><span>HOME</span></a>
+                  <a>
+                    <FontAwesomeIcon icon="home" />
+                    <span>HOME</span>
+                  </a>
                 </Link>
               </li>
-              <li>
-                {post && post.title}
-              </li>
+              <li>{post && post.title}</li>
             </ul>
           </nav>
 
@@ -79,11 +78,15 @@ const PostsShow = (props) => {
             <h1 className="entry-title">{post && post.title}</h1>
             <div className="article-img">
               <SimpleSlider>
-                {post && (
+                {post &&
                   _.map(post.imageList, (image, index) => (
-                    <img alt="sample1" width="644" src={image.imageUrl} key={index} />
-                  ))
-                )}
+                    <img
+                      alt="sample1"
+                      width="644"
+                      src={image.imageUrl}
+                      key={index}
+                    />
+                  ))}
               </SimpleSlider>
             </div>
             <div className=" clearfix"></div>
@@ -99,37 +102,36 @@ const PostsShow = (props) => {
           <div className="entry-tags">
             <div className="section-tag">
               <ul>
-              <li>タグ： </li>
-              {post && (
-                _.map(post.tagList, (tag, index) => (
-                  <li key={index}><a href="#" rel="tag">{tag.tagName}</a></li>
-                ))
-              )}
+                <li>タグ： </li>
+                {post &&
+                  _.map(post.tagList, (tag, index) => (
+                    <li key={index}>
+                      <a href="#" rel="tag">
+                        {tag.tagName}
+                      </a>
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>
 
           <SnsShare />
-
         </section>
       </main>
       <Modal>
         <SnsShare title={post.title} url={`${URL.POSTS}/${id}`} />
       </Modal>
     </Layout>
-  );
+  )
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const posts = state.posts;
+  const posts = state.posts
   return {
-    post: (posts) ? posts[0] : initialState
-  };
-};
+    post: posts ? posts[0] : initialState,
+  }
+}
 
-const mapDispatchToProps = { getPost };
+const mapDispatchToProps = { getPost }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PostsShow);
+export default connect(mapStateToProps, mapDispatchToProps)(PostsShow)

@@ -1,7 +1,7 @@
 const Env = {
-  envName: "local",
-  internalEndpointUrl: "https://localhost",
-  externalEndpointUrl: "https://localhost/api/v1"
-};
+  envName: 'local',
+  internalEndpointUrl: 'https://localhost',
+  externalEndpointUrl: 'https://localhost/api/v1',
+}
 
-export default Env;
+export default Env
