@@ -8,9 +8,9 @@
     "type-check": "tsc",
     "lint": "eslint --ext .js,.ts,.tsx .",
     "lintfix": "eslint --fix --ext .js,.ts,.tsx .",
-    "precommit": "npm run lint",
     "test": "jest",
-    "test:coverage": "jest --collect-coverage"
+    "test:coverage": "jest --collect-coverage",
+    "precommit": "npm run lint && jest"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
@@ -23,6 +23,7 @@
     "@types/react-dom": "^16.9.4",
     "@types/react-redux": "^7.1.15",
     "@types/redux-logger": "^3.0.8",
+    "@types/styled-components": "^5.1.7",
     "axios": "^0.21.1",
     "jquery": "^3.5.1",
     "lodash": "^4.17.20",

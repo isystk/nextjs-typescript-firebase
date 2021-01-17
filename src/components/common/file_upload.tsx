@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux'
+import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { API_ENDPOINT } from '@/common/constants/api'
 import { API } from '@/utilities'
@@ -57,12 +57,7 @@ class FileUpload extends React.Component<IProps, IState> {
   }
 
   render() {
-    const {
-      fields,
-      label,
-      type,
-      meta: { touched, error },
-    } = this.props
+    const { fields, label } = this.props
 
     const style = {
       textAlign: 'left' as const,

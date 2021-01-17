@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux'
+import { connect } from 'react-redux'
 import * as _ from 'lodash'
 
 import { showOverlay, hideOverlay } from '@/actions'
@@ -35,7 +35,7 @@ const Modal = (props: IProps) => {
   )
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     parts: state.parts,
   }

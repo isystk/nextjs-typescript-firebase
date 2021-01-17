@@ -54,6 +54,6 @@ export const putMemberPost = (values: any) => async (
 export const deleteMemberPost = (id: number) => async (
   dispatch: Dispatch
 ): Promise<void> => {
-  const response = await API.del(`${API_ENDPOINT.MEMBER_POSTS}/p${id}/delete`)
+  await API.del(`${API_ENDPOINT.MEMBER_POSTS}/p${id}/delete`)
   dispatch({ type: DELETE_MEMBER_POST, id })
 }

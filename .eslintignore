@@ -15,6 +15,7 @@ tools
 # static file 
 public/**
 
+# config file 
+.eslintrc.js
 next.config.js
-
 

@@ -21,14 +21,12 @@ export const registConfirm = (values: any) => async (
   dispatch({ type: CREATE_USER, values })
 }
 
-export const registMail = (values: any) => async (
-  dispatch: Dispatch
-): Promise<void> => {
-  const response = await API.post(`${API_ENDPOINT.ENTRY_REGIST}`, values)
+export const registMail = (values: any) => async (): Promise<void> => {
+  await API.post(`${API_ENDPOINT.ENTRY_REGIST}`, values)
 }
 
-export const registComplete = (onetimeKey: string) => async (
-  dispatch: Dispatch
-): Promise<void> => {
-  const response = await API.put(`${API_ENDPOINT.ENTRY_REGIST}/${onetimeKey}`)
+export const registComplete = (
+  onetimeKey: string
+) => async (): Promise<void> => {
+  await API.put(`${API_ENDPOINT.ENTRY_REGIST}/${onetimeKey}`)
 }
