@@ -1,36 +1,51 @@
-  nextjs-typescript-sample
+nextjs-typescript-sample
 ====
 
-## Description
-
-### 利用しているモジュール
-
-* Next.js
-* TypeScript4
-* Material-UI 4
-
-## Demo
-
-## VS. 
-
-## Requirement
-
-## Usage
-
 ```
-$ yarn
-# yarn run dev
+.
+└── docker/
+  ├── web/
+  │   ├── docker-compose.yml
+  │   ├── Dockerfile
+  │   └── Next.jsのコード諸々
+  └── app/
+      ├── Dockerfile
+      └── Firebaseのコード諸々
 ```
 
-## Install
 
-### Redux DevTools
-https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=ja&itemlang=ar
+# Dockerの起動
+docker-compose -f docker/docker-compose.yml up -d
 
-### Material-UI
-https://material-ui.com
+# Webアプリケーション側の環境構築
 
-## Contribution
+docker-compose -f docker/docker-compose.yml exec app sh
+
+#### Next.jsのインストール
+> npx create-next-app --example with-typescript-eslint-jest
+> yarn dev
+
+
+# Firebase側の環境構築
+
+docker-compose -f docker/docker-compose.yml exec firebase sh
+
+> firebase login
+> firebase init
+
+# エミュレータを起動します
+> firebase emulators:start
+
+# エミュレータをブラウザで表示します
+open http://localhost:4000/
+
+# ローカルで Cloud Functions を実行してみます。
+firebase serve --only functions
+open http://localhost:5001/nextjs-typescript-firestore/us-central1/helloWorld
+
+
+# Dockerの停止
+docker-compose -f docker/docker-compose.yml down
 
 ## Licence
 
