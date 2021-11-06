@@ -1,0 +1,41 @@
+import * as functions from "firebase-functions";
+
+// cloud functionでfirestoreを使うのに必要な設定は以下の２行
+const admin = require('firebase-admin')
+admin.initializeApp(functions.config().firebase)
+// データベースの参照を作成
+var fireStore = admin.firestore()
+
+type Post = {
+  title: string,
+  description: string,
+  photo: string,
+  regist_datetime: Date
+}
+
+const save = functions.https.onRequest((request, response) => {
+  // 動作確認のため適当なデータをデータベースに保存
+  var postsRef = fireStore.collection('posts');
+  postsRef.add({
+    title: 'タイトルA', description: 'タイトルAの本文です。', photo: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAIQAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANv/bAEMAAwICAgICAwICAgMDAwMEBgQEBAQECAYGBQYJCAoKCQgJCQoMDwwKCw4LCQkNEQ0ODxAQERAKDBITEhATDxAQEP/bAEMBAwMDBAMECAQECBALCQsQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEP/AABEIAGQAZAMBIgACEQEDEQH/xAAaAAEAAwEBAQAAAAAAAAAAAAAABAUGAwII/8QALBAAAgICAQMDAwIHAAAAAAAAAAECAwQRBRITIRQxQRUWUSJhBiMyM0Jxgf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD7LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADnkXLHone67JqC301x6pP/S+QOgKbiuflyHHZ3I3Y0qI4ltsFCa1JRgk/1L4ZH4Plee5OdFt8uJ7M4KyyuqyTtgmtrx7J+wGhBnPuLkux9Z9Dj/Se70dXcfe6Ovp7mta1vzr30XuXl4+DjTy8qbhVWtzkouWl+dLyB2BHjyGHPLWFXcpXOpXdMU2uhvSe/Zb+PPkj83y30fAsy1iX5Eoxk1GqDkk0t7k/hfuBYApOQ5vKxuDw8+iuj1GY6IRVjarUp6b386S2eauY5LF43K5Pk3x99VUV2lhTlLrnvXS2/wAtpf8AQL0FPh8ny1XIU4HNYmNW8uE5Uzom5JSituEtr3097X4ZcAAAAAAGe4ui6PH83CzBlc7M3JcaZNw7sWl4T/D/ACQqacHKy+LXB8Ldg349ynfKWNKpV1KL6oSk0urfheNmuAGO/n/bv2l6HJ9Xv0u+zLt9vr/udeunXT5997NRyWRDFwbrp488hKDXajHqdjfhR1+5JAGb/hTCyuHuv43Ox33boxvhdFNx6dJdrqe/6PZefK8lvzUJ2cPnQri5SljWJJLbb6X4JoAz2TXTHgOLWfw086qqNLtrUW5Vahrq6P8ALT8NfuVt/Hyz3yORwfHWUYroqca5UulX312KacYtL4Wt6+TZgCgjlfWuZ467GxcmFWErbbZ3Uyr1KUOhQXUlt/qbevHgvwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//2Q==',
+    regist_datetime: JSON.stringify(new Date()) })
+
+})
+
+const list = functions.https.onRequest((request, response) => {
+  var postsRef = fireStore.collection('posts');
+  postsRef.get().then((query) => {
+    var buff = [] as Post[];
+    query.forEach((doc) => {
+      var data: Post = doc.data();
+      buff.push(data);
+    });
+    console.log(buff);
+    response.send(buff);
+  })
+  .catch((error)=>{
+    console.log(`データの取得に失敗しました (${error})`);
+  });
+})
+
+module.exports = {save, list};
