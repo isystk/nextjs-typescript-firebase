@@ -1,9 +1,15 @@
-import * as functions from "firebase-functions";
 
-// Start writing Firebase Functions
-// https://firebase.google.com/docs/functions/typescript
+exports.posts = require('./posts');
+const funcs = {
+  helloWorld: './helloWorld',
+  posts: './posts'
+}
+const loadFunctions = (funcsObj) => {
+  for(let name in funcsObj){
+    if(! process.env.FUNCTION_NAME || process.env.FUNCTION_NAME === name) {
+      exports[name] = require(funcsObj[name])
+    }
+  }
+}
 
-export const helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase!");
-});
+loadFunctions(funcs)

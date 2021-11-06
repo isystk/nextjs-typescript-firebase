@@ -40,8 +40,9 @@ docker-compose -f docker/docker-compose.yml exec firebase sh
 open http://localhost:4000/
 
 # ローカルで Cloud Functions を実行してみます。
-firebase serve --only functions
-open http://localhost:5001/nextjs-typescript-firestore/us-central1/helloWorld
+cd functions
+yarn build
+open http://localhost:5001/nextjs-typescript-firestore/us-central1/helloWorld-default
 
 
 # Dockerの停止
