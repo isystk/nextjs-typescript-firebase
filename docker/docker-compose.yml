@@ -1,20 +1,20 @@
 version: '3'
 
 services:
-  app:
-    image: nextjs-sample/app
-    container_name: nextjs-sample-app
-    build:
-      context: ./app
-      dockerfile: Dockerfile
-    volumes:
-      - ../:/usr/src
-    working_dir: /usr/src
-    ports:
-      - '3000:3000'
-    depends_on:
-      - firebase
-    tty: true
+  # app:
+  #   image: nextjs-sample/app
+  #   container_name: nextjs-sample-app
+  #   build:
+  #     context: ./app
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ../:/usr/src
+  #   working_dir: /usr/src
+  #   ports:
+  #     - '3000:3000'
+  #   depends_on:
+  #     - firebase
+  #   tty: true
 
   firebase:
     image: nextjs-sample/firebase

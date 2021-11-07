@@ -11,6 +11,7 @@ import { SimpleSlider } from '@/components/common/slider'
 import Modal from '@/components/common/modal'
 import SnsShare from '@/components/common/sns_share'
 import { useRouter } from 'next/router'
+import moment from 'moment'
 import { API_ENDPOINT } from '@/common/constants/api'
 
 // for ssg
@@ -30,15 +31,6 @@ interface IProps {
 
 interface IState {}
 
-const initialState: Post = {
-  postId: null,
-  title: '',
-  text: '',
-  registTimeMMDD: '',
-  imageList: [],
-  tagList: [],
-}
-
 const PostsShow = (props: IProps) => {
   const router = useRouter()
   const [id, setId] = useState()
@@ -47,7 +39,7 @@ const PostsShow = (props: IProps) => {
   useEffect(() => {
     // idがqueryで利用可能になったら処理される
     if (router.asPath !== router.route) {
-      setId(Number(router.query.id))
+      setId(router.query.id)
     }
   }, [router])
 
@@ -59,10 +51,10 @@ const PostsShow = (props: IProps) => {
     f()
   }, [id])
 
-  const { post = initialState } = props
+  const { data = initialState } = props
 
   return (
-    <Layout title={post.title}>
+    <Layout title={data.title}>
       <main>
         <section>
           {
@@ -78,65 +70,61 @@ const PostsShow = (props: IProps) => {
                   </a>
                 </Link>
               </li>
-              <li>{post && post.title}</li>
+              <li>{data && data.title}</li>
             </ul>
           </nav>
 
           <div className="entry-header">
-            <h1 className="entry-title">{post && post.title}</h1>
+            <h1 className="entry-title">{data && data.title}</h1>
             <div className="article-img">
               <SimpleSlider>
-                {post &&
-                  _.map(post.imageList, (image, index) => (
-                    <img
-                      alt="sample1"
-                      width="644"
-                      src={image.imageUrl}
-                      key={index}
-                    />
+                {data &&
+                  _.map([data.photo], (e, index) => (
+                    <img alt="sample1" width="644" src={e} key={index} />
                   ))}
               </SimpleSlider>
             </div>
             <div className=" clearfix"></div>
           </div>
           <div className="entry-content">
-            <p>{post && post.text}</p>
+            <p>{data && data.description}</p>
           </div>
           <div className="clearfix"></div>
           <div className="entry-meta">
             <FontAwesomeIcon icon="clock" />
-            {post && post.registTimeMMDD}
-          </div>
-          <div className="entry-tags">
-            <div className="section-tag">
-              <ul>
-                <li>タグ： </li>
-                {post &&
-                  _.map(post.tagList, (tag, index) => (
-                    <li key={index}>
-                      <a href="#" rel="tag">
-                        {tag.tagName}
-                      </a>
-                    </li>
-                  ))}
-              </ul>
-            </div>
+            {data && data.registTimeMMDD}
           </div>
 
           <SnsShare />
         </section>
       </main>
       <Modal>
-        <SnsShare title={post.title} url={`${URL.POSTS}/${id}`} />
+        <SnsShare title={data.title} url={`${URL.POSTS}/${id}`} />
       </Modal>
     </Layout>
   )
 }
 
+const initialState: Post = {
+  postId: '',
+  userId: '',
+  title: '',
+  description: '',
+  regist_datetime: null,
+  photo: '',
+}
+
 const mapStateToProps = (state, ownProps) => {
-  const posts = state.posts
+  const post = state.posts || initialState
+  post.data = post.data || {}
+  post.data = {
+    ...post.data,
+    regist_datetime_yyyymmdd: post.data.regist_datetime
+      ? moment(post.data.regist_datetime).format('YYYY/MM/DD')
+      : '',
+  }
   return {
-    post: posts ? posts : initialState,
+    ...post,
   }
 }
 

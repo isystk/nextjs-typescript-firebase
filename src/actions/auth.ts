@@ -17,7 +17,8 @@ export const AUTH_LOGIN = 'AUTH_LOGIN'
 export const AUTH_LOGOUT = 'AUTH_LOGOUT'
 
 export const authCheck = () => async (dispatch: Dispatch): Promise<void> => {
-  const response = await API.post(API_ENDPOINT.LOGIN_CHECK)
+  // const response = await API.post(API_ENDPOINT.LOGIN_CHECK)
+  const response = [{familyName: 'test'}]
   dispatch({ type: AUTH_CHECK, response })
 }
 
