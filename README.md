@@ -42,7 +42,11 @@ open http://localhost:4000/
 # ローカルで Cloud Functions を実行してみます。
 cd functions
 yarn build
-open http://localhost:5001/nextjs-typescript-firestore/us-central1/helloWorld-default
+open http://localhost:5001/nextjs-typescript-firestore/us-central1/api/helloWorld
+
+
+curl -X POST -H "Content-Type: application/json" -d @post.json http://localhost:5001/nextjs-typescript-firestore/us-central1/api/posts/save
+
 
 
 # Dockerの停止

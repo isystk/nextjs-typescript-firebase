@@ -3,6 +3,7 @@ import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux'
 import Link from 'next/link'
 import Layout from '@/components/Layout'
 import * as _ from 'lodash'
+import moment from 'moment'
 import { URL } from '@/common/constants/url'
 import { readPosts, showMv, hideMv } from '@/actions'
 import Modal from '@/components/common/modal'
@@ -16,15 +17,15 @@ interface IProps {
 }
 
 const renderPosts = (props: IProps) => {
-  return _.map(props.posts, (post) => (
-    <section key={post.postId}>
-      <Link href={`${URL.POSTS}/${post.postId}`}>
+  return _.map(props.posts, (e, i) => (
+    <section key={i}>
+      <Link href={`${URL.POSTS}/${e.postId}`}>
         <a>
           <div className="entry-header">
-            <div className="category_link">{post.tagName}</div>
-            <h2 className="entry-title">{post.title}</h2>
+            <div className="category_link">{e.tagName}</div>
+            <h2 className="entry-title">{e.title}</h2>
             <div className="entry-meta">
-              <span>{post.registTimeMMDD}</span>
+              <span>{e.regist_datetime_yyyymmdd}</span>
             </div>
           </div>
           <div className="entry-content">
@@ -32,10 +33,10 @@ const renderPosts = (props: IProps) => {
               alt="sample1"
               width="300"
               height="174"
-              src={post.imageUrl}
+              src={e.photo}
               className="attachment-medium size-medium wp-post-image"
             />
-            <p>{post.text}</p>
+            <p>{e.description}</p>
             <div className="clearfix"></div>
           </div>
         </a>
@@ -76,20 +77,14 @@ const IndexPage = (props: IProps) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    posts: _.map(state.posts, function (post) {
+    posts: _.map(state.posts, function (e) {
+      const data = e.data || {}
       return {
-        postId: post.postId,
-        tagName:
-          post.tagNameList && 0 < post.tagNameList.length
-            ? post.tagNameList[0]
-            : '',
-        title: post.title,
-        text: post.text,
-        registTimeMMDD: post.registTimeMMDD,
-        imageUrl:
-          post.imageList && 0 < post.imageList.length
-            ? post.imageList[0].imageUrl
-            : '',
+        postId: e.id,
+        ...e.data,
+        regist_datetime_yyyymmdd: data.regist_datetime
+          ? moment(data.regist_datetime).format('YYYY/MM/DD')
+          : '',
       }
     }),
   }

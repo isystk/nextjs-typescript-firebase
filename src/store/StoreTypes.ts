@@ -9,25 +9,12 @@ export interface Const {
 }
 
 export interface Post {
-  postId: number
-  userId: number
+  postId: string
+  userId: string
   title: string
-  text: string
-  registTime: Date
-  registTimeYYYYMMDD: string
-  registTimeMMDD: string
-  imageList: PostImages[]
-  tagList: PostTags[]
-}
-
-export interface PostImages {
-  imageId: number
-  imageUrl: string
-}
-
-export interface PostTags {
-  tagId: number
-  tagName: string
+  description: string
+  regist_datetime: Date | null
+  photo: string
 }
 
 export interface Parts {
