@@ -1,4 +1,5 @@
 import * as functions from "firebase-functions";
+import {Request, Response, NextFunction} from "express";
 var router = require('./common');
 const moment = require("moment");
 
@@ -9,20 +10,13 @@ var db = admin.firestore()
 
 type Data = {
   id: string,
-  data: Post
-}
-
-type Post = {
-  title: string,
-  description: string,
-  photo: string,
-  regist_datetime: Date
+  data: Function
 }
 
 // Read All
-router.get('/posts', async (req, res, next) => {
+router.get('/posts', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const itemSnapshot = await db.collection('posts').get();
+    const itemSnapshot: Data[] = await db.collection('posts').get();
     const posts = [] as Data[];
     itemSnapshot.forEach(doc => {
       posts.push({
@@ -37,7 +31,7 @@ router.get('/posts', async (req, res, next) => {
 });
 
 // Read
-router.get('/posts/:id/', async (req, res, next) => {
+router.get('/posts/:id/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id) {
@@ -60,7 +54,7 @@ router.get('/posts/:id/', async (req, res, next) => {
 });
 
 // Create
-router.post('/posts', async (req, res, next) => {
+router.post('/posts', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const text = req.body.text;
     if (!text) {
@@ -78,7 +72,7 @@ router.post('/posts', async (req, res, next) => {
 });
 
 // Update
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', async (req: Request, res: Response, next:NextFunction) => {
   try {
     const id = req.params.id;
     const text = req.body.text;
@@ -107,7 +101,7 @@ router.put('/:id', async (req, res, next) => {
 });
 
 // Delete
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', async (req:Request, res: Response, next:NextFunction) => {
   try {
     const id = req.params.id;
     if (!id) {
