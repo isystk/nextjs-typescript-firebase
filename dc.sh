@@ -35,9 +35,6 @@ function version {
     echo "$(basename ${0}) version 0.0.1 "
 }
 
-COMMAND=sh << EOF
-  ls -l
-EOF
 
 case ${1} in
     stats|st)
@@ -64,6 +61,7 @@ case ${1} in
     firebase)
       case ${2} in
           start)
+              COMMAND="firebase emulators:start --import data --export-on-exit"
               $DOCKER_COMPOSE exec firebase $COMMAND
           ;;
           *)
@@ -75,6 +73,9 @@ case ${1} in
     functions)
       case ${2} in
           build)
+            pushd ./docker/firebase/src/functions
+            yarn build
+            popd
           ;;
           *)
               usage
