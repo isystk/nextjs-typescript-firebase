@@ -56,11 +56,11 @@ router.get('/posts/:id/', async (req: Request, res: Response, next: NextFunction
 // Create
 router.post('/posts', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const text = req.body.text;
+    const text = req.body;
     if (!text) {
       throw new Error('Text is blank');
     }
-    const data = { text, regist_datetime: moment() };
+    const data = { ...text, regist_datetime: moment() };
     const ref = await db.collection('posts').add(data);
     res.json({
       id: ref.id,
