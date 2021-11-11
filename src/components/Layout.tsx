@@ -1,6 +1,5 @@
-import React, { ReactNode, useState, useEffect } from 'react'
-import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux'
-import * as _ from 'lodash'
+import React, { ReactNode } from 'react'
+import { connect } from 'react-redux'
 import { URL } from '@/common/constants/url'
 import CommonHeader from '@/components/common/common_header'
 import CommonFooter from '@/components/common/common_footer'
@@ -16,9 +15,10 @@ type Props = {
   auth?: any
   authCheck?: any
   authLogout?: any
+  closeMenu?: any
 }
 
-const logoutLink = (props): JSX.Element => {
+const logoutLink = (props: Props): JSX.Element => {
   const { auth } = props
 
   if (auth && auth.isLogin) {
@@ -48,10 +48,6 @@ const Layout = ({
   authCheck,
   authLogout,
 }: Props) => {
-  useEffect(() => {
-    // ログインチェック
-    authCheck()
-  }, [])
 
   return (
     <React.Fragment>
@@ -100,7 +96,7 @@ const Layout = ({
   )
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state: { parts: any; auth: any }) => {
   return {
     parts: state.parts,
     auth: state.auth,
