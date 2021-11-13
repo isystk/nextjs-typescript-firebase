@@ -100,6 +100,7 @@ $ ./dc.sh stop
 | プロジェクト| 概要|
 | :---------------------------------------| :-------------------------------|
 | [react-bootstrap](https://react-bootstrap.github.io/components/)| BootstrapのReact用コンポーネント |
+| [今更ながらのNext.js + TypeScript + Firebaseで認証機能を実装する](https://zenn.dev/k_logic24/articles/react-auth-with-firebase)| 今更ながらのNext.js + TypeScript + Firebaseで認証機能を実装する |
 
 
 ## 🎫 Licence

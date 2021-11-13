@@ -41,7 +41,7 @@ const Login: FC = () => {
                     <form className="auth" onSubmit={logIn}>
                         <div>
                             <label htmlFor="email" className="auth-label">
-                                Email:{' '}
+                                メールアドレス:{' '}
                             </label>
                             <input
                                 id="email"
@@ -52,7 +52,7 @@ const Login: FC = () => {
                         </div>
                         <div className="mt-2">
                             <label htmlFor="password" className="auth-label">
-                                Password:{' '}
+                                パスワード:{' '}
                             </label>
                             <input
                                 id="password"
@@ -69,13 +69,8 @@ const Login: FC = () => {
                     </form>
                     <div style={{ margin: '10px 0' }}>
                         <p>
-                            <Link href={URL.ENTRY_REGIST}>
-                                <a>会員登録</a>
-                            </Link>
-                        </p>
-                        <p>
-                            <Link href={URL.ENTRY_REMIND}>
-                                <a>パスワードを忘れた方はこちら</a>
+                            <Link href={URL.SIGNUP}>
+                                <a>会員登録はこちら</a>
                             </Link>
                         </p>
                     </div>
