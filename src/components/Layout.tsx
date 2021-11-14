@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+import { User } from 'firebase'
 import { connect } from 'react-redux'
 import { URL } from '@/common/constants/url'
 import CommonHeader from '@/components/common/common_header'
@@ -7,6 +8,11 @@ import Link from 'next/link'
 import Head from 'next/head'
 
 import { authCheck, authLogout } from '@/actions'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import { getAuth } from '@/utilities/firebase'
+import { FC } from 'react'
+import { useRouter } from 'next/router'
 
 type Props = {
   children?: ReactNode
@@ -18,29 +24,7 @@ type Props = {
   closeMenu?: any
 }
 
-const logoutLink = (props: Props): JSX.Element => {
-  const { auth } = props
-
-  if (auth && auth.isLogin) {
-    return (
-      <a
-        onClick={async () => {
-          await props.authLogout()
-          location.reload()
-        }}
-      >
-        ログアウト
-      </a>
-    )
-  }
-  return (
-    <Link href={URL.LOGIN}>
-      <a onClick={props.closeMenu}>ログイン</a>
-    </Link>
-  )
-}
-
-const Layout = ({
+const Layout: FC = ({
   children,
   title = 'Isystk&rsquo;s Frontend Sample',
   parts,
@@ -48,6 +32,39 @@ const Layout = ({
   authCheck,
   authLogout,
 }: Props) => {
+  const router = useRouter()
+
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(
+    undefined
+  )
+
+  const isShowLoading = false
+
+  useEffect(() => {
+    getAuth().onAuthStateChanged((user) => {
+      setCurrentUser(user)
+    })
+  }, [])
+
+  const logoutLink = (props: Props): JSX.Element => {
+    if (currentUser) {
+      return (
+        <a
+          onClick={() => {
+            getAuth().signOut()
+            router.push('/login')
+          }}
+        >
+          ログアウト
+        </a>
+      )
+    }
+    return (
+      <Link href={URL.LOGIN}>
+        <a onClick={props.closeMenu}>ログイン</a>
+      </Link>
+    )
+  }
 
   return (
     <React.Fragment>
@@ -87,7 +104,7 @@ const Layout = ({
       </div>
 
       <CommonFooter />
-      {parts.isShowLoading && (
+      {isShowLoading && (
         <div id="site_loader_overlay">
           <div className="site_loader_spinner"></div>
         </div>
@@ -96,13 +113,4 @@ const Layout = ({
   )
 }
 
-const mapStateToProps = (state: { parts: any; auth: any }) => {
-  return {
-    parts: state.parts,
-    auth: state.auth,
-  }
-}
-
-const mapDispatchToProps = { authCheck, authLogout }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Layout)
+export default Layout

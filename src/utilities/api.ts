@@ -24,7 +24,7 @@ const request = async (
   values?: any,
   config?: any
 ): Promise<any> => {
-  //   console.log('Request:%s', url);
+  console.log('Request:%s', url)
   const response = await axios[method](
     url,
     jsonToForm(values, new FormData()),
@@ -34,7 +34,7 @@ const request = async (
       throw new SubmissionError({ _error: error.response.data.message })
     }
   })
-  // console.log('Response:%s', JSON.stringify(response) );
+  console.log('Response:%s', JSON.stringify(response))
   return response.data
 }
 

@@ -1,133 +1,113 @@
-import * as React from 'react'
-import { connect } from 'react-redux'
-import * as _ from 'lodash'
+import React, { useEffect, useState, FC } from 'react'
+import { User } from 'firebase'
 import Link from 'next/link'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getAuth } from '@/utilities/firebase'
 import { URL } from '@/common/constants/url'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Logo from '@/components/common/logo'
-
 import { toggleMenu, closeMenu, authLogout } from '@/actions'
 
-interface IProps {
-  auth
-  toggleMenu
-  closeMenu
-  authLogout
-  parts
-}
+const CommonHeader: FC = () => {
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(
+    undefined
+  )
+  useEffect(() => {
+    getAuth().onAuthStateChanged((user) => {
+      setCurrentUser(user)
+    })
+  }, [])
 
-interface IState {}
-
-class CommonHeader extends React.Component<IProps, IState> {
-  constructor(props) {
-    super(props)
-    this.logoutClick = this.logoutClick.bind(this)
-  }
-
-  async logoutClick() {
-    await this.props.authLogout()
+  const logoutClick = async () => {
+    await authLogout()
     location.reload()
   }
 
-  logoutLink(): JSX.Element {
-    const { auth } = this.props
-
-    if (auth && auth.isLogin) {
-      return <a onClick={this.logoutClick}>ログアウト</a>
+  const logoutLink = (): JSX.Element => {
+    if (currentUser) {
+      return <a onClick={logoutClick}>ログアウト</a>
     }
+    console.log(currentUser)
     return (
       <Link href={URL.LOGIN}>
-        <a onClick={this.props.closeMenu}>ログイン</a>
+        <a onClick={closeMenu}>ssss</a>
       </Link>
     )
   }
 
-  render(): JSX.Element {
-    const { parts } = this.props
+  // const isSideMenuOpen = parts && parts.isSideMenuOpen
+  const isSideMenuOpen = false
+  const sideMenuClass = isSideMenuOpen ? 'open' : ''
+  const menuBtnClass = isSideMenuOpen ? 'menu-btn on' : 'menu-btn'
+  const layerPanelClass = isSideMenuOpen ? 'on' : ''
 
-    const isSideMenuOpen = parts && parts.isSideMenuOpen
-    const sideMenuClass = isSideMenuOpen ? 'open' : ''
-    const menuBtnClass = isSideMenuOpen ? 'menu-btn on' : 'menu-btn'
-    const layerPanelClass = isSideMenuOpen ? 'on' : ''
-
-    return (
-      <React.Fragment>
-        <header className="header">
-          <div className="wrapper">
-            <Logo />
-            <div className="nav">
-              <div className="search">
-                <form role="search" method="get" action="#">
-                  <FontAwesomeIcon className="search-icon" icon="search" />
-                  <label>
-                    <input
-                      type="search"
-                      placeholder="検索..."
-                      defaultValue=""
-                      name="s"
-                    />
-                  </label>
-                </form>
-              </div>
-              <div
-                className={menuBtnClass}
-                onClick={(e) => {
-                  e.preventDefault()
-                  this.props.toggleMenu()
-                }}
-              >
-                <figure></figure>
-                <figure></figure>
-                <figure></figure>
-              </div>
-              <div id="side-menu" className={sideMenuClass}>
-                <div className="side-menu-header">
-                  <div className="search">
-                    <form role="search" method="get" action="#">
-                      <FontAwesomeIcon className="search-icon" icon="search" />
-                      <label>
-                        <input
-                          type="search"
-                          placeholder="検索..."
-                          defaultValue=""
-                          name="s"
-                        />
-                      </label>
-                    </form>
-                  </div>
-                </div>
-                <nav>
-                  <ul>
-                    <li>
-                      <Link href={URL.HOME}>
-                        <a onClick={this.props.closeMenu}>HOME</a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href={URL.MEMBER}>
-                        <a onClick={this.props.closeMenu}>マイページ</a>
-                      </Link>
-                    </li>
-                    <li>{this.logoutLink()}</li>
-                  </ul>
-                </nav>
-              </div>
-              <div id="layer-panel" className={layerPanelClass}></div>
+  return (
+    <>
+      <header className="header">
+        <div className="wrapper">
+          <Logo />
+          <div className="nav">
+            <div className="search">
+              <form role="search" method="get" action="#">
+                <FontAwesomeIcon className="search-icon" icon="search" />
+                <label>
+                  <input
+                    type="search"
+                    placeholder="検索..."
+                    defaultValue=""
+                    name="s"
+                  />
+                </label>
+              </form>
             </div>
+            <div
+              className={menuBtnClass}
+              onClick={(e) => {
+                e.preventDefault()
+                toggleMenu()
+              }}
+            >
+              <figure></figure>
+              <figure></figure>
+              <figure></figure>
+            </div>
+            <div id="side-menu" className={sideMenuClass}>
+              <div className="side-menu-header">
+                <div className="search">
+                  <form role="search" method="get" action="#">
+                    <FontAwesomeIcon className="search-icon" icon="search" />
+                    <label>
+                      <input
+                        type="search"
+                        placeholder="検索..."
+                        defaultValue=""
+                        name="s"
+                      />
+                    </label>
+                  </form>
+                </div>
+              </div>
+              <nav>
+                <ul>
+                  <li>
+                    <Link href={URL.HOME}>
+                      <a onClick={closeMenu}>HOME</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={URL.MEMBER}>
+                      <a onClick={closeMenu}>マイページ</a>
+                    </Link>
+                  </li>
+                  <li>{logoutLink()}</li>
+                </ul>
+              </nav>
+            </div>
+            <div id="layer-panel" className={layerPanelClass}></div>
           </div>
-        </header>
-      </React.Fragment>
-    )
-  }
+        </div>
+      </header>
+    </>
+  )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    parts: state.parts,
-    auth: state.auth,
-  }
-}
-
-const mapDispatchToProps = { toggleMenu, closeMenu, authLogout }
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommonHeader)
+export default CommonHeader
