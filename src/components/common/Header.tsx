@@ -4,10 +4,12 @@ import Link from 'next/link'
 import { getAuth } from '@/utilities/firebase'
 import { URL } from '@/common/constants/url'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Logo from '@/components/common/logo'
-import { toggleMenu, closeMenu, authLogout } from '@/actions'
+import Logo from '@/components/common/Logo'
+import { toggleMenu, closeMenu } from '@/actions'
+import { useRouter } from 'next/router'
 
-const CommonHeader: FC = () => {
+const Header: FC = () => {
+  const router = useRouter()
   const [currentUser, setCurrentUser] = useState<User | null | undefined>(
     undefined
   )
@@ -17,19 +19,22 @@ const CommonHeader: FC = () => {
     })
   }, [])
 
-  const logoutClick = async () => {
-    await authLogout()
-    location.reload()
-  }
-
   const logoutLink = (): JSX.Element => {
     if (currentUser) {
-      return <a onClick={logoutClick}>ログアウト</a>
+      return (
+        <a
+          onClick={() => {
+            getAuth().signOut()
+            router.push('/login')
+          }}
+        >
+          ログアウト
+        </a>
+      )
     }
-    console.log(currentUser)
     return (
       <Link href={URL.LOGIN}>
-        <a onClick={closeMenu}>ssss</a>
+        <a onClick={closeMenu}>ログイン</a>
       </Link>
     )
   }
@@ -110,4 +115,4 @@ const CommonHeader: FC = () => {
   )
 }
 
-export default CommonHeader
+export default Header

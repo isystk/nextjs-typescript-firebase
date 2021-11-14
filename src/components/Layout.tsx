@@ -1,13 +1,11 @@
 import React, { ReactNode } from 'react'
 import { User } from 'firebase'
-import { connect } from 'react-redux'
 import { URL } from '@/common/constants/url'
-import CommonHeader from '@/components/common/common_header'
-import CommonFooter from '@/components/common/common_footer'
+import Header from '@/components/common/Header'
+import CommonFooter from '@/components/common/Footer'
 import Link from 'next/link'
 import Head from 'next/head'
 
-import { authCheck, authLogout } from '@/actions'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { getAuth } from '@/utilities/firebase'
@@ -27,7 +25,6 @@ type Props = {
 const Layout: FC = ({
   children,
   title = 'Isystk&rsquo;s Frontend Sample',
-  parts,
   auth,
   authCheck,
   authLogout,
@@ -67,7 +64,7 @@ const Layout: FC = ({
   }
 
   return (
-    <React.Fragment>
+    <>
       <Head>
         <title>{title}</title>
         <meta
@@ -78,7 +75,7 @@ const Layout: FC = ({
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <CommonHeader />
+      <Header />
 
       {
         // ナビゲーション（PC用）
@@ -109,7 +106,7 @@ const Layout: FC = ({
           <div className="site_loader_spinner"></div>
         </div>
       )}
-    </React.Fragment>
+    </>
   )
 }
 

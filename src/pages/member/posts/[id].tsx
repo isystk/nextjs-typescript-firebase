@@ -6,7 +6,7 @@ import * as _ from 'lodash'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
-import FileUpload from '@/components/common/file_upload'
+import FileUpload from '@/components/common/FileUpload'
 import {
   readConst,
   getMemberPost,
@@ -139,14 +139,7 @@ class MemberShow extends React.Component<IProps, IState> {
   render(): JSX.Element {
     // pristineは、フォームが未入力状態の場合にtrueを返す
     // submittingは、既にSubmit済みの場合にtrueを返す
-    const {
-      error,
-      handleSubmit,
-      pristine,
-      submitting,
-      invalid,
-      memberPost,
-    } = this.props
+    const { error, handleSubmit, submitting, invalid, memberPost } = this.props
 
     const style = {
       margin: 12,

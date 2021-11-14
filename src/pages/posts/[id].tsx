@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getPost } from '@/actions'
 import { Post } from '@/store/StoreTypes'
 import { URL } from '@/common/constants/url'
-import { SimpleSlider } from '@/components/common/slider'
-import Modal from '@/components/common/modal'
-import SnsShare from '@/components/common/sns_share'
+import { Slider } from '@/components/common/Slider'
+import Modal from '@/components/common/Modal'
+import SnsShare from '@/components/common/SnsShare'
 import { useRouter } from 'next/router'
 import moment from 'moment'
 import { API_ENDPOINT } from '@/common/constants/api'
@@ -77,12 +77,12 @@ const PostsShow = (props: IProps) => {
           <div className="entry-header">
             <h1 className="entry-title">{data && data.title}</h1>
             <div className="article-img">
-              <SimpleSlider>
+              <Slider>
                 {data &&
                   _.map([data.photo], (e, index) => (
                     <img alt="sample1" width="644" src={e} key={index} />
                   ))}
-              </SimpleSlider>
+              </Slider>
             </div>
             <div className=" clearfix"></div>
           </div>

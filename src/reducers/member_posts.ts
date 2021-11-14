@@ -3,7 +3,7 @@
 
 import * as _ from 'lodash'
 
-import { Post } from '@/store/StoreTypes'
+import { Data, Post } from '@/store/StoreTypes'
 import {
   MemberPostsAppAction,
   CREATE_MEMBER_POST,
@@ -13,12 +13,12 @@ import {
   DELETE_MEMBER_POST,
 } from '@/actions/index'
 
-const initialState: Post[] = []
+const initialState: Data<Post>[] = []
 
 export function MemberPostsReducer(
   state = initialState,
   action: MemberPostsAppAction
-): Post[] {
+): Data<Post>[] {
   switch (action.type) {
     case CREATE_MEMBER_POST:
     case READ_MEMBER_POST:

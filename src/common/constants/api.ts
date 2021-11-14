@@ -22,10 +22,6 @@ export const API_ENDPOINT = {
   POSTS: getBffUrl('/posts'),
   //   /** 投稿詳細 */
   //   POSTS_DETAIL: getBffUrl("/posts/${id}"),
-  /** マイページ投稿一覧 */
-  MEMBER_POSTS: getBffUrl('/member/posts'),
-  //   /** マイページ投稿詳細 */
-  //   MEMBER_POSTS_DETAIL: getBffUrl("/member/posts/p${id}"),
   /** マイページ投稿 新規登録 */
   MEMBER_POSTS_NEW: getBffUrl('/member/posts/new'),
   //   /** マイページ投稿 変更 */
