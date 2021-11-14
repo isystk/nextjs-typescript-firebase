@@ -4,7 +4,7 @@ import * as _ from 'lodash'
 
 import { showOverlay, hideOverlay } from '@/actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Portal from './portal'
+import Portal from './Portal'
 
 interface IProps {
   parts

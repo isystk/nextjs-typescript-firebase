@@ -16,7 +16,7 @@ interface IState {
   scrollTop: number
 }
 
-class CommonFooter extends React.Component<IProps, IState> {
+class Footer extends React.Component<IProps, IState> {
   constructor(props) {
     super(props)
     this.state = { scrollTop: 0 }
@@ -135,4 +135,4 @@ class CommonFooter extends React.Component<IProps, IState> {
 
 const mapDispatchToProps = { toggleMenu, closeMenu, showOverlay }
 
-export default connect(null, mapDispatchToProps)(CommonFooter)
+export default connect(null, mapDispatchToProps)(Footer)

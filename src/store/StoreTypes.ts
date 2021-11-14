@@ -8,8 +8,12 @@ export interface Const {
   text: string
 }
 
+export interface Data<T> {
+  id: string
+  data: T
+}
+
 export interface Post {
-  postId: string
   userId: string
   title: string
   description: string

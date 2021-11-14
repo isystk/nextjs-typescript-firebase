@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Slider from 'react-slick'
+import ReactSlider from 'react-slick'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -8,7 +8,7 @@ interface IProps {
   children
 }
 
-export const SimpleSlider = (props: IProps) => {
+export const Slider = (props: IProps) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -17,5 +17,5 @@ export const SimpleSlider = (props: IProps) => {
     slidesToScroll: 1,
   }
 
-  return <Slider {...settings}>{props.children}</Slider>
+  return <ReactSlider {...settings}>{props.children}</ReactSlider>
 }
