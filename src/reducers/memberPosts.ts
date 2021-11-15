@@ -2,7 +2,11 @@
 // また、Reducerは、前の状態とアクションを取り、次の状態を返す純粋な関数です。
 
 import { Post } from '@/store/StoreTypes'
-import { MemberPostsAppAction, READ_MEMBER_POSTS, READ_MEMBER_POST } from '@/actions/index'
+import {
+  MemberPostsAppAction,
+  READ_MEMBER_POSTS,
+  READ_MEMBER_POST,
+} from '@/actions/index'
 
 const initialState: Post[] = []
 

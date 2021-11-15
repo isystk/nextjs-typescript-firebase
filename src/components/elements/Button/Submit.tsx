@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { FC, ReactNode } from 'react'
 
-export const SubmitButton = (props) => {
-  const { formik } = props;
+type Props = {
+  children?: ReactNode
+  formik?: any
+}
+
+export const SubmitButton: FC = (props: Props) => {
+  const { formik } = props
   return (
-      <button type="submit" disabled={!formik.isValid}>
-        Submit
-      </button>
-  );
+    <button type="submit" disabled={!formik.isValid}>
+      Submit
+    </button>
+  )
 }

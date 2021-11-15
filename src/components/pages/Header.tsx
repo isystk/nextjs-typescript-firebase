@@ -1,4 +1,4 @@
-import React, {useContext, FC} from 'react'
+import React, { useContext, FC } from 'react'
 import Link from 'next/link'
 import { getAuth } from '@/utilities/firebase'
 import { URL } from '@/common/constants/url'
@@ -6,17 +6,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Logo from '@/components/pages/Logo'
 import { toggleMenu, closeMenu } from '@/actions'
 import { useRouter } from 'next/router'
-import {useDispatch, useSelector} from "react-redux";
-import {AuthContext} from "@/auth/AuthProvider";
-import {Parts} from "@/store/StoreTypes";
+import { useDispatch, useSelector } from 'react-redux'
+import { AuthContext } from '@/auth/AuthProvider'
+import { Parts } from '@/store/StoreTypes'
 type State = {
   parts: Parts
 }
 const Header: FC = () => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const auth = useContext(AuthContext);
-  const {isSideMenuOpen} = useSelector((state: State) => state.parts);
+  const auth = useContext(AuthContext)
+  const { isSideMenuOpen } = useSelector((state: State) => state.parts)
 
   const logoutLink = (): JSX.Element => {
     if (auth.currentUser) {

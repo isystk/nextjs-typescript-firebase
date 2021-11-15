@@ -1,29 +1,33 @@
+import React, { FC, createContext, useEffect, useState, ReactNode } from 'react'
 import { User } from 'firebase'
-import { FC, createContext, useEffect, useState } from 'react'
 import { getAuth } from '../utilities/firebase'
 
 type AuthContextProps = {
-    currentUser: User | null | undefined
+  currentUser: User | null | undefined
 }
 
 const AuthContext = createContext<AuthContextProps>({ currentUser: undefined })
 
-const AuthProvider: FC = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState<User | null | undefined>(
-        undefined
-    )
+type Props = {
+  children?: ReactNode
+}
 
-    useEffect(() => {
-        getAuth().onAuthStateChanged((user) => {
-            setCurrentUser(user)
-        })
-    }, [])
+const AuthProvider: FC = ({ children }: Props) => {
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(
+    undefined
+  )
 
-    return (
-        <AuthContext.Provider value={{ currentUser }}>
-            {children}
-        </AuthContext.Provider>
-    )
+  useEffect(() => {
+    getAuth().onAuthStateChanged((user) => {
+      setCurrentUser(user)
+    })
+  }, [])
+
+  return (
+    <AuthContext.Provider value={{ currentUser }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
 export { AuthContext, AuthProvider }

@@ -15,7 +15,7 @@ import {
 import moment from 'moment'
 
 import { Data, Post } from '@/store/StoreTypes'
-import {AuthContext} from "@/auth/AuthProvider";
+import { AuthContext } from '@/auth/AuthProvider'
 type State = {
   memberPosts: Data<Post>[]
 }
@@ -26,31 +26,31 @@ type PostDisplay = Post & {
 
 const MemberPostsList: FC = () => {
   const router = useRouter()
-  const auth = useContext(AuthContext);
+  const auth = useContext(AuthContext)
   const dispatch = useDispatch()
   useEffect(() => {
-    const user = auth.currentUser;
-      if (!user) {
-        router.push('/login')
-        return
-      }
-      // 投稿データを取得する
-      dispatch(readMemberPosts(user.uid))
+    const user = auth.currentUser
+    if (!user) {
+      router.push('/login')
+      return
+    }
+    // 投稿データを取得する
+    dispatch(readMemberPosts(user.uid))
   }, [])
 
   const posts = useSelector((state: State) => {
     if (state.memberPosts.length === 0) return
     return state.memberPosts.map(
-        (post): PostDisplay => {
-          const data: Post = post.data
-          return {
-            id: post.id,
-            ...data,
-            regist_data_yyyymmdd: moment(data.regist_datetime).format(
-                'YYYY/MM/DD HH:mm'
-            ),
-          }
+      (post): PostDisplay => {
+        const data: Post = post.data
+        return {
+          id: post.id,
+          ...data,
+          regist_data_yyyymmdd: moment(data.regist_datetime).format(
+            'YYYY/MM/DD HH:mm'
+          ),
         }
+      }
     )
   })
 
