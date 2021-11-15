@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from 'react'
+import React, { useEffect, useContext, FC } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Router, { useRouter } from 'next/router'
 import { getAuth } from '@/utilities/firebase'
@@ -15,6 +15,7 @@ import {
 import moment from 'moment'
 
 import { Data, Post } from '@/store/StoreTypes'
+import {AuthContext} from "@/auth/AuthProvider";
 type State = {
   memberPosts: Data<Post>[]
 }
@@ -25,33 +26,33 @@ type PostDisplay = Post & {
 
 const MemberPostsList: FC = () => {
   const router = useRouter()
-  const posts = useSelector((state: State) => {
-    if (state.memberPosts.length === 0) return
-    return state.memberPosts.map(
-      (post): PostDisplay => {
-        const data: Post = post.data
-        return {
-          id: post.id,
-          ...data,
-          regist_data_yyyymmdd: moment(data.regist_datetime).format(
-            'YYYY/MM/DD HH:mm'
-          ),
-        }
-      }
-    )
-  })
-
+  const auth = useContext(AuthContext);
   const dispatch = useDispatch()
   useEffect(() => {
-    getAuth().onAuthStateChanged((user) => {
+    const user = auth.currentUser;
       if (!user) {
         router.push('/login')
         return
       }
       // 投稿データを取得する
       dispatch(readMemberPosts(user.uid))
-    })
   }, [])
+
+  const posts = useSelector((state: State) => {
+    if (state.memberPosts.length === 0) return
+    return state.memberPosts.map(
+        (post): PostDisplay => {
+          const data: Post = post.data
+          return {
+            id: post.id,
+            ...data,
+            regist_data_yyyymmdd: moment(data.regist_datetime).format(
+                'YYYY/MM/DD HH:mm'
+            ),
+          }
+        }
+    )
+  })
 
   const renderPosts = (): JSX.Element => {
     const photoStyle = {

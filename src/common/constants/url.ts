@@ -18,7 +18,7 @@ export const URL = {
   /** 投稿詳細 */
   POSTS: getFrontUrl('/posts'),
   /** マイページ TOP */
-  MEMBER: getFrontUrl('/member/posts/list'),
+  MEMBER: getFrontUrl('/member'),
   /** マイページ 投稿詳細 */
   MEMBER_POSTS: getFrontUrl('/member/posts'),
   /** マイページ 投稿 新規登録 */

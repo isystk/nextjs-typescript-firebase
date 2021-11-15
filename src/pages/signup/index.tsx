@@ -33,7 +33,7 @@ const SignUp: FC = () => {
     <Layout title="ログイン">
       <section>
         <div className="entry-header">
-          <h1 className="entry-title">ログイン</h1>
+          <h1 className="entry-title">会員登録</h1>
         </div>
         <div className="entry-content">
           <div className="wrapper">

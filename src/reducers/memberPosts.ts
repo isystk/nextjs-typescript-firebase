@@ -2,17 +2,17 @@
 // また、Reducerは、前の状態とアクションを取り、次の状態を返す純粋な関数です。
 
 import { Post } from '@/store/StoreTypes'
-import { PostsAppAction, READ_POSTS, READ_POST } from '@/actions/index'
+import { MemberPostsAppAction, READ_MEMBER_POSTS, READ_MEMBER_POST } from '@/actions/index'
 
 const initialState: Post[] = []
 
-export function PostsReducer(
+export function MemberPostsReducer(
   state = initialState,
-  action: PostsAppAction
+  action: MemberPostsAppAction
 ): Post[] {
   switch (action.type) {
-    case READ_POST:
-    case READ_POSTS:
+    case READ_MEMBER_POST:
+    case READ_MEMBER_POSTS:
       return action.response
     default:
       return state
@@ -21,4 +21,4 @@ export function PostsReducer(
   return state
 }
 
-export default PostsReducer
+export default MemberPostsReducer
