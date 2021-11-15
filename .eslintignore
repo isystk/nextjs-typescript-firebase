@@ -22,3 +22,6 @@ public/**
 .eslintrc.js
 next.config.js
 
+# docker
+docker/**
+

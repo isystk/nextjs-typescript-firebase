@@ -4,7 +4,7 @@ import Header from '@/components/pages/Header'
 import Footer from '@/components/pages/Footer'
 import Head from 'next/head'
 import { FC } from 'react'
-import {Parts} from "@/store/StoreTypes";
+import { Parts } from '@/store/StoreTypes'
 type State = {
   parts: Parts
 }
@@ -17,7 +17,7 @@ const Layout: FC = ({
   children,
   title = 'Isystk&rsquo;s Frontend Sample',
 }: Props) => {
-  const {isShowLoading} = useSelector((state: State) => state.parts);
+  const { isShowLoading } = useSelector((state: State) => state.parts)
 
   return (
     <>

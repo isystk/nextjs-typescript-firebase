@@ -1,7 +1,10 @@
-
 export interface Data<T> {
   id: string
   data: T
+}
+
+export interface Posts {
+  [id: string]: Data<Post>
 }
 
 export interface Post {
