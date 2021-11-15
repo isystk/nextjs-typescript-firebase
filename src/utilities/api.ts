@@ -1,6 +1,5 @@
 import axios from 'axios'
 import * as _ from 'lodash'
-import { SubmissionError } from 'redux-form'
 
 const get = async (url: string): Promise<any> => {
   return await request('get', url)
@@ -31,7 +30,7 @@ const request = async (
     config
   ).catch(function (error) {
     if (error.response) {
-      throw new SubmissionError({ _error: error.response.data.message })
+      throw new Error(error)
     }
   })
   // console.log('Response:%s', JSON.stringify(response))

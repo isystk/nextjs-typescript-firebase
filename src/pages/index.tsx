@@ -6,8 +6,8 @@ import * as _ from 'lodash'
 import moment from 'moment'
 import { URL } from '@/common/constants/url'
 import { readPosts, showMv, hideMv } from '@/actions'
-import Modal from '@/components/common/Modal'
-import SnsShare from '@/components/common/SnsShare'
+import Modal from '@/components/widgets/Modal'
+import SnsShare from '@/components/widgets/SnsShare'
 
 interface IProps {
   readPosts

@@ -64,6 +64,10 @@ case ${1} in
               COMMAND="firebase login"
               $DOCKER_COMPOSE exec firebase $COMMAND
           ;;
+          logout)
+              COMMAND="firebase logout"
+              $DOCKER_COMPOSE exec firebase $COMMAND
+          ;;
           start)
               COMMAND="firebase emulators:start --import data --export-on-exit"
               $DOCKER_COMPOSE exec firebase $COMMAND

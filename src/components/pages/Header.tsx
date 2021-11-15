@@ -1,31 +1,30 @@
-import React, { useEffect, useState, FC } from 'react'
-import { User } from 'firebase'
+import React, {useContext, FC} from 'react'
 import Link from 'next/link'
 import { getAuth } from '@/utilities/firebase'
 import { URL } from '@/common/constants/url'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Logo from '@/components/common/Logo'
+import Logo from '@/components/pages/Logo'
 import { toggleMenu, closeMenu } from '@/actions'
 import { useRouter } from 'next/router'
-
+import {useDispatch, useSelector} from "react-redux";
+import {AuthContext} from "@/auth/AuthProvider";
+import {Parts} from "@/store/StoreTypes";
+type State = {
+  parts: Parts
+}
 const Header: FC = () => {
   const router = useRouter()
-  const [currentUser, setCurrentUser] = useState<User | null | undefined>(
-    undefined
-  )
-  useEffect(() => {
-    getAuth().onAuthStateChanged((user) => {
-      setCurrentUser(user)
-    })
-  }, [])
+  const dispatch = useDispatch()
+  const auth = useContext(AuthContext);
+  const {isSideMenuOpen} = useSelector((state: State) => state.parts);
 
   const logoutLink = (): JSX.Element => {
-    if (currentUser) {
+    if (auth.currentUser) {
       return (
         <a
           onClick={() => {
             getAuth().signOut()
-            router.push('/login')
+            router.push(URL.LOGIN)
           }}
         >
           ログアウト
@@ -34,13 +33,11 @@ const Header: FC = () => {
     }
     return (
       <Link href={URL.LOGIN}>
-        <a onClick={closeMenu}>ログイン</a>
+        <a onClick={() => dispatch(closeMenu())}>ログイン</a>
       </Link>
     )
   }
 
-  // const isSideMenuOpen = parts && parts.isSideMenuOpen
-  const isSideMenuOpen = false
   const sideMenuClass = isSideMenuOpen ? 'open' : ''
   const menuBtnClass = isSideMenuOpen ? 'menu-btn on' : 'menu-btn'
   const layerPanelClass = isSideMenuOpen ? 'on' : ''
@@ -68,7 +65,7 @@ const Header: FC = () => {
               className={menuBtnClass}
               onClick={(e) => {
                 e.preventDefault()
-                toggleMenu()
+                dispatch(toggleMenu())
               }}
             >
               <figure></figure>
@@ -95,12 +92,12 @@ const Header: FC = () => {
                 <ul>
                   <li>
                     <Link href={URL.HOME}>
-                      <a onClick={closeMenu}>HOME</a>
+                      <a onClick={() => dispatch(closeMenu())}>HOME</a>
                     </Link>
                   </li>
                   <li>
                     <Link href={URL.MEMBER}>
-                      <a onClick={closeMenu}>マイページ</a>
+                      <a onClick={() => dispatch(closeMenu())}>マイページ</a>
                     </Link>
                   </li>
                   <li>{logoutLink()}</li>
@@ -111,6 +108,25 @@ const Header: FC = () => {
           </div>
         </div>
       </header>
+
+      {
+        // ナビゲーション（PC用）
+      }
+      <div id="pc-menu">
+        <div className="wrapper">
+          <nav>
+            <ul>
+              <li>
+                <Link href={URL.HOME}>HOME</Link>
+              </li>
+              <li>
+                <Link href={URL.MEMBER}>マイページ</Link>
+              </li>
+              <li>{logoutLink()}</li>
+            </ul>
+          </nav>
+        </div>
+      </div>
     </>
   )
 }

@@ -6,7 +6,7 @@ import * as _ from 'lodash'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
-import FileUpload from '@/components/common/FileUpload'
+import FileUpload from '@/components/pages/FileUpload'
 import {
   readConst,
   getMemberPost,
