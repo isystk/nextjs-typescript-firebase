@@ -4,10 +4,10 @@ import { useRouter } from 'next/router'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
 import { postMemberPost } from '@/actions'
-import { Data, Post } from '@/store/StoreTypes'
 import { AuthContext } from '@/auth/AuthProvider'
 import { Input, Textarea } from '@/components/elements/Input'
 
+import { Data, Post } from '@/store/StoreTypes'
 import {
   Grid,
   makeStyles,
@@ -22,8 +22,8 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import ReactImageBase64 from 'react-image-base64'
 
-type state = {
-  memberposts: data<post>[]
+type State = {
+  memberposts: Data<Post>[]
 }
 
 const MemberPostsNew: FC = () => {
@@ -53,18 +53,20 @@ const MemberPostsNew: FC = () => {
     description: '',
   }
 
-  const errorMessage = (message) => (<p className="error">{message}</p>);
-  const [photo, setPhoto]: {} = useState({});
-  const [photoErrors, setPhotoErrors] = useState([]);
+  const errorMessage = (message) => <p className="error">{message}</p>
+  const [photo, setPhoto]: {} = useState({})
+  const [photoErrors, setPhotoErrors] = useState([])
   const validationSchema = Yup.object().shape({
     title: Yup.string().required(errorMessage('タイトルを入力してください。')),
-    description: Yup.string().required(errorMessage('本文を入力してください。')),
+    description: Yup.string().required(
+      errorMessage('本文を入力してください。')
+    ),
   })
   const classes = useStyle()
 
   const onSubmit = (values) => {
     const user = auth.currentUser
-    const data = {...values, photo: photo.fileData, user_id: user.uid}
+    const data = { ...values, photo: photo, user_id: user.uid }
     dispatch(postMemberPost(data))
     // マイページTOPに画面遷移する
     router.push(URL.MEMBER)
@@ -108,28 +110,32 @@ const MemberPostsNew: FC = () => {
                             </Grid>
                             <Grid item xs={12} sm={6} md={6}>
                               <ReactImageBase64
-                                  maxFileSize={10485760}
-                                  thumbnail_size={100}
-                                  drop={true}
-                                  dropText="写真をドラッグ＆ドロップもしくは"
-                                  capture="environment"
-                                  multiple={false}
-                                  handleChange={data => {
-                                    if (data.result) {
-                                      setPhoto(data)
-                                    } else {
-                                      setPhotoErrors([...photoErrors, data.messages]);
-                                    }
-                                  }}
+                                maxFileSize={10485760}
+                                thumbnail_size={100}
+                                drop={true}
+                                dropText="写真をドラッグ＆ドロップもしくは"
+                                capture="environment"
+                                multiple={false}
+                                handleChange={(data) => {
+                                  if (data.result) {
+                                    setPhoto(data.fileData)
+                                  } else {
+                                    setPhotoErrors([
+                                      ...photoErrors,
+                                      data.messages,
+                                    ])
+                                  }
+                                }}
                               />
-                              { photoErrors.map((error, index) =>
-                                  <p className="error" key={index}>{error}</p>
-                                )
-                              }
+                              {photoErrors.map((error, index) => (
+                                <p className="error" key={index}>
+                                  {error}
+                                </p>
+                              ))}
                             </Grid>
                             <Grid item xs={12} sm={6} md={6}>
                               <div>
-                                <img src={photo.fileData} width={300}/>
+                                <img src={photo} width={300} />
                               </div>
                             </Grid>
                           </Grid>

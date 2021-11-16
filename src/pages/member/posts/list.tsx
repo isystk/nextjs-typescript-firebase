@@ -15,7 +15,7 @@ import moment from 'moment'
 
 import { Data, Post } from '@/store/StoreTypes'
 import { AuthContext } from '@/auth/AuthProvider'
-import * as _ from "lodash";
+import * as _ from 'lodash'
 type State = {
   memberPosts: Data<Post>[]
 }
@@ -39,7 +39,9 @@ const MemberPostsList: FC = () => {
   }, [])
 
   const posts = useSelector((state: State) => {
-    return _.map(state.memberPosts, (post, i): PostDisplay => {
+    return _.map(
+      state.memberPosts,
+      (post, i): PostDisplay => {
         const data: Post = post.data
         return {
           id: post.id,
@@ -81,7 +83,7 @@ const MemberPostsList: FC = () => {
                   type="button"
                   onClick={(e) => {
                     e.preventDefault()
-                    Router.push(`${URL.MEMBER_POSTS}/p${post.id}`)
+                    Router.push(`${URL.MEMBER_POSTS}/${post.id}`)
                   }}
                   value="詳細"
                 />
