@@ -13,6 +13,7 @@ type Props = {
 }
 
 const AuthProvider: FC = ({ children }: Props) => {
+  const [nowLoading, setNowLoading] = useState<boolean>(true)
   const [currentUser, setCurrentUser] = useState<User | null | undefined>(
     undefined
   )
@@ -20,10 +21,13 @@ const AuthProvider: FC = ({ children }: Props) => {
   useEffect(() => {
     getAuth().onAuthStateChanged((user) => {
       setCurrentUser(user)
+      setNowLoading(false)
     })
   }, [])
 
-  return (
+  return nowLoading ? (
+    <div>Loading...</div>
+  ) : (
     <AuthContext.Provider value={{ currentUser }}>
       {children}
     </AuthContext.Provider>

@@ -1,290 +1,226 @@
-import * as React from 'react'
-import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux'
-import { Field, FieldArray, reduxForm } from 'redux-form'
-import Link from 'next/link'
-import * as _ from 'lodash'
-import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'material-ui/TextField'
-import Checkbox from 'material-ui/Checkbox'
-import FileUpload from '@/components/pages/FileUpload'
-import {
-  readConst,
-  getMemberPost,
-  deleteMemberPost,
-  putMemberPost,
-} from '@/actions'
+import React, { useEffect, useContext, useState, FC } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
-import AuthCheck from '@/components/auth/auth_check'
-import Router, { withRouter } from 'next/router'
-import { useRouter } from 'next/router'
+import { getMemberPost, putMemberPost, deleteMemberPost } from '@/actions'
+import { AuthContext } from '@/auth/AuthProvider'
+import { Input, Textarea } from '@/components/elements/Input'
 
-interface IProps {
-  readConst
-  getMemberPost
-  deleteMemberPost
-  putMemberPost
-  match
-  history
-  query
-  error
-  handleSubmit
-  pristine
-  submitting
-  invalid
-  memberPost
-  consts
+import { Data, Post } from '@/store/StoreTypes'
+import {
+  Grid,
+  makeStyles,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  CardHeader,
+} from '@material-ui/core'
+
+import { Formik, Form, Field } from 'formik'
+import * as Yup from 'yup'
+import ReactImageBase64 from 'react-image-base64'
+import moment from 'moment'
+
+type State = {
+  memberPosts: Data<Post>[]
 }
 
-interface IState {}
+const MemberPostsEdit: FC = () => {
+  const router = useRouter()
+  const auth = useContext(AuthContext)
+  const [nowLoading, setNowLoading] = useState<boolean>(true)
 
-class MemberShow extends React.Component<IProps, IState> {
-  // パスからパラメータを取得する
-  static async getInitialProps({ pathname, query, asPath }) {
-    return { pathname, query, asPath }
-  }
-
-  constructor(props) {
-    super(props)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.onDeleteClick = this.onDeleteClick.bind(this)
-    this.setImageList = this.setImageList.bind(this)
-  }
-
-  async componentDidMount() {
-    this.props.readConst()
-
-    // パスの投稿IDから自分の投稿データを取得する
-    if (this.props.query.id) {
-      await this.props.getMemberPost(this.props.query.id.split(/^p/)[1])
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const user = auth.currentUser
+    if (!user) {
+      router.push(URL.LOGIN)
+      return
     }
-  }
+  }, [])
 
-  async onDeleteClick() {
-    if (this.props.query.id) {
-      // 投稿を削除する
-      await this.props.deleteMemberPost(this.props.query.id.split(/^p/)[1])
-      // マイページTOPに画面遷移する
-      Router.push(URL.MEMBER)
+  const useStyle = makeStyles((theme) => ({
+    padding: {
+      padding: theme.spacing(3),
+    },
+    button: {
+      margin: theme.spacing(1),
+    },
+  }))
+
+  const [id, setId] = useState('')
+
+  // この部分を追加
+  useEffect(() => {
+    // idがqueryで利用可能になったら処理される
+    if (router.asPath !== router.route) {
+      setId(router.query.id)
     }
-  }
+  }, [router])
 
-  async onSubmit(values): Promise<void> {
-    // 入力フォームをサーバーに送信する
-    await this.props.putMemberPost(this.props.memberPost)
-    // マイページTOPに画面遷移する
-    Router.push(URL.MEMBER)
-  }
-
-  // 画像アップロード後のデータ更新処理
-  setImageList(data) {
-    const imageList = _.map(data, (image) => {
-      return {
-        imageId: image.imageId,
-        imageUrl: image.imageUrlSquare,
+  useEffect(() => {
+    // パスの投稿IDから投稿データを取得する
+    const f = async () => {
+      if (id) {
+        await dispatch(getMemberPost(id))
+        setNowLoading(false)
       }
-    })
-    // 画像を追加
-    this.props.memberPost.imageList = _.concat(
-      this.props.memberPost.imageList,
-      imageList
-    )
-    // TODO 自動でレンダリングされないので回避
-    this.forceUpdate()
-  }
-
-  renderField(field): JSX.Element {
-    const {
-      input,
-      label,
-      type,
-      meta: { touched, error },
-    } = field
-    return (
-      <React.Fragment>
-        <p>{label}</p>
-        <TextField
-          hintText={label}
-          type={type}
-          errorText={touched && error}
-          {...input}
-          fullWidth={true}
-        />
-      </React.Fragment>
-    )
-  }
-
-  renderCheckbox(field): JSX.Element {
-    const {
-      input,
-      label,
-      type,
-      meta: { touched, error },
-      ...custom
-    } = field
-
-    return (
-      <React.Fragment>
-        <Checkbox
-          name={input.name}
-          label={label}
-          checked={custom.checked}
-          onCheck={input.onChange}
-          value={custom.code}
-        />
-      </React.Fragment>
-    )
-  }
-
-  render(): JSX.Element {
-    // pristineは、フォームが未入力状態の場合にtrueを返す
-    // submittingは、既にSubmit済みの場合にtrueを返す
-    const { error, handleSubmit, submitting, invalid, memberPost } = this.props
-
-    const style = {
-      margin: 12,
     }
+    f()
+  }, [id])
 
-    return (
-      <Layout title="投稿編集">
-        <section>
-          <div className="entry-header">
-            <h1 className="entry-title">投稿編集</h1>
-          </div>
-          <div className="entry-content">
-            <form onSubmit={handleSubmit(this.onSubmit)}>
-              {error && <div className="error">{error}</div>}
-              <div>
-                <Field
-                  label="タイトル"
-                  name="title"
-                  type="text"
-                  component={this.renderField}
-                />
-              </div>
-              <div>
-                <Field
-                  label="本文"
-                  name="text"
-                  type="text"
-                  component={this.renderField}
-                />
-              </div>
-              <div>
-                <FieldArray
-                  label="画像"
-                  name="imageList"
-                  component={FileUpload}
-                  props={{ imageList: memberPost && memberPost.imageList }}
-                  setImageList={this.setImageList}
-                />
-              </div>
-              <div>
-                <p>
-                  <label>タグ</label>
-                </p>
-                <div>
-                  {this.props.consts.postTag &&
-                    _.map(this.props.consts.postTag.data, (e, index) => (
-                      <label key={`postTag${index}`}>
-                        <Field
-                          name="tagList.tagId"
-                          label={e.text}
-                          component={this.renderCheckbox}
-                          code={e.code}
-                          checked={
-                            memberPost &&
-                            _.includes(
-                              _.map(memberPost.tagList, 'tagId'),
-                              e.code
-                            )
-                          }
-                          onChange={(event) => {
-                            if (event.target.checked) {
-                              this.props.memberPost.tagList.push({
-                                tagId: e.code,
-                              })
-                            } else {
-                              this.props.memberPost.tagList = _.filter(
-                                memberPost.tagList,
-                                (tag) => tag.tagId != e.code
-                              )
-                            }
-                            // TODO 自動でレンダリングされないので回避
-                            this.forceUpdate()
-                          }}
-                          style={{ width: '20px' }}
-                        />{' '}
-                      </label>
-                    ))}
-                </div>
-              </div>
-              <div style={{ margin: '20px 0' }}>
-                <RaisedButton
-                  label="キャンセル"
-                  style={style}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    Router.push(URL.MEMBER)
+  const posts = useSelector((state: State) => state.memberPosts)
+  const [post, setPost]: {} = useState({})
+  useEffect(() => {
+    const data = posts[id]?.data || {}
+    setPost({
+      ...data,
+      regist_data_yyyymmdd:
+        data.regist_datetime &&
+        moment(data.regist_datetime).format('YYYY/MM/DD HH:mm'),
+    })
+  }, [posts])
+
+  const [photo, setPhoto]: {} = useState({})
+  const [photoErrors, setPhotoErrors] = useState([])
+  const classes = useStyle()
+
+  useEffect(() => {
+    setPhoto(post.photo)
+  }, [post])
+
+  if (nowLoading) {
+    return <>Loading...</>
+  }
+  const initialValues = {
+    ...post,
+  }
+
+  const errorMessage = (message) => <p className="error">{message}</p>
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required(errorMessage('タイトルを入力してください。')),
+    description: Yup.string().required(
+      errorMessage('本文を入力してください。')
+    ),
+  })
+
+  const onSubmit = (values) => {
+    const user = auth.currentUser
+    const data = { ...values, photo: photo, user_id: user.uid }
+    dispatch(putMemberPost(id, data))
+    // マイページTOPに画面遷移する
+    router.push(URL.MEMBER)
+  }
+
+  const onDeleteClick = () => {
+    dispatch(deleteMemberPost(id))
+    // マイページTOPに画面遷移する
+    router.push(URL.MEMBER)
+  }
+
+  return (
+    <Layout title="投稿変更">
+      <section>
+        <div className="entry-header">
+          <h1 className="entry-title">投稿変更</h1>
+        </div>
+        <div className="entry-content">
+          <Grid container justify="center" spacing={1}>
+            <Grid item md={12}>
+              <Card className={classes.padding}>
+                <CardHeader title="投稿する記事内容を入力してください。"></CardHeader>
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={onSubmit}
+                >
+                  {({ dirty, isValid, values, handleChange, handleBlur }) => {
+                    return (
+                      <Form>
+                        <CardContent>
+                          <Grid item container spacing={1} justify="center">
+                            <Grid item xs={12} sm={6} md={12}>
+                              <Input
+                                label="タイトル"
+                                name="title"
+                                type="text"
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={12}>
+                              <Textarea
+                                label="本文"
+                                name="description"
+                                value={values.description}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6}>
+                              <ReactImageBase64
+                                maxFileSize={10485760}
+                                thumbnail_size={100}
+                                drop={true}
+                                dropText="写真をドラッグ＆ドロップもしくは"
+                                capture="environment"
+                                multiple={false}
+                                handleChange={(data) => {
+                                  if (data.result) {
+                                    setPhoto(data.fileData)
+                                  } else {
+                                    setPhotoErrors([
+                                      ...photoErrors,
+                                      data.messages,
+                                    ])
+                                  }
+                                }}
+                              />
+                              {photoErrors.map((error, index) => (
+                                <p className="error" key={index}>
+                                  {error}
+                                </p>
+                              ))}
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6}>
+                              <div>
+                                <img src={photo} width={300} />
+                              </div>
+                            </Grid>
+                          </Grid>
+                        </CardContent>
+                        <CardActions>
+                          <Button
+                            disabled={!dirty || !isValid}
+                            variant="contained"
+                            color="danger"
+                            type="Button"
+                            className={classes.button}
+                            onClick={onDeleteClick}
+                          >
+                            削除する
+                          </Button>
+                        </CardActions>
+                        <CardActions>
+                          <Button
+                            disabled={!dirty || !isValid}
+                            variant="contained"
+                            color="primary"
+                            type="Submit"
+                            className={classes.button}
+                          >
+                            登録する
+                          </Button>
+                        </CardActions>
+                      </Form>
+                    )
                   }}
-                />
-                <RaisedButton
-                  label="削除"
-                  style={style}
-                  onClick={this.onDeleteClick}
-                />
-                <RaisedButton
-                  label="登録"
-                  type="submit"
-                  style={style}
-                  disabled={submitting || invalid}
-                />
-              </div>
-            </form>
-          </div>
-        </section>
-      </Layout>
-    )
-  }
-}
-
-const validate = (values) => {
-  const errors = {
-    title: '',
-    text: '',
-    imageList: '',
-  }
-  if (!values.title) errors.title = 'タイトルを入力して下さい'
-  if (!values.text) errors.text = '本文を入力して下さい'
-  if (!values.imageList) errors.imageList = '画像を選択して下さい'
-  return errors
-}
-
-const mapStateToProps = (state, ownProps) => {
-  const initial = state.memberPosts[0]
-  const { memberShowForm } = state.form
-  return {
-    initialValues: initial,
-    memberPost: memberShowForm ? memberShowForm.values : initial,
-    consts: state.consts,
-  }
-}
-
-const mapDispatchToProps = {
-  readConst,
-  getMemberPost,
-  deleteMemberPost,
-  putMemberPost,
-}
-
-export default AuthCheck(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(
-    // enableReinitialize をtrueにすると別ユーザーによってデータが変更されている場合でも常に最新のデータを取得して表示できる。
-    reduxForm({ validate, form: 'memberShowForm', enableReinitialize: true })(
-      MemberShow
-    )
+                </Formik>
+              </Card>
+            </Grid>
+          </Grid>
+        </div>
+      </section>
+    </Layout>
   )
-)
+}
+
+export default MemberPostsEdit

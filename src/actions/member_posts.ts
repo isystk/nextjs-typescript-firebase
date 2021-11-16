@@ -26,10 +26,10 @@ export const readMemberPosts = (userId: string) => async (
   dispatch({ type: READ_MEMBER_POSTS, response })
 }
 
-export const getMemberPost = (id: number) => async (
+export const getMemberPost = (id: string) => async (
   dispatch: Dispatch
 ): Promise<void> => {
-  const response = await API.get(`${API_ENDPOINT.POSTS}/p${id}`)
+  const response = await API.get(`${API_ENDPOINT.POSTS}/${id}`)
   dispatch({ type: READ_MEMBER_POST, response })
 }
 
@@ -40,19 +40,16 @@ export const postMemberPost = (values: any) => async (
   dispatch({ type: CREATE_MEMBER_POST, response })
 }
 
-export const putMemberPost = (values: any) => async (
+export const putMemberPost = (id: string, values: any) => async (
   dispatch: Dispatch
 ): Promise<void> => {
-  const response = await API.put(
-    `${API_ENDPOINT.POSTS}/p${values.postId}/edit`,
-    values
-  )
+  const response = await API.put(`${API_ENDPOINT.POSTS}/${id}`, values)
   dispatch({ type: UPDATE_MEMBER_POST, response })
 }
 
-export const deleteMemberPost = (id: number) => async (
+export const deleteMemberPost = (id: string) => async (
   dispatch: Dispatch
 ): Promise<void> => {
-  await API.del(`${API_ENDPOINT.POSTS}/p${id}/delete`)
+  await API.del(`${API_ENDPOINT.POSTS}/${id}`)
   dispatch({ type: DELETE_MEMBER_POST, id })
 }

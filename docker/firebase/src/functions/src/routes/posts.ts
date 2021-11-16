@@ -77,7 +77,7 @@ router.post("/posts", async (req: Request, res: Response, next: NextFunction) =>
     if (!text) {
       throw new Error("Text is blank");
     }
-    const data = {...text, regist_datetime: moment().format()};
+    const data = {...text, regist_datetime: moment().format(), update_datetime: moment().format()};
     const ref = await db.collection("posts").add(data);
     res.json({
       id: ref.id,
@@ -89,7 +89,7 @@ router.post("/posts", async (req: Request, res: Response, next: NextFunction) =>
 });
 
 // Update
-router.put("/:id", async (req: Request, res: Response, next:NextFunction) => {
+router.put("/posts/:id", async (req: Request, res: Response, next:NextFunction) => {
   try {
     const id = req.params.id;
     const text = req.body;
@@ -97,11 +97,15 @@ router.put("/:id", async (req: Request, res: Response, next:NextFunction) => {
     if (!id) {
       throw new Error("id is blank");
     }
-    if (!text) {
-      throw new Error("text is blank");
+    const post = await db
+        .collection("posts")
+        .doc(id)
+        .get();
+    if (!post.exists) {
+      throw new Error("post does not exists");
     }
 
-    const data = {text};
+    const data = {...post.data, ...text, update_datetime: moment().format()};
     await db
         .collection("posts")
         .doc(id)
@@ -118,7 +122,7 @@ router.put("/:id", async (req: Request, res: Response, next:NextFunction) => {
 });
 
 // Delete
-router.delete("/:id", async (req:Request, res: Response, next:NextFunction) => {
+router.delete("/posts/:id", async (req:Request, res: Response, next:NextFunction) => {
   try {
     const id = req.params.id;
     if (!id) {
