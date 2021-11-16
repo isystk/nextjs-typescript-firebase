@@ -1,9 +1,9 @@
-import React, { useEffect, useContext, FC } from 'react'
+import React, { useEffect, useContext, useState, FC } from 'react'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
-
+import { postMemberPost } from '@/actions'
 import { Data, Post } from '@/store/StoreTypes'
 import { AuthContext } from '@/auth/AuthProvider'
 import { Input, Textarea } from '@/components/elements/Input'
@@ -20,6 +20,7 @@ import {
 
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
+import ReactImageBase64 from 'react-image-base64'
 
 type state = {
   memberposts: data<post>[]
@@ -52,14 +53,21 @@ const MemberPostsNew: FC = () => {
     description: '',
   }
 
+  const errorMessage = (message) => (<p className="error">{message}</p>);
+  const [photo, setPhoto]: {} = useState({});
+  const [photoErrors, setPhotoErrors] = useState([]);
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required('Required'),
-    description: Yup.string().required('Required'),
+    title: Yup.string().required(errorMessage('タイトルを入力してください。')),
+    description: Yup.string().required(errorMessage('本文を入力してください。')),
   })
   const classes = useStyle()
 
   const onSubmit = (values) => {
-    console.log(values)
+    const user = auth.currentUser
+    const data = {...values, photo: photo.fileData, user_id: user.uid}
+    dispatch(postMemberPost(data))
+    // マイページTOPに画面遷移する
+    router.push(URL.MEMBER)
   }
 
   return (
@@ -98,8 +106,32 @@ const MemberPostsNew: FC = () => {
                                 value={values.description}
                               />
                             </Grid>
-
-                            <Grid item xs={12} sm={6} md={6}></Grid>
+                            <Grid item xs={12} sm={6} md={6}>
+                              <ReactImageBase64
+                                  maxFileSize={10485760}
+                                  thumbnail_size={100}
+                                  drop={true}
+                                  dropText="写真をドラッグ＆ドロップもしくは"
+                                  capture="environment"
+                                  multiple={false}
+                                  handleChange={data => {
+                                    if (data.result) {
+                                      setPhoto(data)
+                                    } else {
+                                      setPhotoErrors([...photoErrors, data.messages]);
+                                    }
+                                  }}
+                              />
+                              { photoErrors.map((error, index) =>
+                                  <p className="error" key={index}>{error}</p>
+                                )
+                              }
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6}>
+                              <div>
+                                <img src={photo.fileData} width={300}/>
+                              </div>
+                            </Grid>
                           </Grid>
                         </CardContent>
                         <CardActions>

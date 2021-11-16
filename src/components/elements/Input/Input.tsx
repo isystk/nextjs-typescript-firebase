@@ -11,7 +11,7 @@ export const Input: FC = (props: Props) => {
   const { label, name, ...rest } = props
   return (
     <div className="form-control">
-      <label htmlFor={name}>{label}</label>
+      <p>{label}</p>
       <Field id={name} name={name} {...rest} />
       <ErrorMessage name={name} />
     </div>

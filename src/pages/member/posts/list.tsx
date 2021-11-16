@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, FC } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Router, { useRouter } from 'next/router'
-import { getAuth } from '@/utilities/firebase'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
 import { readMemberPosts } from '@/actions'
@@ -16,6 +15,7 @@ import moment from 'moment'
 
 import { Data, Post } from '@/store/StoreTypes'
 import { AuthContext } from '@/auth/AuthProvider'
+import * as _ from "lodash";
 type State = {
   memberPosts: Data<Post>[]
 }
@@ -39,9 +39,7 @@ const MemberPostsList: FC = () => {
   }, [])
 
   const posts = useSelector((state: State) => {
-    if (state.memberPosts.length === 0) return
-    return state.memberPosts.map(
-      (post): PostDisplay => {
+    return _.map(state.memberPosts, (post, i): PostDisplay => {
         const data: Post = post.data
         return {
           id: post.id,

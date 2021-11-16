@@ -36,7 +36,7 @@ export const getMemberPost = (id: number) => async (
 export const postMemberPost = (values: any) => async (
   dispatch: Dispatch
 ): Promise<void> => {
-  const response = await API.post(`${API_ENDPOINT.POSTS}/new`, values)
+  const response = await API.post(`${API_ENDPOINT.POSTS}`, values)
   dispatch({ type: CREATE_MEMBER_POST, response })
 }
 

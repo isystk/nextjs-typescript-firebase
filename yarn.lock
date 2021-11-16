@@ -7681,10 +7681,10 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-image-base64@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/react-image-base64/-/react-image-base64-1.0.4.tgz#39fede38050adaa5503d8c899091f15d90f14a36"
-  integrity sha512-hAREumgcq7mHEp7FaRVsgw5bh3ZXsvtXIEwnYaBWwJ2Bx68ntVK/qukAGU4xa6q4/ujkpcWD2y7Ymamnc2trTg==
+react-image-base64@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-image-base64/-/react-image-base64-1.1.0.tgz#c548d3e524f1e38a75c054082725c827d836f902"
+  integrity sha512-aAipmuns2ekfT24xRN8I/SEzuaotqGfy408CVxS++P/1Gr4rn2FvZejF5j96XCW22XKyh5UJyvG3LvUAhYtygg==
   dependencies:
     heic2any "^0.0.3"
 
