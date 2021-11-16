@@ -26,7 +26,8 @@ const request = async (
   // console.log('Request:%s', url)
   const response = await axios[method](
     url,
-    jsonToForm(values, new FormData()),
+    // jsonToForm(values, new FormData()),
+    values,
     config
   ).catch(function (error) {
     if (error.response) {

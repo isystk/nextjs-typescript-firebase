@@ -1,33 +1,38 @@
 import * as functions from "firebase-functions";
 import {Request, Response, NextFunction} from "express";
-const router = require("./common");
-const moment = require("moment");
+import router from "./common";
+import * as moment from "moment";
 
-const admin = require("firebase-admin");
+import * as admin from "firebase-admin";
+import {firestore} from "firebase-admin";
+import QuerySnapshot = firestore.QuerySnapshot;
+import firebase from "firebase/compat";
+import DocumentData = firebase.firestore.DocumentData;
 admin.initializeApp(functions.config().firebase);
 
 const db = admin.firestore();
 
 type Data = {
   id: string,
-  data: Function
+  data: DocumentData
 }
 
+/* eslint max-len: 1 */
 // Read All
 router.get("/posts", async (req: Request, res: Response, next: NextFunction) => {
   try {
     let query = db.collection("posts").orderBy("regist_datetime", "desc");
     const {userId, limit = 10, last} = req.query;
     if (userId) {
-      query = query.where("user_id", "=", userId);
+      query = query.where("user_id", "==", userId);
     }
 
     if (last) {
       query = query.startAfter(last);
     }
 
-    const itemSnapshot: Data[] = await query
-        .limit(limit)
+    const itemSnapshot: QuerySnapshot<DocumentData> = await query
+        .limit(parseInt(limit+""))
         .get();
     const posts = [] as Data[];
     itemSnapshot.forEach((doc) => {
@@ -87,7 +92,7 @@ router.post("/posts", async (req: Request, res: Response, next: NextFunction) =>
 router.put("/:id", async (req: Request, res: Response, next:NextFunction) => {
   try {
     const id = req.params.id;
-    const text = req.body.text;
+    const text = req.body;
 
     if (!id) {
       throw new Error("id is blank");
@@ -131,5 +136,5 @@ router.delete("/:id", async (req:Request, res: Response, next:NextFunction) => {
   }
 });
 
-module.exports = router;
+export default router;
 

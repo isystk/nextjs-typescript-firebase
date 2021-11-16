@@ -1,4 +1,4 @@
-🌙 nextjs-typescript-sample
+    🌙 nextjs-typescript-sample
 ====
 
 ![GitHub issues](https://img.shields.io/github/issues/isystk/nextjs-typescript-sample)

@@ -1,9 +1,19 @@
-import * as functions from 'firebase-functions';
-import * as express from 'express';
+import * as functions from "firebase-functions";
+import * as express from "express";
 import {Request, Response, NextFunction} from "express";
+
+/**
+ * HttpException
+ */
 class HttpException extends Error {
   statusCode?: number;
   message: string;
+
+  /**
+   * constructor
+   * @param {number} statusCode
+   * @param {string} message
+   */
   constructor(statusCode: number, message: string) {
     super(message);
     this.statusCode = statusCode || 500;
@@ -11,22 +21,23 @@ class HttpException extends Error {
   }
 }
 const app: express.Express = express();
+import helloWorld from "./routes/helloWorld";
+import posts from "./routes/posts";
 
-var router = require('./routes');
+app.use(helloWorld);
+app.use(posts);
 
 // Error Handling
-router.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(404).json({
-    error: 'Route Not Found'
+    error: "Route Not Found",
   });
 });
 
-router.use((e: HttpException, req: Request, res: Response, next: NextFunction) => {
+app.use((e: HttpException, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({
-    error: e.name + ': ' + e.message
+    error: e.name + ": " + e.message,
   });
 });
-
-app.use(router);
 
 export const api = functions.https.onRequest(app);

@@ -1,7 +1,7 @@
-var express = require('express');
-const cors = require('cors');
+import * as express from "express";
+import * as cors from "cors";
 
-var router = express.Router();
+const router = express();
 router.use(cors());
 
-module.exports = router;
+export default router;

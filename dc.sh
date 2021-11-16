@@ -72,6 +72,10 @@ case ${1} in
               COMMAND="firebase emulators:start --import data --export-on-exit"
               $DOCKER_COMPOSE exec firebase $COMMAND
           ;;
+          deploy)
+              COMMAND="firebase deploy"
+              $DOCKER_COMPOSE exec firebase $COMMAND
+          ;;
           *)
               usage
           ;;
