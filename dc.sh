@@ -72,6 +72,11 @@ case ${1} in
               COMMAND="firebase emulators:start --import data --export-on-exit"
               $DOCKER_COMPOSE exec firebase $COMMAND
           ;;
+          build)
+            pushd ./docker/firebase/src/functions
+            yarn build
+            popd
+          ;;
           deploy)
               COMMAND="firebase deploy"
               $DOCKER_COMPOSE exec firebase $COMMAND
@@ -81,20 +86,7 @@ case ${1} in
           ;;
       esac
     ;;
-    
-    functions)
-      case ${2} in
-          build)
-            pushd ./docker/firebase/src/functions
-            yarn build
-            popd
-          ;;
-          *)
-              usage
-          ;;
-      esac
-    ;;
-    
+
     help|--help|-h)
         usage
     ;;

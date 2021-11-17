@@ -15,9 +15,9 @@ const reducers: ReducersMapObject = {}
 declare let window: any
 
 const rootReducer = combineReducers({
-  MemberPostsReducer,
   PartsReducer,
   PostsReducer,
+  MemberPostsReducer,
 })
 
 export default createStore(

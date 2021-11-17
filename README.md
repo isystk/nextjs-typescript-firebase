@@ -1,10 +1,11 @@
-    🌙 nextjs-typescript-sample
+🌙 nextjs-typescript-firebase
 ====
 
-![GitHub issues](https://img.shields.io/github/issues/isystk/nextjs-typescript-sample)
-![GitHub forks](https://img.shields.io/github/forks/isystk/nextjs-typescript-sample)
-![GitHub stars](https://img.shields.io/github/stars/isystk/nextjs-typescript-sample)
-![GitHub license](https://img.shields.io/github/license/isystk/nextjs-typescript-sample)
+[![CircleCI](https://circleci.com/gh/isystk/nextjs-typescript-firebase/tree/master.svg?style=svg)](https://circleci.com/gh/isystk/nextjs-typescript-firebase/tree/master)
+![GitHub issues](https://img.shields.io/github/issues/isystk/nextjs-typescript-firebase)
+![GitHub forks](https://img.shields.io/github/forks/isystk/nextjs-typescript-firebase)
+![GitHub stars](https://img.shields.io/github/stars/isystk/nextjs-typescript-firebase)
+![GitHub license](https://img.shields.io/github/license/isystk/nextjs-typescript-firebase)
 
 ## 📗 プロジェクトの概要
 
@@ -13,14 +14,13 @@ Next.js ＆ Firebase の学習用サンプルアプリケーションです。
 
 ## 🌐 Demo
 
-https://firebase.isystk.com/
-
 ![フロント画面](./front.png "フロント画面")
 
 - ログイン/ログアウト
+- 会員登録
 - 投稿一覧
 - 投稿詳細
-- マイページ（投稿一覧・登録・更新・削除）
+- マイページ（一覧・登録・更新・削除）
 
 
 
@@ -37,7 +37,19 @@ https://firebase.isystk.com/
 │       ├── Dockerfile
 │       └── src
 │           └── Firebaseのコード諸々
-│
+├── public/
+├── src/
+│   ├── actions/
+│   ├── auth/
+│   ├── common/
+│   ├── components/
+│   ├── interfaces/
+│   ├── pages/
+│   ├── reducers/
+│   ├── store/
+│   ├── styles/
+│   └── utilities/
+├── test/│
 └── dc.sh （Dockerの起動用スクリプト）
 ```
 
@@ -52,8 +64,9 @@ Options:
   init                     Dockerコンテナ・イメージ・生成ファイルの状態を初期化します。
   start                    すべてのDaemonを起動します。
   stop                     すべてのDaemonを停止します。
+  firebase login           Firebase のエミュレータを起動します。
   firebase start           Firebase のエミュレータを起動します。
-  functions build          Cloud Functions をビルドします。
+  firebase build           Cloud Functions をビルドします。
   --version, -v     バージョンを表示します。
   --help, -h        ヘルプを表示します。
 ```
@@ -78,9 +91,11 @@ $ ./dc.sh firebase start
 $ open http://localhost:4000
 
 # Cloud Functions をビルドします。
-cd ./docker/firebase/src/functions
+docker-compose -f docker/docker-compose.yml exec firebase sh
+cd ./functions
 yarn
 yarn build
+
 # 投稿データをPOST
 curl -X POST -H "Content-Type: application/json" -d @post.json http://localhost:5001/nextjs-typescript-firestore/us-central1/api/posts
 # 投稿データの一覧を取得する
@@ -105,7 +120,7 @@ $ ./dc.sh stop
 
 ## 🎫 Licence
 
-[MIT](https://github.com/isystk/nextjs-typescript-sample/blob/master/LICENSE)
+[MIT](https://github.com/isystk/nextjs-typescript-firebase/blob/master/LICENSE)
 
 ## 👀 Author
 

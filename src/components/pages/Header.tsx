@@ -48,19 +48,6 @@ const Header: FC = () => {
         <div className="wrapper">
           <Logo />
           <div className="nav">
-            <div className="search">
-              <form role="search" method="get" action="#">
-                <FontAwesomeIcon className="search-icon" icon="search" />
-                <label>
-                  <input
-                    type="search"
-                    placeholder="検索..."
-                    defaultValue=""
-                    name="s"
-                  />
-                </label>
-              </form>
-            </div>
             <div
               className={menuBtnClass}
               onClick={(e) => {
@@ -73,21 +60,6 @@ const Header: FC = () => {
               <figure></figure>
             </div>
             <div id="side-menu" className={sideMenuClass}>
-              <div className="side-menu-header">
-                <div className="search">
-                  <form role="search" method="get" action="#">
-                    <FontAwesomeIcon className="search-icon" icon="search" />
-                    <label>
-                      <input
-                        type="search"
-                        placeholder="検索..."
-                        defaultValue=""
-                        name="s"
-                      />
-                    </label>
-                  </form>
-                </div>
-              </div>
               <nav>
                 <ul>
                   <li>
