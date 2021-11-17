@@ -12,7 +12,6 @@ commands:
           name: Restore npm dependencies
           key: 
             v1-dependencies-{{ checksum "package.json" }}
-            v1-dependencies-
   
   save_npm:
     steps:
