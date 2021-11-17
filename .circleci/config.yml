@@ -10,13 +10,13 @@ commands:
     steps:
       - restore_cache:
           name: Restore npm dependencies
-          key: v1-{{ checksum "yarn.lock" }}
+          key: v2-{{ checksum "yarn.lock" }}
   
   save_npm:
     steps:
       - save_cache:
           name: Cache npm dependencies
-          key: v1-{{ checksum "yarn.lock" }}
+          key: v2-{{ checksum "yarn.lock" }}
           paths:
             - ~/nextjs-typescript-firebase/node_modules
 
