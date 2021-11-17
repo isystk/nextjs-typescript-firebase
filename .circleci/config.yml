@@ -10,13 +10,13 @@ commands:
     steps:
       - restore_cache:
           name: Restore npm dependencies
-          key: v2-{{ checksum "yarn.lock" }}
+          key: npm-{{ checksum "yarn.lock" }}
   
   save_npm:
     steps:
       - save_cache:
           name: Cache npm dependencies
-          key: v2-{{ checksum "yarn.lock" }}
+          key: npm-{{ checksum "yarn.lock" }}
           paths:
             - ~/nextjs-typescript-firebase/node_modules
 
@@ -28,7 +28,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: npm install
+          command: yarn
       - save_npm
 
   lint:
@@ -39,7 +39,7 @@ jobs:
       - restore_npm
       - run:
           name: Lint
-          command: npm run lint
+          command: yarn lint
       - save_npm
 
   build:
@@ -50,7 +50,7 @@ jobs:
       - restore_npm
       - run:
           name: Build
-          command: npm run build
+          command: yarn build
       - save_npm
 
   test:
@@ -61,7 +61,7 @@ jobs:
       - restore_npm
       - run:
           name: Test
-          command: npm run test
+          command: yarn test
       - save_npm
 
 workflows:
