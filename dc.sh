@@ -15,9 +15,11 @@ Options:
   init                     Dockerコンテナ・イメージ・生成ファイルの状態を初期化します。
   start                    すべてのDaemonを起動します。
   stop                     すべてのDaemonを停止します。
+  app install              アプリの起動に必要なモジュールをインストールします。
+  app dev                  アプリを起動します。
   firebase login           Firebase にログインします。
+  firebase logout          Firebase からログアウトします。
   firebase start           Firebase のエミュレータを起動します。
-  firebase build           Cloud Functions をビルドします。
   firebase deploy          Firebase にデプロイします。
   --version, -v     バージョンを表示します。
   --help, -h        ヘルプを表示します。
@@ -51,6 +53,25 @@ case ${1} in
         popd
     ;;
 
+    app)
+      case ${2} in
+          login)
+              $DOCKER_COMPOSE exec app sh
+          ;;
+          install)
+              COMMAND="yarn"
+              $DOCKER_COMPOSE exec app $COMMAND
+          ;;
+          dev)
+              COMMAND="yarn dev"
+              $DOCKER_COMPOSE exec app $COMMAND
+          ;;
+          *)
+              usage
+          ;;
+      esac
+    ;;
+
     firebase)
       case ${2} in
           login)
@@ -64,11 +85,6 @@ case ${1} in
           start)
               COMMAND="firebase emulators:start --import data --export-on-exit"
               $DOCKER_COMPOSE exec firebase $COMMAND
-          ;;
-          build)
-            pushd ./docker/firebase/src/functions
-            yarn build
-            popd
           ;;
           deploy)
               COMMAND="firebase deploy"

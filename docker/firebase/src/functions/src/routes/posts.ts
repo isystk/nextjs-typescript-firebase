@@ -6,8 +6,7 @@ import * as moment from "moment";
 import * as admin from "firebase-admin";
 import {firestore} from "firebase-admin";
 import QuerySnapshot = firestore.QuerySnapshot;
-import firebase from "firebase/compat";
-import DocumentData = firebase.firestore.DocumentData;
+import DocumentData = firestore.DocumentData;
 admin.initializeApp(functions.config().firebase);
 
 const db = admin.firestore();

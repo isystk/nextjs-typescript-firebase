@@ -4,5 +4,6 @@ RUN apk update && \
     apk upgrade
 
 RUN apk add openjdk8
+RUN apk add curl
 
 RUN npm install -g firebase-tools
