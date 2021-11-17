@@ -3,7 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
-import { getMemberPost, putMemberPost, deleteMemberPost } from '@/actions'
+import {
+  showLoading,
+  hideLoading,
+  getMemberPost,
+  putMemberPost,
+  deleteMemberPost,
+} from '@/actions'
 import { AuthContext } from '@/auth/AuthProvider'
 import { Input, Textarea } from '@/components/elements/Input'
 
@@ -22,6 +28,8 @@ import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import ReactImageBase64 from 'react-image-base64'
 import moment from 'moment'
+import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type State = {
   memberPosts: Data<Post>[]
@@ -72,7 +80,7 @@ const MemberPostsEdit: FC = () => {
   }, [id])
 
   const posts = useSelector((state: State) => state.memberPosts)
-  const [post, setPost]: {} = useState({})
+  const [post, setPost]: string = useState('')
   useEffect(() => {
     const data = posts[id]?.data || {}
     setPost({
@@ -83,7 +91,7 @@ const MemberPostsEdit: FC = () => {
     })
   }, [posts])
 
-  const [photo, setPhoto]: {} = useState({})
+  const [photo, setPhoto]: string = useState('')
   const [photoErrors, setPhotoErrors] = useState([])
   const classes = useStyle()
 
@@ -106,15 +114,22 @@ const MemberPostsEdit: FC = () => {
     ),
   })
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
+    // ローディング表示
+    dispatch(showLoading())
     const user = auth.currentUser
     const data = { ...values, photo: photo, user_id: user.uid }
-    dispatch(putMemberPost(id, data))
+    await dispatch(putMemberPost(id, data))
     // マイページTOPに画面遷移する
     router.push(URL.MEMBER)
+    // ローディング非表示
+    dispatch(hideLoading())
   }
 
   const onDeleteClick = () => {
+    if (!window.confirm('削除します。よろしいですか？')) {
+      return false
+    }
     dispatch(deleteMemberPost(id))
     // マイページTOPに画面遷移する
     router.push(URL.MEMBER)
@@ -123,11 +138,34 @@ const MemberPostsEdit: FC = () => {
   return (
     <Layout title="投稿変更">
       <section>
+        {
+          //<!-- パンくず -->
+        }
+        <nav className="breadcrumb">
+          <ul>
+            <li>
+              <Link href={URL.HOME}>
+                <a>
+                  <FontAwesomeIcon icon="home" />
+                  <span>HOME</span>
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href={URL.MEMBER}>
+                <a>
+                  <span>マイページ</span>
+                </a>
+              </Link>
+            </li>
+            <li>投稿変更</li>
+          </ul>
+        </nav>
         <div className="entry-header">
           <h1 className="entry-title">投稿変更</h1>
         </div>
         <div className="entry-content">
-          <Grid container justify="center" spacing={1}>
+          <Grid container justifyContent="center" spacing={1}>
             <Grid item md={12}>
               <Card className={classes.padding}>
                 <CardHeader title="投稿する記事内容を入力してください。"></CardHeader>
@@ -140,7 +178,12 @@ const MemberPostsEdit: FC = () => {
                     return (
                       <Form>
                         <CardContent>
-                          <Grid item container spacing={1} justify="center">
+                          <Grid
+                            item
+                            container
+                            spacing={1}
+                            justifyContent="center"
+                          >
                             <Grid item xs={12} sm={6} md={12}>
                               <Input
                                 label="タイトル"
@@ -182,33 +225,32 @@ const MemberPostsEdit: FC = () => {
                             </Grid>
                             <Grid item xs={12} sm={6} md={6}>
                               <div>
-                                <img src={photo} width={300} />
+                                {photo && <img src={photo} width={300} />}
                               </div>
                             </Grid>
                           </Grid>
                         </CardContent>
                         <CardActions>
-                          <Button
-                            disabled={!dirty || !isValid}
-                            variant="contained"
-                            color="danger"
-                            type="Button"
-                            className={classes.button}
-                            onClick={onDeleteClick}
-                          >
-                            削除する
-                          </Button>
-                        </CardActions>
-                        <CardActions>
-                          <Button
-                            disabled={!dirty || !isValid}
-                            variant="contained"
-                            color="primary"
-                            type="Submit"
-                            className={classes.button}
-                          >
-                            登録する
-                          </Button>
+                          <Grid item xs={12} sm={6} md={6}>
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              type="Button"
+                              className={classes.button}
+                              onClick={onDeleteClick}
+                            >
+                              削除する
+                            </Button>
+                            <Button
+                              disabled={!dirty || !isValid}
+                              variant="contained"
+                              color="primary"
+                              type="Submit"
+                              className={classes.button}
+                            >
+                              登録する
+                            </Button>
+                          </Grid>
                         </CardActions>
                       </Form>
                     )

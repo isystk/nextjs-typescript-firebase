@@ -25,6 +25,7 @@ const Header: FC = () => {
           onClick={() => {
             getAuth().signOut()
             router.push(URL.LOGIN)
+            dispatch(closeMenu())
           }}
         >
           ログアウト
