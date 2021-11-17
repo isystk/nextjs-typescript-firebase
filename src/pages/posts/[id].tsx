@@ -53,54 +53,69 @@ const PostsIndex: FC = () => {
 
   return (
     <Layout title={post.title}>
-      <main>
-        <section>
-          {
-            //<!-- パンくず -->
-          }
-          <nav className="breadcrumb">
-            <ul>
-              <li>
-                <Link href={URL.HOME}>
-                  <a>
-                    <FontAwesomeIcon icon="home" />
-                    <span>HOME</span>
-                  </a>
-                </Link>
-              </li>
-              <li>{post && post.title}</li>
-            </ul>
-          </nav>
+      <section>
+        {
+          //<!-- パンくず -->
+        }
+        <nav className="breadcrumb">
+          <ul>
+            <li>
+              <Link href={URL.HOME}>
+                <a>
+                  <FontAwesomeIcon icon="home" />
+                  <span>HOME</span>
+                </a>
+              </Link>
+            </li>
+            <li>{post && post.title}</li>
+          </ul>
+        </nav>
 
-          <div className="entry-header">
-            <h1 className="entry-title">{post && post.title}</h1>
-            <div className="article-img">
-              <Slider>
-                {post &&
-                  _.map([post.photo], (e, index) => (
-                    <img alt="sample1" width="644" src={e} key={index} />
-                  ))}
-              </Slider>
-            </div>
-            <div className=" clearfix"></div>
+        <div className="entry-header">
+          <h1 className="entry-title">{post && post.title}</h1>
+          <div className="article-img">
+            <Slider>
+              {post &&
+                _.map([post.photo], (e, index) => (
+                  <img alt="sample1" width="644" src={e} key={index} />
+                ))}
+            </Slider>
           </div>
-          <div className="entry-content">
-            <p>{post && post.description}</p>
-          </div>
-          <div className="clearfix"></div>
-          <div className="entry-meta">
-            <FontAwesomeIcon icon="clock" />
-            {post && post.regist_data_yyyymmdd}
-          </div>
+          <div className=" clearfix"></div>
+        </div>
+        <div className="entry-content">
+          <p>{post && post.description}</p>
+        </div>
+        <div className="clearfix"></div>
+        <div className="entry-meta">
+          <FontAwesomeIcon icon="clock" />
+          {post && post.regist_data_yyyymmdd}
+        </div>
 
-          <SnsShare />
-        </section>
-      </main>
+        <SnsShare title={post.title} url={`${URL.POSTS}/${id}`} />
+      </section>
       <Modal>
         <SnsShare title={post.title} url={`${URL.POSTS}/${id}`} />
       </Modal>
     </Layout>
   )
 }
+
+/** ここからSSGでビルドする場合の設定 */
+// // 投稿IDの一覧を取得
+// export async function getStaticPaths() {
+//   const res = await fetch(`${API_ENDPOINT.POSTS}`, {agent})
+//   const posts = await res.json()
+//   const paths = posts.data.map(post => `/posts/${post.postId}`)
+//   return { paths, fallback: false }
+// }
+
+// // 各投稿データを取得
+// export async function getStaticProps({ params }) {
+//   const res = await fetch(`${API_ENDPOINT.POSTS}/${params.id}`, {agent})
+//   const post = await res.json()
+//   console.log(post.data[0])
+//   return { props: { post: post.data[0] } }
+// }
 
 export default PostsIndex

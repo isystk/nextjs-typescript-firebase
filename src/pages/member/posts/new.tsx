@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
-import { postMemberPost } from '@/actions'
+import { hideLoading, postMemberPost, showLoading } from '@/actions'
 import { AuthContext } from '@/auth/AuthProvider'
 import { Input, Textarea } from '@/components/elements/Input'
 
@@ -21,6 +21,8 @@ import {
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import ReactImageBase64 from 'react-image-base64'
+import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type State = {
   memberposts: Data<Post>[]
@@ -54,7 +56,7 @@ const MemberPostsNew: FC = () => {
   }
 
   const errorMessage = (message) => <p className="error">{message}</p>
-  const [photo, setPhoto]: {} = useState({})
+  const [photo, setPhoto]: string = useState('')
   const [photoErrors, setPhotoErrors] = useState([])
   const validationSchema = Yup.object().shape({
     title: Yup.string().required(errorMessage('タイトルを入力してください。')),
@@ -64,22 +66,49 @@ const MemberPostsNew: FC = () => {
   })
   const classes = useStyle()
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
+    // ローディング表示
+    dispatch(showLoading())
     const user = auth.currentUser
     const data = { ...values, photo: photo, user_id: user.uid }
-    dispatch(postMemberPost(data))
+    await dispatch(postMemberPost(data))
     // マイページTOPに画面遷移する
     router.push(URL.MEMBER)
+    // ローディング非表示
+    dispatch(hideLoading())
   }
 
   return (
     <Layout title="投稿登録">
       <section>
+        {
+          //<!-- パンくず -->
+        }
+        <nav className="breadcrumb">
+          <ul>
+            <li>
+              <Link href={URL.HOME}>
+                <a>
+                  <FontAwesomeIcon icon="home" />
+                  <span>HOME</span>
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href={URL.MEMBER}>
+                <a>
+                  <span>マイページ</span>
+                </a>
+              </Link>
+            </li>
+            <li>投稿登録</li>
+          </ul>
+        </nav>
         <div className="entry-header">
           <h1 className="entry-title">投稿登録</h1>
         </div>
         <div className="entry-content">
-          <Grid container justify="center" spacing={1}>
+          <Grid container justifyContent="center" spacing={1}>
             <Grid item md={12}>
               <Card className={classes.padding}>
                 <CardHeader title="投稿する記事内容を入力してください。"></CardHeader>
@@ -92,7 +121,12 @@ const MemberPostsNew: FC = () => {
                     return (
                       <Form>
                         <CardContent>
-                          <Grid item container spacing={1} justify="center">
+                          <Grid
+                            item
+                            container
+                            spacing={1}
+                            justifyContent="center"
+                          >
                             <Grid item xs={12} sm={6} md={12}>
                               <Input
                                 label="タイトル"
@@ -135,21 +169,23 @@ const MemberPostsNew: FC = () => {
                             </Grid>
                             <Grid item xs={12} sm={6} md={6}>
                               <div>
-                                <img src={photo} width={300} />
+                                {photo && <img src={photo} width={300} />}
                               </div>
                             </Grid>
                           </Grid>
                         </CardContent>
                         <CardActions>
-                          <Button
-                            disabled={!dirty || !isValid}
-                            variant="contained"
-                            color="primary"
-                            type="Submit"
-                            className={classes.button}
-                          >
-                            登録する
-                          </Button>
+                          <Grid item xs={12} sm={6} md={6}>
+                            <Button
+                              disabled={!dirty || !isValid}
+                              variant="contained"
+                              color="primary"
+                              type="Submit"
+                              className={classes.button}
+                            >
+                              登録する
+                            </Button>
+                          </Grid>
                         </CardActions>
                       </Form>
                     )

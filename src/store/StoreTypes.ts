@@ -16,7 +16,6 @@ export type Post = {
 }
 
 export type Parts = {
-  isShowMv: boolean
   isShowOverlay: boolean
   isShowLoading: boolean
   isSideMenuOpen: boolean

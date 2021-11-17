@@ -16,6 +16,8 @@ import moment from 'moment'
 import { Data, Post } from '@/store/StoreTypes'
 import { AuthContext } from '@/auth/AuthProvider'
 import * as _ from 'lodash'
+import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 type State = {
   memberPosts: Data<Post>[]
 }
@@ -70,7 +72,7 @@ const MemberPostsList: FC = () => {
                 <div style={photoStyle as React.CSSProperties}>
                   {[post.photo].map((image, index) => (
                     <span style={{ marginLeft: '10px' }} key={`image${index}`}>
-                      <img src={image} width="100px" />
+                      {image && <img src={image} width="100px" />}
                     </span>
                   ))}
                 </div>
@@ -85,7 +87,7 @@ const MemberPostsList: FC = () => {
                     e.preventDefault()
                     Router.push(`${URL.MEMBER_POSTS}/${post.id}`)
                   }}
-                  value="詳細"
+                  value="変更"
                 />
               </TableRowColumn>
             </TableRow>
@@ -98,6 +100,22 @@ const MemberPostsList: FC = () => {
   return (
     <Layout title="投稿一覧">
       <section>
+        {
+          //<!-- パンくず -->
+        }
+        <nav className="breadcrumb">
+          <ul>
+            <li>
+              <Link href={URL.HOME}>
+                <a>
+                  <FontAwesomeIcon icon="home" />
+                  <span>HOME</span>
+                </a>
+              </Link>
+            </li>
+            <li>マイページ</li>
+          </ul>
+        </nav>
         <div className="entry-header">
           <h1 className="entry-title">投稿一覧</h1>
         </div>
