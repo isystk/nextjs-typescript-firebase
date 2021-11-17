@@ -1,6 +1,5 @@
 import axios from 'axios'
 import * as _ from 'lodash'
-import { SubmissionError } from 'redux-form'
 
 const get = async (url: string): Promise<any> => {
   return await request('get', url)
@@ -24,18 +23,19 @@ const request = async (
   values?: any,
   config?: any
 ): Promise<any> => {
-  //   console.log('Request:%s', url);
+  // console.log('Request:%s', url)
   const response = await axios[method](
     url,
-    jsonToForm(values, new FormData()),
+    // jsonToForm(values, new FormData()),
+    values,
     config
   ).catch(function (error) {
     if (error.response) {
-      throw new SubmissionError({ _error: error.response.data.message })
+      throw new Error(error)
     }
   })
-  //   console.log('Response:%s', JSON.stringify(response) );
-  return response.data.data
+  // console.log('Response:%s', JSON.stringify(response.data))
+  return response.data
 }
 
 const jsonToForm = (params, formData, name = '') => {
