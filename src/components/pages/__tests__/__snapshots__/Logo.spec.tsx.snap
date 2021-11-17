@@ -9,7 +9,7 @@ exports[`Logo 1`] = `
   >
     <a>
       <styled.h1>
-        Isystk's Frontend Sample
+        nextjs-typescript-firebase
       </styled.h1>
     </a>
   </Link>
