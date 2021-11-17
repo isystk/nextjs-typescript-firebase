@@ -1,13 +1,13 @@
-export interface Data<T> {
+export type Data<T> = {
   id: string
   data: T
 }
 
-export interface Posts {
+export type Posts = {
   [id: string]: Data<Post>
 }
 
-export interface Post {
+export type Post = {
   userId: string
   title: string
   description: string
@@ -15,7 +15,7 @@ export interface Post {
   photo: string
 }
 
-export interface Parts {
+export type Parts = {
   isShowMv: boolean
   isShowOverlay: boolean
   isShowLoading: boolean
