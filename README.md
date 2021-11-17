@@ -14,7 +14,8 @@ Next.js ＆ Firebase の学習用サンプルアプリケーションです。
 
 ## 🌐 Demo
 
-![フロント画面](./front.png "フロント画面")
+![投稿一覧画面](./app1.png "投稿一覧画面")
+![投稿画面](./app2.png "投稿画面")
 
 - ログイン/ログアウト
 - 会員登録
@@ -81,9 +82,8 @@ $ cp .env.example .env
 $ ./dc.sh start
 
 # 初回のみFirebaseのセットアップ
-docker-compose -f docker/docker-compose.yml exec firebase sh
-> firebase login
-> firebase init
+./dc.sh firebase login
+./dc.sh firebase init
 
 # Firebaseエミュレータを起動します。
 $ ./dc.sh firebase start
@@ -101,8 +101,8 @@ curl -X POST -H "Content-Type: application/json" -d @post.json http://localhost:
 curl http://localhost:5001/nextjs-typescript-firestore/us-central1/api/posts
 
 # Next.jsアプリを起動します。
-$ yarn
-$ yarn dev
+./dc.sh app install
+./dc.sh app dev
 $ open http://localhost:3000
 
 # Dockerを停止する場合
