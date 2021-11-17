@@ -1,7 +1,7 @@
 version: 2.1
 executors:
   default:
-    working_directory: ~/nextjs-typescript-firebase
+    working_directory: ~/workspace
     docker:
       - image: node:12
 
@@ -10,8 +10,7 @@ commands:
     steps:
       - restore_cache:
           name: Restore npm dependencies
-          key: 
-            v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "package.json" }}
   
   save_npm:
     steps:
@@ -19,7 +18,7 @@ commands:
           name: Cache npm dependencies
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
-            - ~/nextjs-typescript-firebase/node_modules
+            - ~/workspace/node_modules
 
 jobs:
   setup:
