@@ -1,255 +1,203 @@
-import * as React from 'react'
-import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux'
-import { Field, FieldArray, reduxForm, formValueSelector } from 'redux-form'
-import Link from 'next/link'
-import * as _ from 'lodash'
-import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'material-ui/TextField'
-import Checkbox from 'material-ui/Checkbox'
-import FileUpload from '@/components/common/file_upload'
-import { readConst, postMemberPost } from '@/actions'
+import React, { useEffect, useContext, useState, FC } from 'react'
+import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
-import AuthCheck from '@/components/auth/auth_check'
-import Router, { withRouter } from 'next/router'
+import { hideLoading, postMemberPost, showLoading } from '@/actions'
+import { AuthContext } from '@/auth/AuthProvider'
+import { Input, Textarea } from '@/components/elements/Input'
 
-interface IProps {
-  readConst
-  postMemberPost
-  history
-  error
-  handleSubmit
-  pristine
-  submitting
-  invalid
-  memberNewForm
-  memberPost
-  consts
+import { Data, Post } from '@/store/StoreTypes'
+import {
+  Grid,
+  makeStyles,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  CardHeader,
+} from '@material-ui/core'
+
+import { Formik, Form, Field } from 'formik'
+import * as Yup from 'yup'
+import ReactImageBase64 from 'react-image-base64'
+import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+type State = {
+  memberposts: Data<Post>[]
 }
 
-interface IState {}
+const MemberPostsNew: FC = () => {
+  const router = useRouter()
+  const auth = useContext(AuthContext)
 
-class MemberNew extends React.Component<IProps, IState> {
-  constructor(props) {
-    super(props)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.setImageList = this.setImageList.bind(this)
-  }
-
-  componentDidMount(): void {
-    this.props.readConst()
-  }
-
-  async onSubmit(values): Promise<void> {
-    // 入力フォームをサーバーに送信する
-    await this.props.postMemberPost(this.props.memberPost)
-    // マイページTOPに画面遷移する
-    Router.push(URL.MEMBER)
-  }
-
-  // 画像アップロード後のデータ更新処理
-  setImageList(data) {
-    const imageList = _.map(data, (image) => {
-      return {
-        imageId: image.imageId,
-        imageUrl: image.imageUrlSquare,
-      }
-    })
-    // 画像を追加
-    this.props.memberPost.imageList = _.concat(
-      this.props.memberPost.imageList,
-      imageList
-    )
-    // TODO 自動でレンダリングされないので回避
-    this.forceUpdate()
-  }
-
-  renderField(field): JSX.Element {
-    const {
-      input,
-      label,
-      type,
-      meta: { touched, error },
-    } = field
-    return (
-      <TextField
-        hintText={label}
-        floatingLabelText={label}
-        type={type}
-        errorText={touched && error}
-        {...input}
-        fullWidth={true}
-      />
-    )
-  }
-
-  renderCheckbox(field): JSX.Element {
-    const {
-      input,
-      label,
-      type,
-      meta: { touched, error },
-      ...custom
-    } = field
-
-    return (
-      <React.Fragment>
-        <Checkbox
-          name={input.name}
-          label={label}
-          checked={custom.checked}
-          onCheck={input.onChange}
-          value={custom.code}
-        />
-      </React.Fragment>
-    )
-  }
-
-  render(): JSX.Element {
-    // pristineは、フォームが未入力状態の場合にtrueを返す
-    // submittingは、既にSubmit済みの場合にtrueを返す
-    const {
-      error,
-      handleSubmit,
-      pristine,
-      submitting,
-      invalid,
-      memberPost,
-    } = this.props
-
-    const style = {
-      margin: 12,
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const user = auth.currentUser
+    if (!user) {
+      router.push(URL.LOGIN)
+      return
     }
-    return (
-      <Layout title="投稿登録">
-        <section>
-          <div className="entry-header">
-            <h1 className="entry-title">投稿登録</h1>
-          </div>
-          <div className="entry-content">
-            <form onSubmit={handleSubmit(this.onSubmit)}>
-              {error && <div className="error">{error}</div>}
-              <div>
-                <Field
-                  label="タイトル"
-                  name="title"
-                  type="text"
-                  component={this.renderField}
-                />
-              </div>
-              <div>
-                <Field
-                  label="本文"
-                  name="text"
-                  type="text"
-                  component={this.renderField}
-                />
-              </div>
-              <div>
-                <FieldArray
-                  label="画像"
-                  name="imageList"
-                  component={FileUpload}
-                  props={{ imageList: memberPost && memberPost.imageList }}
-                  setImageList={this.setImageList}
-                />
-              </div>
-              <div>
-                <p>
-                  <label>タグ</label>
-                </p>
-                <div>
-                  {this.props.consts.postTag &&
-                    _.map(this.props.consts.postTag.data, (e, index) => (
-                      <label key={`postTag${index}`}>
-                        <Field
-                          name="tagList.tagId"
-                          label={e.text}
-                          component={this.renderCheckbox}
-                          code={e.code}
-                          checked={
-                            memberPost &&
-                            _.includes(
-                              _.map(memberPost.tagList, 'tagId'),
-                              e.code
-                            )
-                          }
-                          onChange={(event) => {
-                            if (event.target.checked) {
-                              this.props.memberPost.tagList.push({
-                                tagId: e.code,
-                              })
-                            } else {
-                              this.props.memberPost.tagList = _.filter(
-                                memberPost.tagList,
-                                (tag) => tag.tagId != e.code
-                              )
-                            }
-                          }}
-                          style={{ width: '20px' }}
-                        />{' '}
-                      </label>
-                    ))}
-                </div>
-              </div>
-              <div style={{ margin: '20px 0' }}>
-                <RaisedButton
-                  label="キャンセル"
-                  style={style}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    Router.push(URL.MEMBER)
-                  }}
-                />
-                <RaisedButton
-                  label="登録"
-                  type="submit"
-                  style={style}
-                  disabled={submitting || invalid}
-                />
-              </div>
-            </form>
-          </div>
-        </section>
-      </Layout>
-    )
-  }
-}
+  }, [])
 
-const validate = (values) => {
-  const errors = {
+  const useStyle = makeStyles((theme) => ({
+    padding: {
+      padding: theme.spacing(3),
+    },
+    button: {
+      margin: theme.spacing(1),
+    },
+  }))
+
+  const initialValues = {
     title: '',
-    text: '',
-    imageList: '',
+    description: '',
   }
-  if (!values.title) errors.title = 'タイトルを入力して下さい'
-  if (!values.text) errors.text = '本文を入力して下さい'
-  if (!values.imageList) errors.imageList = '画像を選択して下さい'
-  return errors
+
+  const errorMessage = (message) => <p className="error">{message}</p>
+  const [photo, setPhoto]: string = useState('')
+  const [photoErrors, setPhotoErrors] = useState([])
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required(errorMessage('タイトルを入力してください。')),
+    description: Yup.string().required(
+      errorMessage('本文を入力してください。')
+    ),
+  })
+  const classes = useStyle()
+
+  const onSubmit = async (values) => {
+    // ローディング表示
+    dispatch(showLoading())
+    const user = auth.currentUser
+    const data = { ...values, photo: photo, user_id: user.uid }
+    await dispatch(postMemberPost(data))
+    // マイページTOPに画面遷移する
+    router.push(URL.MEMBER)
+    // ローディング非表示
+    dispatch(hideLoading())
+  }
+
+  return (
+    <Layout title="投稿登録">
+      <section>
+        {
+          //<!-- パンくず -->
+        }
+        <nav className="breadcrumb">
+          <ul>
+            <li>
+              <Link href={URL.HOME}>
+                <a>
+                  <FontAwesomeIcon icon="home" />
+                  <span>HOME</span>
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href={URL.MEMBER}>
+                <a>
+                  <span>マイページ</span>
+                </a>
+              </Link>
+            </li>
+            <li>投稿登録</li>
+          </ul>
+        </nav>
+        <div className="entry-header">
+          <h1 className="entry-title">投稿登録</h1>
+        </div>
+        <div className="entry-content">
+          <Grid container justifyContent="center" spacing={1}>
+            <Grid item md={12}>
+              <Card className={classes.padding}>
+                <CardHeader title="投稿する記事内容を入力してください。"></CardHeader>
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={onSubmit}
+                >
+                  {({ dirty, isValid, values, handleChange, handleBlur }) => {
+                    return (
+                      <Form>
+                        <CardContent>
+                          <Grid
+                            item
+                            container
+                            spacing={1}
+                            justifyContent="center"
+                          >
+                            <Grid item xs={12} sm={6} md={12}>
+                              <Input
+                                label="タイトル"
+                                name="title"
+                                type="text"
+                                value={values.title}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={12}>
+                              <Textarea
+                                label="本文"
+                                name="description"
+                                value={values.description}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6}>
+                              <ReactImageBase64
+                                maxFileSize={10485760}
+                                thumbnail_size={100}
+                                drop={true}
+                                dropText="写真をドラッグ＆ドロップもしくは"
+                                capture="environment"
+                                multiple={false}
+                                handleChange={(data) => {
+                                  if (data.result) {
+                                    setPhoto(data.fileData)
+                                  } else {
+                                    setPhotoErrors([
+                                      ...photoErrors,
+                                      data.messages,
+                                    ])
+                                  }
+                                }}
+                              />
+                              {photoErrors.map((error, index) => (
+                                <p className="error" key={index}>
+                                  {error}
+                                </p>
+                              ))}
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6}>
+                              <div>
+                                {photo && <img src={photo} width={300} />}
+                              </div>
+                            </Grid>
+                          </Grid>
+                        </CardContent>
+                        <CardActions>
+                          <Grid item xs={12} sm={6} md={6}>
+                            <Button
+                              disabled={!dirty || !isValid}
+                              variant="contained"
+                              color="primary"
+                              type="Submit"
+                              className={classes.button}
+                            >
+                              登録する
+                            </Button>
+                          </Grid>
+                        </CardActions>
+                      </Form>
+                    )
+                  }}
+                </Formik>
+              </Card>
+            </Grid>
+          </Grid>
+        </div>
+      </section>
+    </Layout>
+  )
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { memberNewForm } = state.form
-  const memberPost = memberNewForm
-    ? memberNewForm.values
-    : {
-        title: '',
-        text: '',
-        imageList: [],
-        tagList: [],
-      }
-  return {
-    initialValues: memberPost,
-    memberPost,
-    consts: state.consts,
-  }
-}
-
-const mapDispatchToProps = { readConst, postMemberPost }
-
-export default AuthCheck(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(reduxForm({ validate, form: 'memberNewForm' })(MemberNew))
-)
+export default MemberPostsNew

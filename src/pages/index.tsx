@@ -1,72 +1,84 @@
-import React, { useEffect } from 'react'
-import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux'
-import Link from 'next/link'
-import Layout from '@/components/Layout'
-import * as _ from 'lodash'
+import React, { FC, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { URL } from '@/common/constants/url'
-import { readPosts, showMv, hideMv } from '@/actions'
-import Modal from '@/components/common/modal'
-import SnsShare from '@/components/common/sns_share'
+import Layout from '@/components/Layout'
+import { getPost, readPosts } from '@/actions'
+import moment from 'moment'
 
-interface IProps {
-  readPosts
-  showMv
-  hideMv
-  posts
+import { Data, Posts, Post } from '@/store/StoreTypes'
+import Link from 'next/link'
+import * as _ from 'lodash'
+import SnsShare from '@/components/widgets/SnsShare'
+import Modal from '@/components/widgets/Modal'
+type State = {
+  posts: Posts
+}
+type PostDisplay = Post & {
+  id: string
+  regist_data_yyyymmdd: string
 }
 
-const renderPosts = (props: IProps) => {
-  return _.map(props.posts, (post) => (
-    <section key={post.postId}>
-      <Link href={`${URL.POSTS}/${post.postId}`}>
-        <a>
-          <div className="entry-header">
-            <div className="category_link">{post.tagName}</div>
-            <h2 className="entry-title">{post.title}</h2>
-            <div className="entry-meta">
-              <span>{post.registTimeMMDD}</span>
-            </div>
-          </div>
-          <div className="entry-content">
-            <img
-              alt="sample1"
-              width="300"
-              height="174"
-              src={post.imageUrl}
-              className="attachment-medium size-medium wp-post-image"
-            />
-            <p>{post.text}</p>
-            <div className="clearfix"></div>
-          </div>
-        </a>
-      </Link>
-    </section>
-  ))
-}
+const Index: FC = () => {
+  const dispatch = useDispatch()
 
-const IndexPage = (props: IProps) => {
   useEffect(() => {
-    // すべての投稿データを取得する
-    props.readPosts()
-    // メインビジュアルを表示する
-    props.showMv()
-
-    return () => {
-      // メインビジュアルを非表示にする
-      props.hideMv()
-    }
+    dispatch(readPosts())
   }, [])
+
+  const posts: PostDisplay[] = _.map(
+    useSelector((state: State) => state.posts),
+    function (e: Data<Post>) {
+      const data = e.data
+      return {
+        id: e.id,
+        ...data,
+        regist_datetime_yyyymmdd: data.regist_datetime
+          ? moment(data.regist_datetime).format('YYYY/MM/DD')
+          : '',
+      } as PostDisplay
+    }
+  )
+
+  const renderPosts = () => {
+    return _.map(posts, (e, i) => (
+      <section key={i}>
+        <Link href={`${URL.POSTS}/${e.id}`}>
+          <a>
+            <div className="entry-header">
+              <div className="category_link">{e.tagName}</div>
+              <h2 className="entry-title">{e.title}</h2>
+              <div className="entry-meta">
+                <span>{e.regist_datetime_yyyymmdd}</span>
+              </div>
+            </div>
+            <div className="entry-content">
+              <img
+                alt="sample1"
+                width="300"
+                height="174"
+                src={e.photo}
+                className="attachment-medium size-medium wp-post-image"
+              />
+              <p>{e.description}</p>
+              <div className="clearfix"></div>
+            </div>
+          </a>
+        </Link>
+      </section>
+    ))
+  }
 
   return (
     <Layout title="Isystk&rsquo;s Frontend Sample">
-      <main>
-        <div className="archive-top">
-          <h1>投稿一覧</h1>
-          <p></p>
-          <p>すべてのユーザーの投稿を一覧で表示しています。</p>
+      <section>
+        <div className="entry-header">
+          <h1 className="entry-title">HOME</h1>
         </div>
-        <div className="box-list">{renderPosts(props)}</div>
-      </main>
+        <div className="entry-content">
+          <p>すべての投稿を一覧表示しています。</p>
+          <div className="box-list">{renderPosts()}</div>
+        </div>
+      </section>
       <Modal>
         <SnsShare title="Isystk&rsquo;s Frontend Sample" url={URL.HOME} />
       </Modal>
@@ -74,27 +86,4 @@ const IndexPage = (props: IProps) => {
   )
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    posts: _.map(state.posts, function (post) {
-      return {
-        postId: post.postId,
-        tagName:
-          post.tagNameList && 0 < post.tagNameList.length
-            ? post.tagNameList[0]
-            : '',
-        title: post.title,
-        text: post.text,
-        registTimeMMDD: post.registTimeMMDD,
-        imageUrl:
-          post.imageList && 0 < post.imageList.length
-            ? post.imageList[0].imageUrl
-            : '',
-      }
-    }),
-  }
-}
-
-const mapDispatchToProps = { readPosts, showMv, hideMv }
-
-export default connect(mapStateToProps, mapDispatchToProps)(IndexPage)
+export default Index

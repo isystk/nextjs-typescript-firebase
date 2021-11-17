@@ -14,6 +14,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { AuthProvider } from '@/auth/AuthProvider'
 library.add(fab, far, fas)
 
 // 開発環境の場合は、redux-devtools-extension を利用できるようにする
@@ -31,7 +32,9 @@ class MyApp extends App {
       <MuiThemeProvider>
         <Container>
           <Provider store={store}>
-            <Component {...pageProps} />
+            <AuthProvider>
+              <Component {...pageProps} />
+            </AuthProvider>
           </Provider>
         </Container>
       </MuiThemeProvider>

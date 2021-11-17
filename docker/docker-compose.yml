@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  # app:
+  #   image: nextjs-sample/app
+  #   container_name: nextjs-sample-app
+  #   build:
+  #     context: ./app
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ../:/usr/src
+  #   working_dir: /usr/src
+  #   ports:
+  #     - '3000:3000'
+  #   depends_on:
+  #     - firebase
+  #   tty: true
+
+  firebase:
+    image: nextjs-sample/firebase
+    container_name: nextjs-sample-firebase
+    build:
+      context: ./firebase
+      dockerfile: Dockerfile
+    volumes:
+      - ./firebase/src:/usr/src
+    ports:
+      - '9005:9005' # firebase loginのために必要
+      - '4000:4000' # firebase ui
+      - '5001:5001' # Cloud Functions
+      - '8080:8080' # Cloud Firestore
+      - '9099:9099' # Firebase Auth
+    working_dir: /usr/src
+    tty: true

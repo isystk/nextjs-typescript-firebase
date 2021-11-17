@@ -272,9 +272,11 @@ table td {
 }
 
 .header .header-logo {
-	margin: 20px 0 20px 15px;
+  margin: 20px 0 20px 15px;
+  position: absolute;
+}
+.header .header-logo h1{
 	font-size: 20px;
-	position: absolute;
 }
 .header .header-logo a {
   color: #fff;
@@ -285,6 +287,8 @@ table td {
 @media screen and (min-width:992px){
   .header .header-logo {
     margin: 15px 0 15px 60px;
+  }
+  .header .header-logo h1{
     font-size: 30px;
   }
 }
@@ -591,7 +595,7 @@ table td {
 
 /* 詳細 */
 .contents section {
-  background-color: #fff;
+  background-color: #f4f4f4;
   padding-bottom: 10px;
   margin-bottom: 60px;
 }
