@@ -10,10 +10,10 @@ commands:
     steps:
       - restore_cache:
           name: Restore npm dependencies
-          key:
-            - v1-dependencies-{{ checksum "package.json" }
-            - v1-dependencies- 
-
+          key: 
+            v1-dependencies-{{ checksum "package.json" }}
+            v1-dependencies-
+  
   save_npm:
     steps:
       - save_cache:
