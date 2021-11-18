@@ -91,13 +91,8 @@ const MemberPostsEdit: FC = () => {
     })
   }, [posts])
 
-  const [photo, setPhoto]: string = useState('')
   const [photoErrors, setPhotoErrors] = useState([])
   const classes = useStyle()
-
-  useEffect(() => {
-    setPhoto(post.photo)
-  }, [post])
 
   if (nowLoading) {
     return <>Loading...</>
@@ -112,13 +107,14 @@ const MemberPostsEdit: FC = () => {
     description: Yup.string().required(
       errorMessage('本文を入力してください。')
     ),
+    photo: Yup.string().required(errorMessage('写真を入力してください。')),
   })
 
   const onSubmit = async (values) => {
     // ローディング表示
     dispatch(showLoading())
     const user = auth.currentUser
-    const data = { ...values, photo: photo, user_id: user.uid }
+    const data = { ...values, user_id: user.uid }
     await dispatch(putMemberPost(id, data))
     // マイページTOPに画面遷移する
     router.push(URL.MEMBER)
@@ -126,13 +122,17 @@ const MemberPostsEdit: FC = () => {
     dispatch(hideLoading())
   }
 
-  const onDeleteClick = () => {
+  const onDeleteClick = async () => {
     if (!window.confirm('削除します。よろしいですか？')) {
       return false
     }
-    dispatch(deleteMemberPost(id))
+    // ローディング表示
+    dispatch(showLoading())
+    await dispatch(deleteMemberPost(id))
     // マイページTOPに画面遷移する
     router.push(URL.MEMBER)
+    // ローディング非表示
+    dispatch(hideLoading())
   }
 
   return (
@@ -174,7 +174,14 @@ const MemberPostsEdit: FC = () => {
                   validationSchema={validationSchema}
                   onSubmit={onSubmit}
                 >
-                  {({ dirty, isValid, values, handleChange, handleBlur }) => {
+                  {({
+                    setFieldValue,
+                    dirty,
+                    isValid,
+                    values,
+                    handleChange,
+                    handleBlur,
+                  }) => {
                     return (
                       <Form>
                         <CardContent>
@@ -192,11 +199,7 @@ const MemberPostsEdit: FC = () => {
                               />
                             </Grid>
                             <Grid item xs={12} sm={6} md={12}>
-                              <Textarea
-                                label="本文"
-                                name="description"
-                                value={values.description}
-                              />
+                              <Textarea label="本文" name="description" />
                             </Grid>
                             <Grid item xs={12} sm={6} md={6}>
                               <ReactImageBase64
@@ -208,7 +211,7 @@ const MemberPostsEdit: FC = () => {
                                 multiple={false}
                                 handleChange={(data) => {
                                   if (data.result) {
-                                    setPhoto(data.fileData)
+                                    setFieldValue('photo', data.fileData)
                                   } else {
                                     setPhotoErrors([
                                       ...photoErrors,
@@ -225,7 +228,9 @@ const MemberPostsEdit: FC = () => {
                             </Grid>
                             <Grid item xs={12} sm={6} md={6}>
                               <div>
-                                {photo && <img src={photo} width={300} />}
+                                {values.photo && (
+                                  <img src={values.photo} width={300} />
+                                )}
                               </div>
                             </Grid>
                           </Grid>

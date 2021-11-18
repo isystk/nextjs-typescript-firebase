@@ -53,16 +53,17 @@ const MemberPostsNew: FC = () => {
   const initialValues = {
     title: '',
     description: '',
+    photo: '',
   }
 
   const errorMessage = (message) => <p className="error">{message}</p>
-  const [photo, setPhoto]: string = useState('')
   const [photoErrors, setPhotoErrors] = useState([])
   const validationSchema = Yup.object().shape({
     title: Yup.string().required(errorMessage('タイトルを入力してください。')),
     description: Yup.string().required(
       errorMessage('本文を入力してください。')
     ),
+    photo: Yup.string().required(errorMessage('写真を入力してください。')),
   })
   const classes = useStyle()
 
@@ -70,7 +71,7 @@ const MemberPostsNew: FC = () => {
     // ローディング表示
     dispatch(showLoading())
     const user = auth.currentUser
-    const data = { ...values, photo: photo, user_id: user.uid }
+    const data = { ...values, user_id: user.uid }
     await dispatch(postMemberPost(data))
     // マイページTOPに画面遷移する
     router.push(URL.MEMBER)
@@ -117,7 +118,14 @@ const MemberPostsNew: FC = () => {
                   validationSchema={validationSchema}
                   onSubmit={onSubmit}
                 >
-                  {({ dirty, isValid, values, handleChange, handleBlur }) => {
+                  {({
+                    setFieldValue,
+                    dirty,
+                    isValid,
+                    values,
+                    handleChange,
+                    handleBlur,
+                  }) => {
                     return (
                       <Form>
                         <CardContent>
@@ -132,15 +140,10 @@ const MemberPostsNew: FC = () => {
                                 label="タイトル"
                                 name="title"
                                 type="text"
-                                value={values.title}
                               />
                             </Grid>
                             <Grid item xs={12} sm={6} md={12}>
-                              <Textarea
-                                label="本文"
-                                name="description"
-                                value={values.description}
-                              />
+                              <Textarea label="本文" name="description" />
                             </Grid>
                             <Grid item xs={12} sm={6} md={6}>
                               <ReactImageBase64
@@ -152,7 +155,7 @@ const MemberPostsNew: FC = () => {
                                 multiple={false}
                                 handleChange={(data) => {
                                   if (data.result) {
-                                    setPhoto(data.fileData)
+                                    setFieldValue('photo', data.fileData)
                                   } else {
                                     setPhotoErrors([
                                       ...photoErrors,
@@ -169,7 +172,9 @@ const MemberPostsNew: FC = () => {
                             </Grid>
                             <Grid item xs={12} sm={6} md={6}>
                               <div>
-                                {photo && <img src={photo} width={300} />}
+                                {values.photo && (
+                                  <img src={values.photo} width={300} />
+                                )}
                               </div>
                             </Grid>
                           </Grid>
