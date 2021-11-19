@@ -5,7 +5,7 @@ import Layout from '@/components/Layout'
 import { AuthContext } from '@/auth/AuthProvider'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import PostsForm from "@/components/pages/Posts/PostsForm";
+import MemberPostsForm from '@/components/pages/Member/Posts/MemberPostsForm'
 
 const MemberPostsEdit: FC = () => {
   const router = useRouter()
@@ -59,10 +59,7 @@ const MemberPostsEdit: FC = () => {
           <h1 className="entry-title">投稿変更</h1>
         </div>
         <div className="entry-content">
-          {
-            id &&
-            <PostsForm userId={auth.currentUser.uid} postId={id} />
-          }
+          {id && <MemberPostsForm userId={auth.currentUser.uid} postId={id} />}
         </div>
       </section>
     </Layout>

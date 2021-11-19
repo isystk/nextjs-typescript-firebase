@@ -13,9 +13,9 @@ import {
   Button,
   CardHeader,
 } from '@material-ui/core'
-import {Input, Textarea} from '@/components/elements/Input'
+import { Input, Textarea } from '@/components/elements/Input'
 
-import {Formik, Form, Field} from 'formik'
+import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 
 const SignUp: FC = () => {
@@ -27,11 +27,14 @@ const SignUp: FC = () => {
     })
   }, [])
 
-
   const errorMessage = (message) => <p className="error">{message}</p>
   const validationSchema = Yup.object().shape({
-    email: Yup.string().required(errorMessage('メールアドレスを入力してください。')),
-    password: Yup.string().required(errorMessage('パスワードを入力してください。')),
+    email: Yup.string().required(
+      errorMessage('メールアドレスを入力してください。')
+    ),
+    password: Yup.string().required(
+      errorMessage('パスワードを入力してください。')
+    ),
   })
   const onSubmit = async (values) => {
     const { email, password } = values
@@ -45,7 +48,7 @@ const SignUp: FC = () => {
 
   const initialValues = {
     email: '',
-    password: ''
+    password: '',
   }
 
   return (
@@ -59,66 +62,61 @@ const SignUp: FC = () => {
             <Grid item md={12}>
               <Card>
                 <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={onSubmit}
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={onSubmit}
                 >
                   {({
-                      setFieldValue,
-                      dirty,
-                      isValid,
-                      values,
-                      handleChange,
-                      handleBlur,
-                    }) => {
+                    setFieldValue,
+                    dirty,
+                    isValid,
+                    values,
+                    handleChange,
+                    handleBlur,
+                  }) => {
                     return (
-                        <Form>
-                          <CardContent>
-                            <Grid
-                                item
-                                container
-                                spacing={1}
-                                justifyContent="center"
+                      <Form>
+                        <CardContent>
+                          <Grid
+                            item
+                            container
+                            spacing={1}
+                            justifyContent="center"
+                          >
+                            <Grid item xs={12} sm={6} md={12}>
+                              <Input
+                                label="メールアドレス"
+                                name="email"
+                                type="text"
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={12}>
+                              <Input
+                                label="パスワード"
+                                name="password"
+                                type="password"
+                              />
+                            </Grid>
+                          </Grid>
+                        </CardContent>
+                        <CardActions>
+                          <Grid item xs={12} sm={6} md={6}>
+                            <Button
+                              disabled={!dirty || !isValid}
+                              variant="contained"
+                              color="primary"
+                              type="Submit"
                             >
-                              <Grid item xs={12} sm={6} md={12}>
-                                <Input
-                                    label="メールアドレス"
-                                    name="email"
-                                    type="text"
-                                />
-                              </Grid>
-                              <Grid item xs={12} sm={6} md={12}>
-                                <Input
-                                    label="パスワード"
-                                    name="password"
-                                    type="password"
-                                />
-                              </Grid>
-                            </Grid>
-                          </CardContent>
-                          <CardActions>
-                            <Grid item xs={12} sm={6} md={6}>
-                              <Button
-                                  disabled={!dirty || !isValid}
-                                  variant="contained"
-                                  color="primary"
-                                  type="Submit"
-                              >
-                                会員登録する
-                              </Button>
-                            </Grid>
-                          </CardActions>
-                        </Form>
+                              会員登録する
+                            </Button>
+                          </Grid>
+                        </CardActions>
+                      </Form>
                     )
                   }}
                 </Formik>
                 <CardContent>
-                  <Grid
-                      item
-                      container
-                      spacing={1}
-                      justifyContent="center"
-                  >
+                  <Grid item container spacing={1} justifyContent="center">
                     <Grid item xs={12} sm={6} md={12}>
                       <Link href={URL.LOGIN}>
                         <a>ログインはこちら</a>
