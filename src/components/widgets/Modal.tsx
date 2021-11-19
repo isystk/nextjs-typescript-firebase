@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import * as _ from 'lodash'
 
-import { showOverlay, hideOverlay } from '@/actions'
+import { showOverlay, hideOverlay } from '@/store/slice/parts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Portal from './Portal'
 
