@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
-import { readPosts } from '@/actions'
+import { selectPosts, readPosts } from '@/store/slice/posts'
 import moment from 'moment'
 
 import { Data, Posts, Post } from '@/store/StoreTypes'
@@ -20,24 +20,25 @@ type PostDisplay = Post & {
 
 const PostsList: FC = () => {
   const dispatch = useDispatch()
+  const { loading, error, items } = useSelector(selectPosts)
 
   useEffect(() => {
     dispatch(readPosts())
-  }, [])
+  }, [dispatch])
 
-  const posts: PostDisplay[] = _.map(
-    useSelector((state: State) => state.posts),
-    function (e: Data<Post>) {
-      const data = e.data
-      return {
-        id: e.id,
-        ...data,
-        regist_datetime_yyyymmdd: data.regist_datetime
-          ? moment(data.regist_datetime).format('YYYY/MM/DD')
-          : '',
-      } as PostDisplay
-    }
-  )
+  if (loading) return <p>...loading</p>
+  if (error) return <p>{error}</p>
+
+  const posts: PostDisplay[] = _.map(items, function (e: Data<Post>) {
+    const data = e.data
+    return {
+      id: e.id,
+      ...data,
+      regist_datetime_yyyymmdd: data.regist_datetime
+        ? moment(data.regist_datetime).format('YYYY/MM/DD')
+        : '',
+    } as PostDisplay
+  })
 
   const renderPosts = () => {
     return _.map(posts, (e, i) => (
