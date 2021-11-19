@@ -35,7 +35,7 @@ const request = async (
     }
   })
   // console.log('Response:%s', JSON.stringify(response.data))
-  return response.data
+  return response?.data
 }
 
 const jsonToForm = (params, formData, name = '') => {

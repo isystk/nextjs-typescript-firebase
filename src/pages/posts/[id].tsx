@@ -21,7 +21,7 @@ type PostDisplay = Post & {
   regist_data_yyyymmdd: string
 }
 
-const PostsIndex: FC = () => {
+const PostsDetail: FC = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const [id, setId] = useState('')
@@ -118,4 +118,4 @@ const PostsIndex: FC = () => {
 //   return { props: { post: post.data[0] } }
 // }
 
-export default PostsIndex
+export default PostsDetail

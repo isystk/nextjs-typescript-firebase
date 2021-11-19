@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, FC } from 'react'
+import React, { useEffect, useContext, useState, FC } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Router, { useRouter } from 'next/router'
 import { URL } from '@/common/constants/url'
@@ -29,6 +29,7 @@ type PostDisplay = Post & {
 const MemberPostsList: FC = () => {
   const router = useRouter()
   const auth = useContext(AuthContext)
+  const [nowLoading, setNowLoading] = useState<boolean>(true)
   const dispatch = useDispatch()
   useEffect(() => {
     const user = auth.currentUser
@@ -36,8 +37,11 @@ const MemberPostsList: FC = () => {
       router.push('/login')
       return
     }
-    // 投稿データを取得する
-    dispatch(readMemberPosts(user.uid))
+    (async () => {
+      // 投稿データを取得する
+      await dispatch(readMemberPosts(user.uid))
+      setNowLoading(false)
+    })()
   }, [])
 
   const posts = useSelector((state: State) => {
@@ -97,6 +101,9 @@ const MemberPostsList: FC = () => {
     )
   }
 
+  if (nowLoading) {
+    return <>Loading...</>
+  }
   return (
     <Layout title="投稿一覧">
       <section>
