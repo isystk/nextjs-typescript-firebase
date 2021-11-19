@@ -37,7 +37,7 @@ const MemberPostsList: FC = () => {
       router.push('/login')
       return
     }
-    (async () => {
+    ;(async () => {
       // 投稿データを取得する
       await dispatch(readMemberPosts(user.uid))
       setNowLoading(false)

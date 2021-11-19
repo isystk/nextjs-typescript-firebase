@@ -1,10 +1,8 @@
 import React, { FC } from 'react'
-import PostsList from "@/pages/posts/list";
+import PostsList from '@/pages/posts/list'
 
 const Index: FC = () => {
-  return (
-      <PostsList />
-  )
+  return <PostsList />
 }
 
 export default Index

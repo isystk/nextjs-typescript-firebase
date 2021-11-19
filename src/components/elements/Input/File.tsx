@@ -11,7 +11,7 @@ export const FileInput: FC = (props: Props) => {
   const { label, name, ...rest } = props
   return (
     <div className="form-control">
-      <label htmlFor={name}>{name}</label>
+      <p>{label}</p>
       <Field name={name} {...rest}>
         {({ form }) => {
           const { setFieldValue } = form
