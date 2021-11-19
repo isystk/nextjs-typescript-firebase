@@ -4,14 +4,22 @@ import { useRouter } from 'next/router'
 import { getAuth } from '@/utilities/firebase'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
+import {
+  Grid,
+  makeStyles,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  CardHeader,
+} from '@material-ui/core'
+import {Input, Textarea} from '@/components/elements/Input'
 
-import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'material-ui/TextField'
+import {Formik, Form, Field} from 'formik'
+import * as Yup from 'yup'
 
 const SignUp: FC = () => {
   const router = useRouter()
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
 
   useEffect(() => {
     getAuth().onAuthStateChanged((user) => {
@@ -19,14 +27,25 @@ const SignUp: FC = () => {
     })
   }, [])
 
-  const createUser = async (e) => {
-    e.preventDefault()
+
+  const errorMessage = (message) => <p className="error">{message}</p>
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required(errorMessage('メールアドレスを入力してください。')),
+    password: Yup.string().required(errorMessage('パスワードを入力してください。')),
+  })
+  const onSubmit = async (values) => {
+    const { email, password } = values
     try {
       await getAuth().createUserWithEmailAndPassword(email, password)
-      router.push('/login')
+      router.push(URL.HOME)
     } catch (err) {
       alert(err.message)
     }
+  }
+
+  const initialValues = {
+    email: '',
+    password: ''
   }
 
   return (
@@ -36,42 +55,80 @@ const SignUp: FC = () => {
           <h1 className="entry-title">会員登録</h1>
         </div>
         <div className="entry-content">
-          <div className="wrapper">
-            <form className="auth" onSubmit={createUser}>
-              <div>
-                <label htmlFor="email" className="auth-label">
-                  メールアドレス:{' '}
-                </label>
-                <input
-                  id="email"
-                  className="auth-input"
-                  type="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mt-2">
-                <label htmlFor="password" className="auth-label">
-                  パスワード:{' '}
-                </label>
-                <input
-                  id="password"
-                  className="auth-input"
-                  type="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <RaisedButton
-                label="会員登録"
-                type="submit"
-                style={{
-                  margin: 20,
-                }}
-              />
-            </form>
-            <Link href={URL.LOGIN}>
-              <a className="auth-link">ログインはこちら</a>
-            </Link>
-          </div>
+          <Grid container justifyContent="center" spacing={1}>
+            <Grid item md={12}>
+              <Card>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={onSubmit}
+                >
+                  {({
+                      setFieldValue,
+                      dirty,
+                      isValid,
+                      values,
+                      handleChange,
+                      handleBlur,
+                    }) => {
+                    return (
+                        <Form>
+                          <CardContent>
+                            <Grid
+                                item
+                                container
+                                spacing={1}
+                                justifyContent="center"
+                            >
+                              <Grid item xs={12} sm={6} md={12}>
+                                <Input
+                                    label="メールアドレス"
+                                    name="email"
+                                    type="text"
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={12}>
+                                <Input
+                                    label="パスワード"
+                                    name="password"
+                                    type="password"
+                                />
+                              </Grid>
+                            </Grid>
+                          </CardContent>
+                          <CardActions>
+                            <Grid item xs={12} sm={6} md={6}>
+                              <Button
+                                  disabled={!dirty || !isValid}
+                                  variant="contained"
+                                  color="primary"
+                                  type="Submit"
+                              >
+                                会員登録する
+                              </Button>
+                            </Grid>
+                          </CardActions>
+                        </Form>
+                    )
+                  }}
+                </Formik>
+                <CardContent>
+                  <Grid
+                      item
+                      container
+                      spacing={1}
+                      justifyContent="center"
+                  >
+                    <Grid item xs={12} sm={6} md={12}>
+                      <Link href={URL.LOGIN}>
+                        <a>ログインはこちら</a>
+                      </Link>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
         </div>
       </section>
     </Layout>

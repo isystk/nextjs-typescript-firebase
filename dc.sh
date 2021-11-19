@@ -78,6 +78,10 @@ case ${1} in
               COMMAND="firebase login"
               $DOCKER_COMPOSE exec firebase $COMMAND
           ;;
+          init)
+              COMMAND="firebase init"
+              $DOCKER_COMPOSE exec firebase $COMMAND
+          ;;
           logout)
               COMMAND="firebase logout"
               $DOCKER_COMPOSE exec firebase $COMMAND
