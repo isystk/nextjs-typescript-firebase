@@ -3,28 +3,21 @@ import { useSelector, useDispatch } from 'react-redux'
 import Router, { useRouter } from 'next/router'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
-import { getPost } from '@/actions'
+import { selectPosts, readPost } from '@/store/slice/posts'
 import moment from 'moment'
 
-import { Posts, Post } from '@/store/StoreTypes'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Slider } from '@/components/pages/Slider'
 import * as _ from 'lodash'
 import SnsShare from '@/components/widgets/SnsShare'
 import Modal from '@/components/widgets/Modal'
-type State = {
-  posts: Posts
-}
-type PostDisplay = Post & {
-  id: string
-  regist_data_yyyymmdd: string
-}
 
 const PostsDetail: FC = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const [id, setId] = useState('')
+  const { loading, error, items } = useSelector(selectPosts)
 
   // この部分を追加
   useEffect(() => {
@@ -35,15 +28,13 @@ const PostsDetail: FC = () => {
   }, [router])
 
   useEffect(() => {
-    // パスの投稿IDから投稿データを取得する
-    const f = async () => {
-      if (id) await dispatch(getPost(id))
-    }
-    f()
+    if (id) dispatch(readPost(id))
   }, [id])
 
-  const posts = useSelector((state: State) => state.posts)
-  const data = posts[id]?.data || {}
+  if (loading) return <p>...loading</p>
+  if (error) return <p>{error}</p>
+
+  const data = items[id]?.data || {}
   const post = {
     ...data,
     regist_data_yyyymmdd:

@@ -2,14 +2,14 @@ import React, { useEffect, useState, FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import { URL } from '@/common/constants/url'
+import { showLoading, hideLoading } from '@/store/slice/parts'
 import {
-  showLoading,
-  hideLoading,
   getMemberPost,
   postMemberPost,
   putMemberPost,
   deleteMemberPost,
-} from '@/actions'
+  selectMemberPosts,
+} from '@/store/slice/memberPosts'
 import { Input, Textarea } from '@/components/elements/Input'
 
 import { Data, Post } from '@/store/StoreTypes'
@@ -44,6 +44,7 @@ const MemberPostsForm: FC<Props> = (props: Props) => {
   const isEdit = !!postId
   const router = useRouter()
   const [nowLoading, setNowLoading] = useState<boolean>(true)
+  const { loading, error, items } = useSelector(selectMemberPosts)
 
   const dispatch = useDispatch()
   useEffect(() => {
@@ -58,10 +59,9 @@ const MemberPostsForm: FC<Props> = (props: Props) => {
     })()
   }, [postId])
 
-  const posts = useSelector((state: State) => state.memberPosts)
   const [post, setPost]: PostDisplay = useState({})
   useEffect(() => {
-    const data = posts[postId]?.data || {
+    const data = items[postId]?.data || {
       title: '',
       description: '',
       photo: '',
@@ -72,7 +72,7 @@ const MemberPostsForm: FC<Props> = (props: Props) => {
         data.regist_datetime &&
         moment(data.regist_datetime).format('YYYY/MM/DD HH:mm'),
     })
-  }, [posts])
+  }, [items])
 
   const useStyle = makeStyles((theme) => ({
     padding: {
@@ -83,6 +83,9 @@ const MemberPostsForm: FC<Props> = (props: Props) => {
     },
   }))
   const classes = useStyle()
+
+  if (loading || nowLoading) return <p>...loading</p>
+  if (error) return <p>{error}</p>
 
   const initialValues = {
     ...post,
@@ -125,9 +128,6 @@ const MemberPostsForm: FC<Props> = (props: Props) => {
     dispatch(hideLoading())
   }
 
-  if (nowLoading) {
-    return <>Loading...</>
-  }
   return (
     <Grid container justifyContent="center" spacing={1}>
       <Grid item md={12}>

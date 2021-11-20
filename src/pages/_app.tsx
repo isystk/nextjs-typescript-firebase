@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
-import reducers from '@/reducers'
+import reducers from '@/store/Store'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { library } from '@fortawesome/fontawesome-svg-core'
