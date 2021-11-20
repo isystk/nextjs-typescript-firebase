@@ -37,13 +37,10 @@ Next.js ＆ Firebase の学習用サンプルアプリケーションです。
 │           └── functions (Cloud functions のソースコード)
 ├── public/
 ├── src/ (Next.js のソースコード)
-│   ├── actions/
 │   ├── auth/
 │   ├── common/
 │   ├── components/
-│   ├── interfaces/
 │   ├── pages/
-│   ├── reducers/
 │   ├── store/
 │   ├── styles/
 │   └── utilities/

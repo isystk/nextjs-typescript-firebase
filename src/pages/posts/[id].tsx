@@ -6,20 +6,12 @@ import Layout from '@/components/Layout'
 import { selectPosts, readPost } from '@/store/slice/posts'
 import moment from 'moment'
 
-import { Posts, Post } from '@/store/StoreTypes'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Slider } from '@/components/pages/Slider'
 import * as _ from 'lodash'
 import SnsShare from '@/components/widgets/SnsShare'
 import Modal from '@/components/widgets/Modal'
-type State = {
-  posts: Posts
-}
-type PostDisplay = Post & {
-  id: string
-  regist_data_yyyymmdd: string
-}
 
 const PostsDetail: FC = () => {
   const dispatch = useDispatch()

@@ -1,14 +1,6 @@
 import React, { useState, FC, ReactNode } from 'react'
 import { ErrorMessage, Field } from 'formik'
-import {
-  Grid,
-  makeStyles,
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-  CardHeader,
-} from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import ReactImageBase64 from 'react-image-base64'
 
 type Props = {
@@ -19,7 +11,7 @@ type Props = {
 
 export const ImageFileInput: FC = (props: Props) => {
   const { label, name, ...rest } = props
-  const [photoErrors, setPhotoErrors] = useState([])
+  const [photoErrors, setPhotoErrors] = useState<string[]>([])
 
   return (
     <div className="form-control">
@@ -32,7 +24,6 @@ export const ImageFileInput: FC = (props: Props) => {
               return (
                 <>
                   <ReactImageBase64
-                    name={name}
                     maxFileSize={10485760}
                     thumbnail_size={100}
                     drop={true}
@@ -43,7 +34,7 @@ export const ImageFileInput: FC = (props: Props) => {
                       if (data.result) {
                         setFieldValue('photo', data.fileData)
                       } else {
-                        setPhotoErrors([...photoErrors, data.messages])
+                        setPhotoErrors([...photoErrors, ...data.messages])
                       }
                     }}
                   />
