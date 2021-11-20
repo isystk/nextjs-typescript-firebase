@@ -3,12 +3,12 @@ import { API_ENDPOINT } from '@/common/constants/api'
 import { API } from '@/utilities'
 import * as _ from 'lodash'
 
-const getPosts = async () => {
+const requestGetPosts = async () => {
   const response = await API.get(API_ENDPOINT.POSTS)
   return { response }
 }
 
-const getPost = async (id: string) => {
+const requestGetPost = async (id: string) => {
   const response = await API.get(`${API_ENDPOINT.POSTS}/${id}`)
   return { response }
 }
@@ -36,7 +36,7 @@ const postsSlice = createSlice({
       state.loading = false
       state.error = null
       const post = action.payload.response
-      state.items = { ...state.posts, [post.id]: post }
+      state.items = { ...state.items, [post.id]: post }
     },
   },
 })
@@ -49,22 +49,21 @@ export const {
   fetchPost,
 } = postsSlice.actions
 
-// 外部からはこの関数を呼んでもらう
-export const readPosts = () => async (dispatch) => {
+const request = (func) => async (dispatch) => {
   try {
     dispatch(fetchStart())
-    dispatch(fetchPosts(await getPosts()))
+    dispatch(func)
   } catch (error) {
     dispatch(fetchFailure(error.stack))
   }
 }
+
+// 外部からはこの関数を呼んでもらう
+export const readPosts = () => async (dispatch) => {
+  dispatch(request(fetchPosts(await requestGetPosts())))
+}
 export const readPost = (id: string) => async (dispatch) => {
-  try {
-    dispatch(fetchStart())
-    dispatch(fetchPost(await getPost(id)))
-  } catch (error) {
-    dispatch(fetchFailure(error.stack))
-  }
+  dispatch(request(fetchPost(await requestGetPost(id))))
 }
 
 // Selectors

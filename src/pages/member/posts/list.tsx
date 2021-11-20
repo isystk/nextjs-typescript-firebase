@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import Router, { useRouter } from 'next/router'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
-import { readMemberPosts } from '@/actions'
 import {
   Table,
   TableBody,
@@ -12,6 +11,7 @@ import {
   TableRowColumn,
 } from 'material-ui/Table'
 import moment from 'moment'
+import { selectMemberPosts, getMemberPosts } from '@/store/slice/memberPosts'
 
 import { Data, Post } from '@/store/StoreTypes'
 import { AuthContext } from '@/auth/AuthProvider'
@@ -29,8 +29,9 @@ type PostDisplay = Post & {
 const MemberPostsList: FC = () => {
   const router = useRouter()
   const auth = useContext(AuthContext)
-  const [nowLoading, setNowLoading] = useState<boolean>(true)
   const dispatch = useDispatch()
+  const { loading, error, items } = useSelector(selectMemberPosts)
+
   useEffect(() => {
     const user = auth.currentUser
     if (!user) {
@@ -38,15 +39,13 @@ const MemberPostsList: FC = () => {
       return
     }
     ;(async () => {
-      // 投稿データを取得する
-      await dispatch(readMemberPosts(user.uid))
-      setNowLoading(false)
+      await dispatch(getMemberPosts(user.uid))
     })()
-  }, [])
+  }, [dispatch])
 
   const posts = useSelector((state: State) => {
     return _.map(
-      state.memberPosts,
+      items,
       (post, i): PostDisplay => {
         const data: Post = post.data
         return {
@@ -59,6 +58,9 @@ const MemberPostsList: FC = () => {
       }
     )
   })
+
+  if (loading) return <p>...loading</p>
+  if (error) return <p>{error}</p>
 
   const renderPosts = (): JSX.Element => {
     const photoStyle = {
@@ -101,9 +103,6 @@ const MemberPostsList: FC = () => {
     )
   }
 
-  if (nowLoading) {
-    return <>Loading...</>
-  }
   return (
     <Layout title="投稿一覧">
       <section>

@@ -23,7 +23,7 @@ const request = async (
   values?: any,
   config?: any
 ): Promise<any> => {
-  console.log('Request:%s', url)
+  // console.log('Request:%s', url)
   const response = await axios[method](
     url,
     // jsonToForm(values, new FormData()),
