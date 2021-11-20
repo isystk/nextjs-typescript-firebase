@@ -5,7 +5,7 @@ exports[`Logo 1`] = `
   className="header-logo"
 >
   <Link
-    href="http://localhost:3000/"
+    href="https://localhost/"
   >
     <a>
       <styled.h1>
