@@ -881,3 +881,28 @@ AH00558: httpd: Could not reliably determine the server's fully qualified domain
 [Sat Nov 20 17:02:20.960072 2021] [proxy_http:error] [pid 76] [client 172.30.0.1:63186] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
 [Sat Nov 20 17:02:26.645601 2021] [proxy:error] [pid 70] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
 [Sat Nov 20 17:02:26.647172 2021] [proxy_http:error] [pid 70] [client 172.30.0.1:63192] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:02:33.125988 2021] [proxy:error] [pid 83] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:02:33.127246 2021] [proxy_http:error] [pid 83] [client 172.30.0.1:63198] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:02:38.626838 2021] [proxy:error] [pid 80] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:02:38.627920 2021] [proxy_http:error] [pid 80] [client 172.30.0.1:63204] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:02:44.631774 2021] [proxy:error] [pid 71] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:02:44.632691 2021] [proxy_http:error] [pid 71] [client 172.30.0.1:63210] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:02:50.872890 2021] [proxy:error] [pid 76] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:02:50.873923 2021] [proxy_http:error] [pid 76] [client 172.30.0.1:63216] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:02:56.886922 2021] [proxy:error] [pid 70] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:02:56.887825 2021] [proxy_http:error] [pid 70] [client 172.30.0.1:63222] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:03:02.890163 2021] [proxy:error] [pid 83] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:03:02.891427 2021] [proxy_http:error] [pid 83] [client 172.30.0.1:63228] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:03:08.994915 2021] [proxy:error] [pid 80] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:03:08.996114 2021] [proxy_http:error] [pid 80] [client 172.30.0.1:63234] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:03:14.953728 2021] [proxy:error] [pid 71] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:03:14.954572 2021] [proxy_http:error] [pid 71] [client 172.30.0.1:63240] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:03:21.124070 2021] [proxy:error] [pid 76] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:03:21.125510 2021] [proxy_http:error] [pid 76] [client 172.30.0.1:63246] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:03:27.130801 2021] [proxy:error] [pid 70] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:03:27.132017 2021] [proxy_http:error] [pid 70] [client 172.30.0.1:63252] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:03:33.139228 2021] [proxy:error] [pid 83] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:03:33.140121 2021] [proxy_http:error] [pid 83] [client 172.30.0.1:63258] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:03:38.884521 2021] [proxy:error] [pid 80] (111)Connection refused: AH00957: http: attempt to connect to 192.168.65.2:3000 (host.docker.internal) failed
+[Sat Nov 20 17:03:38.885961 2021] [proxy_http:error] [pid 80] [client 172.30.0.1:63264] AH01114: HTTP: failed to make connection to backend: host.docker.internal, referer: https://localhost/
+[Sat Nov 20 17:03:41.054009 2021] [mpm_prefork:notice] [pid 1] AH00169: caught SIGTERM, shutting down
