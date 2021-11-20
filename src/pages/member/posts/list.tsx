@@ -18,6 +18,7 @@ import { AuthContext } from '@/auth/AuthProvider'
 import * as _ from 'lodash'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Head from '@/components/pages/Head'
 type State = {
   memberPosts: Data<Post>[]
 }
@@ -32,12 +33,13 @@ const MemberPostsList: FC = () => {
   const dispatch = useDispatch()
   const { loading, error, items } = useSelector(selectMemberPosts)
 
+  const user = auth.currentUser
+  if (!user) {
+    router.push('/login')
+    return <></>
+  }
+
   useEffect(() => {
-    const user = auth.currentUser
-    if (!user) {
-      router.push('/login')
-      return
-    }
     ;(async () => {
       await dispatch(getMemberPosts(user.uid))
     })()
@@ -104,7 +106,8 @@ const MemberPostsList: FC = () => {
   }
 
   return (
-    <Layout title="投稿一覧">
+    <Layout>
+      <Head title="投稿一覧" />
       <section>
         {
           //<!-- パンくず -->

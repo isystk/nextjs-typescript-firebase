@@ -1,5 +1,6 @@
 {
   "name": "nextjs-typescript-firebase",
+  "description": "Next.js・Typescript ・Firebaseを利用したサンプルです。",
   "version": "1.0.0",
   "scripts": {
     "dev": "NODE_ENV=development next",

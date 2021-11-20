@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { getAuth } from '@/utilities/firebase'
 import { URL } from '@/common/constants/url'
 import Layout from '@/components/Layout'
+import Head from '@/components/pages/Head'
 import {
   Grid,
   makeStyles,
@@ -52,7 +53,8 @@ const Login: FC = () => {
   }
 
   return (
-    <Layout title="ログイン">
+    <Layout>
+      <Head title="ログイン" />
       <section>
         <div className="entry-header">
           <h1 className="entry-title">ログイン</h1>

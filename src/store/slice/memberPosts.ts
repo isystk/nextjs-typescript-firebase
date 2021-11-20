@@ -44,7 +44,6 @@ const memberPostsSlice = createSlice({
       state.error = action.payload
     },
     fetchMemberPosts(state?, action?) {
-      console.log('fetch', action.payload)
       state.loading = false
       state.error = null
       state.items = _.mapKeys(action.payload.response, 'id')

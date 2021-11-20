@@ -8,6 +8,7 @@ import moment from 'moment'
 import { Data, Posts, Post } from '@/store/StoreTypes'
 import Link from 'next/link'
 import * as _ from 'lodash'
+import Head from '@/components/pages/Head'
 import SnsShare from '@/components/widgets/SnsShare'
 import Modal from '@/components/widgets/Modal'
 type State = {
@@ -70,7 +71,8 @@ const PostsList: FC = () => {
   }
 
   return (
-    <Layout title="Isystk&rsquo;s Frontend Sample">
+    <Layout>
+      <Head />
       <section>
         <div className="entry-header">
           <h1 className="entry-title">HOME</h1>

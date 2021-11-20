@@ -1,7 +1,10 @@
 const path = require('path')
+const pkg = require("./package");
 
 const nextConfig = {
   env: {
+    APP_NAME: pkg.name,
+    APP_DESCRIPTION: pkg.description,
     FIREBASE_KEY: process.env.FIREBASE_KEY,
     FIREBASE_DOMAIN: process.env.FIREBASE_DOMAIN,
     FIREBASE_DATABASE: process.env.FIREBASE_DATABASE,

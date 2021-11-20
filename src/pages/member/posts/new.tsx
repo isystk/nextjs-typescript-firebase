@@ -5,22 +5,22 @@ import Layout from '@/components/Layout'
 import { AuthContext } from '@/auth/AuthProvider'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Head from '@/components/pages/Head'
 import MemberPostsForm from '@/components/pages/Member/Posts/MemberPostsForm'
 
 const MemberPostsNew: FC = () => {
   const router = useRouter()
   const auth = useContext(AuthContext)
 
-  useEffect(() => {
-    const user = auth.currentUser
-    if (!user) {
-      router.push(URL.LOGIN)
-      return
-    }
-  }, [])
+  const user = auth.currentUser
+  if (!user) {
+    router.push(URL.LOGIN)
+    return <></>
+  }
 
   return (
-    <Layout title="投稿登録">
+    <Layout>
+      <Head title="投稿登録" />
       <section>
         {
           //<!-- パンくず -->

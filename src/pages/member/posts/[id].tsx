@@ -5,23 +5,21 @@ import Layout from '@/components/Layout'
 import { AuthContext } from '@/auth/AuthProvider'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Head from '@/components/pages/Head'
 import MemberPostsForm from '@/components/pages/Member/Posts/MemberPostsForm'
 
 const MemberPostsEdit: FC = () => {
   const router = useRouter()
   const auth = useContext(AuthContext)
 
-  useEffect(() => {
-    const user = auth.currentUser
-    if (!user) {
-      router.push(URL.LOGIN)
-      return
-    }
-  }, [])
+  const user = auth.currentUser
+  if (!user) {
+    router.push(URL.LOGIN)
+    return <></>
+  }
 
   const [id, setId] = useState('')
 
-  // この部分を追加
   useEffect(() => {
     // idがqueryで利用可能になったら処理される
     if (router.asPath !== router.route) {
@@ -30,7 +28,8 @@ const MemberPostsEdit: FC = () => {
   }, [router])
 
   return (
-    <Layout title="投稿変更">
+    <Layout>
+      <Head title="投稿変更" />
       <section>
         {
           //<!-- パンくず -->

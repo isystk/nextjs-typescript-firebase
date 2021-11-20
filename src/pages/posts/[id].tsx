@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Slider } from '@/components/pages/Slider'
 import * as _ from 'lodash'
+import Head from '@/components/pages/Head'
 import SnsShare from '@/components/widgets/SnsShare'
 import Modal from '@/components/widgets/Modal'
 
@@ -43,7 +44,8 @@ const PostsDetail: FC = () => {
   }
 
   return (
-    <Layout title={post.title}>
+    <Layout>
+      <Head title={post.title} />
       <section>
         {
           //<!-- パンくず -->
