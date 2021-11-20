@@ -13,7 +13,6 @@
     "precommit": "npm run lint && npm run test"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.6.2"
   },
   "devDependencies": {
     "@emotion/react": "^11.6.0",
@@ -25,6 +24,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@material-ui/core": "^4.12.3",
     "@mui/material": "^5.1.0",
+    "@reduxjs/toolkit": "^1.6.2"
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^26.0.20",
     "@types/lodash": "^4.14.167",
