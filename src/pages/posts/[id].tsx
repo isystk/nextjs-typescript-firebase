@@ -93,20 +93,25 @@ const PostsDetail: FC = () => {
 }
 
 /** ここからSSGでビルドする場合の設定 */
-// // 投稿IDの一覧を取得
-// export async function getStaticPaths() {
-//   const res = await fetch(`${API_ENDPOINT.POSTS}`, {agent})
-//   const posts = await res.json()
-//   const paths = posts.data.map(post => `/posts/${post.postId}`)
-//   return { paths, fallback: false }
-// }
-
-// // 各投稿データを取得
-// export async function getStaticProps({ params }) {
-//   const res = await fetch(`${API_ENDPOINT.POSTS}/${params.id}`, {agent})
-//   const post = await res.json()
-//   console.log(post.data[0])
-//   return { props: { post: post.data[0] } }
-// }
+import fetch from 'node-fetch'
+import * as https from 'https'
+const agent = new https.Agent({
+  rejectUnauthorized: false,
+})
+import { API_ENDPOINT } from '@/common/constants/api'
+// 投稿IDの一覧を取得
+export async function getStaticPaths() {
+  const res = await fetch(API_ENDPOINT.POSTS, { agent })
+  const posts = await res.json()
+  const paths = posts.map((post) => `/posts/${post.id}`)
+  return { paths, fallback: false }
+}
+// 各投稿データを取得
+export async function getStaticProps({ params }) {
+  const res = await fetch(`${API_ENDPOINT.POSTS}/${params.id}`, { agent })
+  const post = await res.json()
+  return { props: { post: post.data } }
+}
+/** ここまでSSGでビルドする場合の設定 */
 
 export default PostsDetail

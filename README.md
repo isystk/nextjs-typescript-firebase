@@ -29,6 +29,8 @@ Next.js ＆ Firebase の学習用サンプルアプリケーションです。
 ```
 .
 ├── docker/
+│   ├── apache/ (Webサーバー)
+│   │   └── Dockerfile
 │   ├── app/ (Node.js をDockerで動作させたい場合に利用する)
 │   │   └── Dockerfile
 │   └── firebase/ (Firebase のエミュレータ)

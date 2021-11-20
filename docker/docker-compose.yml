@@ -1,6 +1,23 @@
 version: '3'
 
 services:
+
+  apache:
+    image: nextjs-sample/apache
+    container_name: nextjs-sample-apache
+    build:
+      context: "./apache"
+      dockerfile: "Dockerfile"
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    volumes:
+      - ./apache/conf.d:/etc/apache2/conf.d
+      - ./apache/ssl:/etc/apache2/ssl
+      - ./apache/logs:/var/log/apache2
+      - ../out:/var/www/html
+
 #  app:
 #     image: nextjs-sample/app
 #     container_name: nextjs-sample-app

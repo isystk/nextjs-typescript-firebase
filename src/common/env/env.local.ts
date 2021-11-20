@@ -1,8 +1,7 @@
 const Env = {
   envName: 'local',
-  internalEndpointUrl: 'http://localhost:3000',
-  externalEndpointUrl:
-    'http://localhost:5001/nextjs-typescript-firestore/us-central1/api',
+  internalEndpointUrl: 'https://localhost',
+  externalEndpointUrl: 'https://localhost/api',
 }
 
 export default Env
